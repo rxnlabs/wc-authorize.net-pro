@@ -92,7 +92,7 @@ function woocommerce_tech_authoaim_init() {
                   'title'        => __('Transaction Success Message', 'wc-tech-authoaim'),
                   'type'         => 'textarea',
                   'description'=>  __('Message to be displayed on successful transaction.', 'wc-tech-authoaim'),
-                  'default'      => __('Your payment has been procssed successfully.', 'wc-tech-authoaim')),
+                  'default'      => __('Your payment has been processed successfully.', 'wc-tech-authoaim')),
             'failed_message'  => array(
                   'title'        => __('Transaction Failed Message', 'wc-tech-authoaim'),
                   'type'         => 'textarea',
