@@ -2,10 +2,10 @@
 /*
 Plugin Name: Authorize.net Payment Gateway For WooCommerce
 Description: Extends WooCommerce to Process Payments with the Authorize.net payment gateway
-Version: 3.2.1
-Plugin URI: http://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
+Version: 3.5
+Plugin URI: https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
 Author: Pledged Plugins
-Author URI: http://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
+Author URI: https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
 License: Under GPL2
 
 */
@@ -86,7 +86,7 @@ function woocommerce_tech_authoaim_init() {
                   'description'  => __('This is API Login ID')),
             'transaction_key' => array(
                   'title'        => __('Transaction Key', 'wc-tech-authoaim'),
-                  'type'         => 'text',
+                  'type'         => 'password',
                   'description'  =>  __('API Transaction Key', 'wc-tech-authoaim')),
             'success_message' => array(
                   'title'        => __('Transaction Success Message', 'wc-tech-authoaim'),
