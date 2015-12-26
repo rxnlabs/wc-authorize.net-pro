@@ -4,7 +4,7 @@ Contributors: Pledged Plugins
 Tags: woocommerce Authorize.net, Authorize.net, payment gateway, woocommerce, woocommerce payment gateway
 Plugin URI: http://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
 Requires at least: 3.0.1
-Tested up to: 4.1.1
+Tested up to: 4.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,9 +43,9 @@ That's it! You are ready to accept credit cards with your Authorize.net payment 
 
 Description: This will appear on checkout page as description for this payment gateway
 
-Login ID: This is the account number provided by Authorize.net. See your merchant account rep for additional information.
+Login ID: This is the API Login ID provided by Authorize.net. See your merchant account rep for additional information.
 
-Password: This is the RestrictKey provided by Authorize.net. See your merchant account rep for additional information.
+Transaction Key : This is the API Transaction Key provided by Authorize.net. See your merchant account rep for additional information.
 
 Transaction Success Message: This message will appear upon successful transaction. You can customize this message as per your need.
 
@@ -57,6 +57,9 @@ Not required to function, however it is highly recommended.
 
 
 == Changelog ==
+3.5
+Fixed compatibility issues with other payment gateway plugins
+
 3.2.1
 Compatible to WooCommerce 2.3.x
 Compatible to WordPress 4.x
