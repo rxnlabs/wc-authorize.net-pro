@@ -2,11 +2,11 @@
 Authorize.net Payment Gateway For WooCommerce
 Contributors: Pledged Plugins
 Tags: woocommerce Authorize.net, Authorize.net, payment gateway, woocommerce, woocommerce payment gateway
-Plugin URI: http://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
+Plugin URI: https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
 Requires at least: 3.0.1
 Tested up to: 4.4
 License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 This Payment Gateway For WooCommerce extends the functionality of WooCommerce to accept payments from credit/debit cards using the Authorize.net payment gateway. Since customers will be entering credit cards directly on your store you should sure that your checkout pages are protected by SSL.
 
@@ -25,7 +25,7 @@ This Payment Gateway For WooCommerce extends the functionality of WooCommerce to
 
 
 If you need any assistance with this or any of our other plugins, please visit our support portal:
-http://www.pledgedplugins.com/support
+https://www.pledgedplugins.com/support
 
 == Installation ==
 
@@ -37,15 +37,15 @@ Easy steps to install the plugin:
 4. Under the Checkout tab, you will find all the available payment gateways. Find the 'Authorize.net Payment Gateway' row and click on the 'Settings' button.
 5. On this page you will find all of the configuration options for this payment gateway.
 6. Enable the method by using the checkbox.
-7. Enter the Authorize.net account details (Login ID, password)
+7. Enter the Authorize.net account details (See below)
 
 That's it! You are ready to accept credit cards with your Authorize.net payment gateway now connected to WooCommerce.
 
 Description: This will appear on checkout page as description for this payment gateway
 
-Login ID: This is the API Login ID provided by Authorize.net. See your merchant account rep for additional information.
+Login ID: This is your API Login ID with the gateway. See your merchant account rep for additional information.
 
-Transaction Key : This is the API Transaction Key provided by Authorize.net. See your merchant account rep for additional information.
+Transaction Key : This is your Transaction Key. See your merchant account rep for additional information.
 
 Transaction Success Message: This message will appear upon successful transaction. You can customize this message as per your need.
 

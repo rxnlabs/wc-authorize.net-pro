@@ -83,11 +83,11 @@ function woocommerce_tech_authoaim_init() {
             'login_id'     => array(
                   'title'        => __('Login ID', 'wc-tech-authoaim'),
                   'type'         => 'text',
-                  'description'  => __('This is API Login ID')),
+                  'description'  => __('This is your API Login ID with the gateway.')),
             'transaction_key' => array(
                   'title'        => __('Transaction Key', 'wc-tech-authoaim'),
                   'type'         => 'password',
-                  'description'  =>  __('API Transaction Key', 'wc-tech-authoaim')),
+                  'description'  =>  __('This is your Transaction Key.', 'wc-tech-authoaim')),
             'success_message' => array(
                   'title'        => __('Transaction Success Message', 'wc-tech-authoaim'),
                   'type'         => 'textarea',
@@ -108,7 +108,7 @@ function woocommerce_tech_authoaim_init() {
       public function admin_options()
       {
          echo '<center><h3>'.__('Authorize.net Payment Gateway', 'wc-tech-authoaim').'</h3>';
-	 echo '<a href="http://pledgedplugins.com/"><img src="http://pledgedplugins.com/external/small.png"><br><b>We guarantee all of our products.</b></center></a>';
+	 echo '<a href="https://pledgedplugins.com/"><img src="https://pledgedplugins.com/external/small.png"><br><b>We guarantee all of our products.</b></center></a>';
          echo '<table class="form-table">';
          $this->generate_settings_html();
          echo '</table>';
