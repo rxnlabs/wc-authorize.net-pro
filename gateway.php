@@ -45,7 +45,7 @@ function woocommerce_tech_authoaim_init() {
          $this->success_message  = $this->settings['success_message'];
          $this->failed_message   = $this->settings['failed_message'];
          $this->liveurl          = 'https://secure.authorize.net/gateway/transact.dll';
-         $this->testurl          = '';
+         $this->testurl          = 'https://test.authorize.net/gateway/transact.dll';
          $this->msg['message']   = "";
          $this->msg['class']     = "";
         
