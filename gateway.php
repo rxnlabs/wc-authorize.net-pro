@@ -2,10 +2,10 @@
 /*
 Plugin Name: Authorize.net Payment Gateway For WooCommerce
 Description: Extends WooCommerce to Process Payments with the Authorize.net payment gateway
-Version: 3.2.1
-Plugin URI: http://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
+Version: 3.5
+Plugin URI: https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
 Author: Pledged Plugins
-Author URI: http://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
+Author URI: https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
 License: Under GPL2
 
 */
@@ -45,7 +45,7 @@ function woocommerce_tech_authoaim_init() {
          $this->success_message  = $this->settings['success_message'];
          $this->failed_message   = $this->settings['failed_message'];
          $this->liveurl          = 'https://secure.authorize.net/gateway/transact.dll';
-         $this->testurl          = '';
+         $this->testurl          = 'https://test.authorize.net/gateway/transact.dll';
          $this->msg['message']   = "";
          $this->msg['class']     = "";
         
@@ -83,16 +83,16 @@ function woocommerce_tech_authoaim_init() {
             'login_id'     => array(
                   'title'        => __('Login ID', 'wc-tech-authoaim'),
                   'type'         => 'text',
-                  'description'  => __('This is API Login ID')),
+                  'description'  => __('This is your API Login ID with the gateway.')),
             'transaction_key' => array(
                   'title'        => __('Transaction Key', 'wc-tech-authoaim'),
-                  'type'         => 'text',
-                  'description'  =>  __('API Transaction Key', 'wc-tech-authoaim')),
+                  'type'         => 'password',
+                  'description'  =>  __('This is your Transaction Key.', 'wc-tech-authoaim')),
             'success_message' => array(
                   'title'        => __('Transaction Success Message', 'wc-tech-authoaim'),
                   'type'         => 'textarea',
                   'description'=>  __('Message to be displayed on successful transaction.', 'wc-tech-authoaim'),
-                  'default'      => __('Your payment has been procssed successfully.', 'wc-tech-authoaim')),
+                  'default'      => __('Your payment has been processed successfully.', 'wc-tech-authoaim')),
             'failed_message'  => array(
                   'title'        => __('Transaction Failed Message', 'wc-tech-authoaim'),
                   'type'         => 'textarea',
@@ -108,7 +108,7 @@ function woocommerce_tech_authoaim_init() {
       public function admin_options()
       {
          echo '<center><h3>'.__('Authorize.net Payment Gateway', 'wc-tech-authoaim').'</h3>';
-	 echo '<a href="http://pledgedplugins.com/"><img src="http://pledgedplugins.com/external/small.png"><br><b>We guarantee all of our products.</b></center></a>';
+	 echo '<a href="https://pledgedplugins.com/"><img src="https://pledgedplugins.com/external/small.png"><br><b>We guarantee all of our products.</b></center></a>';
          echo '<table class="form-table">';
          $this->generate_settings_html();
          echo '</table>';
@@ -122,9 +122,9 @@ function woocommerce_tech_authoaim_init() {
       {
          if ( $this->description ) 
             echo wpautop(wptexturize($this->description));
-            echo '<label style="margin-right:46px; line-height:40px;">Credit Card :</label> <input type="text" name="aim_credircard" /><br/>';
-            echo '<label style="margin-right:30px; line-height:40px;">Expiry (MMYY) :</label> <input type="text"  style="width:50px;" name="aim_ccexpdate" maxlength="4" /><br/>';
-            echo '<label style="margin-right:89px; line-height:40px;">CCV :</label> <input type="text" name="aim_ccvnumber"  maxlength=4 style="width:40px;" /><br/>';
+           	echo '<label style="margin-right:46px; line-height:40px;">Credit Card :</label> <input type="text" name="' . $this->id . '_credircard" /><br/>';
+            echo '<label style="margin-right:30px; line-height:40px;">Expiry (MMYY) :</label> <input type="text"  style="width:50px;" name="' . $this->id . '_ccexpdate" maxlength="4" /><br/>';
+            echo '<label style="margin-right:89px; line-height:40px;">CCV :</label> <input type="text" name="' . $this->id . '_ccvnumber"  maxlength=4 style="width:40px;" /><br/>';
       }
       
       /*
@@ -134,14 +134,13 @@ function woocommerce_tech_authoaim_init() {
       {
            global $woocommerce;
 
-           if (!$this->isCreditCardNumber($_POST['aim_credircard'])) 
+           if (!$this->isCreditCardNumber($_POST[$this->id . '_credircard']))
                wc_add_notice($message = 'Credit Card Number is not valid.', $notice_type = 'error'); 
 
-
-           if (!$this->isCorrectExpireDate($_POST['aim_ccexpdate']))    
+           if (!$this->isCorrectExpireDate($_POST[$this->id . '_ccexpdate']))
                wc_add_notice($message = 'Credit Card expiration date is invalid.', $notice_type = 'error'); 
 
-           if (!$this->isCCVNumber($_POST['aim_ccvnumber'])) 
+           if (!$this->isCCVNumber($_POST[$this->id . '_ccvnumber']))
                wc_add_notice($message = 'CCV (Credit Card Validation Number) is not valid.', $notice_type = 'error');
       }
       
@@ -298,8 +297,8 @@ function woocommerce_tech_authoaim_init() {
             'x_relay_response'         => 'FALSE',
             'x_type'                   => 'AUTH_CAPTURE',
             'x_method'                 => 'CC',
-            'x_card_num'               => $_POST['aim_credircard'],
-            'x_exp_date'               => $_POST['aim_ccexpdate' ],
+            'x_card_num'               => $_POST[$this->id . '_credircard'],
+            'x_exp_date'               => $_POST[$this->id . '_ccexpdate'],
             'x_description'            => 'Order #'.$order->id,
             'x_amount'                 => $order->order_total,
             'x_first_name'             => $order->billing_first_name ,
@@ -312,7 +311,7 @@ function woocommerce_tech_authoaim_init() {
             'x_city'                   => $order->billing_city,
             'x_zip'                    => $order->billing_postcode,
             'x_email'                  => $order->billing_email,
-            'x_card_code'              => $_POST['aim_ccvnumber'], 
+            'x_card_code'              => $_POST[$this->id . '_ccvnumber'],  
             'x_ship_to_first_name'     => $order->shipping_first_name,
             'x_ship_to_last_name'      => $order->shipping_last_name,
             'x_ship_to_address'        => $order->shipping_address_1,
