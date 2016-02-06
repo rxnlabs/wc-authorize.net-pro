@@ -57,6 +57,9 @@ Not required to function, however it is highly recommended.
 
 
 == Changelog ==
+3.5.1
+Included customer IP in the data sent to the gateway
+
 3.5
 Fixed compatibility issues with other payment gateway plugins
 
