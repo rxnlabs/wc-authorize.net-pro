@@ -1,0 +1,122 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: Authorize.net Payment Gateway For WooCommerce\n"
+"POT-Creation-Date: 2016-02-11 19:30+0530\n"
+"PO-Revision-Date: 2016-02-11 19:30+0530\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.6\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: gateway.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: gateway.php:34 gateway.php:75
+msgid "Authorize.net"
+msgstr ""
+
+#: gateway.php:66
+msgid "Enable/Disable"
+msgstr ""
+
+#: gateway.php:68
+msgid "Enable This Payment Module."
+msgstr ""
+
+#: gateway.php:72
+msgid "Title:"
+msgstr ""
+
+#: gateway.php:74
+msgid "This controls the title which the user sees during checkout."
+msgstr ""
+
+#: gateway.php:78
+msgid "Description:"
+msgstr ""
+
+#: gateway.php:80
+msgid "This controls the description which the user sees during checkout."
+msgstr ""
+
+#: gateway.php:81
+msgid "Pay securely by Credit or Debit Card through Authorize.net."
+msgstr ""
+
+#: gateway.php:84
+msgid "Login ID"
+msgstr ""
+
+#: gateway.php:86
+msgid "This is your API Login ID with the gateway."
+msgstr ""
+
+#: gateway.php:89
+msgid "Transaction Key"
+msgstr ""
+
+#: gateway.php:91
+msgid "This is your Transaction Key."
+msgstr ""
+
+#: gateway.php:94
+msgid "Transaction Success Message"
+msgstr ""
+
+#: gateway.php:96
+msgid "Message to be displayed on successful transaction."
+msgstr ""
+
+#: gateway.php:97
+msgid "Your payment has been processed successfully."
+msgstr ""
+
+#: gateway.php:100
+msgid "Transaction Failed Message"
+msgstr ""
+
+#: gateway.php:102
+msgid "Message to be displayed on failed transaction."
+msgstr ""
+
+#: gateway.php:103
+msgid "Your transaction has been declined."
+msgstr ""
+
+#: gateway.php:113
+msgid "Authorize.net Payment Gateway"
+msgstr ""
+
+#: gateway.php:203
+msgid "Thank you for your order."
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Authorize.net Payment Gateway For WooCommerce"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+#. Author URI of the plugin/theme
+msgid ""
+"https://pledgedplugins.com/products/authorize-net-payment-gateway-"
+"woocommerce/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Extends WooCommerce to Process Payments with the Authorize.net payment "
+"gateway"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Pledged Plugins"
+msgstr ""
