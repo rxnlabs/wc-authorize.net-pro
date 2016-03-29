@@ -246,7 +246,7 @@ function woocommerce_tech_authoaim_init() {
 						$order->add_order_note( $this->success_message . $response_array[3] . 'Transaction ID: ' . $response_array[6] );
 						unset( $_SESSION['order_awaiting_payment'] );
 					}
-					return array( 'result' => 'success', 'redirect' => get_site_url() . '/checkout/order-received/' . $order->id . '/?key=' . $order->order_key );
+					return array( 'result' => 'success', 'redirect' => $this->get_return_url( $order ) );
 
 				} else {
 

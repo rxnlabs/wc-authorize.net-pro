@@ -58,7 +58,9 @@ Not required to function, however it is highly recommended.
 
 == Changelog ==
 3.5.1
+Made "Order Received" link dynamic
 Included customer IP in the data sent to the gateway
+Added POT file for translation
 
 3.5
 Fixed compatibility issues with other payment gateway plugins
