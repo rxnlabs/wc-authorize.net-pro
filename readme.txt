@@ -57,6 +57,9 @@ Not required to function, however it is highly recommended.
 
 
 == Changelog ==
+3.5.2
+Updated transaction endpoint URL
+
 3.5.1
 Made "Order Received" link dynamic
 Included customer IP in the data sent to the gateway

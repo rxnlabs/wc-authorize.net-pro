@@ -2,7 +2,7 @@
 /*
 Plugin Name: Authorize.net Payment Gateway For WooCommerce
 Description: Extends WooCommerce to Process Payments with the Authorize.net payment gateway
-Version: 3.5.1
+Version: 3.5.2
 Plugin URI: https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
 Author: Pledged Plugins
 Author URI: https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
