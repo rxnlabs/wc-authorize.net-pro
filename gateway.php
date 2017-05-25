@@ -5,7 +5,7 @@ Description: Extends WooCommerce to Process Payments with the Authorize.net paym
 Version: 3.5.2
 Plugin URI: https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
 Author: Pledged Plugins
-Author URI: https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
+Author URI: https://pledgedplugins.com/
 License: Under GPL2
 */
 
@@ -229,6 +229,7 @@ function woocommerce_tech_authoaim_init() {
 			curl_setopt( $request, CURLOPT_RETURNTRANSFER, 1 ); // Returns response data instead of TRUE(1)
 			curl_setopt( $request, CURLOPT_POSTFIELDS, $post_string ); // use HTTP POST to send form data
 			curl_setopt( $request, CURLOPT_SSL_VERIFYPEER, FALSE ); // uncomment this line if you get no gateway response.
+			curl_setopt( $request, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2 ); // version 1.2 required by authorize.net by April 30, 2017
 			$post_response = curl_exec( $request ); // execute curl post and store results in $post_response
 			curl_close( $request );
 
