@@ -1,4 +1,4 @@
-=== Authorize.Net Payment Gateway For WooCommerce (AIM) ===
+=== Authorize.Net Payment Gateway For WooCommerce ===
 Contributors: mohsinoffline
 Donate link: https://themebound.com/contact-us/send-payment/
 Tags: woocommerce Authorize.Net, Authorize.Net, payment gateway, woocommerce, woocommerce payment gateway
@@ -42,7 +42,7 @@ Disclaimer: This plugin is not affiliated with or supported by Authorize.Net, Wo
 
 == Installation ==
 
-1. Upload `authorize-net-payment-gateway-for-woocommerce-aim` folder/directory to the `/wp-content/plugins/` directory
+1. Upload `woo-authorize-net-gateway-aim` folder/directory to the `/wp-content/plugins/` directory
 2. Activate the plugin (Wordpress -> Plugins).
 3. Go to the WooCommerce settings page (Wordpress -> WooCommerce -> Settings) and select the Checkout tab.
 4. Under the Checkout tab, you will find all the available payment gateways. Find the 'Authorize.Net' subtab and click it.
