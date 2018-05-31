@@ -70,7 +70,7 @@ class WC_AuthNet {
 
 		// Includes
 		if ( is_admin() ) {
-			require_once( 'includes/class-wc-nmi-privacy.php' );
+			require_once( 'includes/class-wc-authnet-privacy.php' );
 		}
 
 		include_once( 'includes/class-wc-gateway-authnet.php' );
