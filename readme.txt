@@ -58,6 +58,7 @@ That's it! You are ready to accept credit cards with your Authorize.Net payment 
 = 4.0.1 =
 
 * Added GDPR privacy support
+* Fixed false negative on SSL warning notice in admin
 * Added "minimum required" and "tested upto" headers for version check in WooCommerce 3.4
 
 = 4.0.0 =
