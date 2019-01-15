@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: WooCommerce Authorize.Net Gateway\n"
-"POT-Creation-Date: 2018-06-02 15:55+0530\n"
-"PO-Revision-Date: 2018-06-02 15:55+0530\n"
+"POT-Creation-Date: 2019-01-15 20:59+0530\n"
+"PO-Revision-Date: 2019-01-15 20:59+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -33,35 +33,35 @@ msgstr ""
 msgid "Unable to capture charge!"
 msgstr ""
 
-#: gateway.php:131 includes/class-wc-gateway-authnet.php:356
+#: gateway.php:131 includes/class-wc-gateway-authnet.php:349
 #, php-format
 msgid "Authorize.Net charge complete (Charge ID: %s)"
 msgstr ""
 
-#: gateway.php:165
+#: gateway.php:168
 msgid "Unable to refund charge!"
 msgstr ""
 
-#: gateway.php:167
+#: gateway.php:171
 #, php-format
 msgid "Authorize.Net charge refunded (Charge ID: %s)"
 msgstr ""
 
-#: includes/authnet_sdk/lib/AuthNet.php:201
+#: includes/authnet_sdk/lib/AuthNet.php:206
 #, php-format
 msgid "Unrecognized response from the gateway: %s"
 msgstr ""
 
-#: includes/authnet_sdk/lib/AuthNet.php:258
+#: includes/authnet_sdk/lib/AuthNet.php:263
 msgid "Your card has been declined."
 msgstr ""
 
-#: includes/authnet_sdk/lib/AuthNet.php:262
+#: includes/authnet_sdk/lib/AuthNet.php:267
 #, php-format
 msgid "Gateway Error: %s"
 msgstr ""
 
-#: includes/authnet_sdk/lib/AuthNet.php:268
+#: includes/authnet_sdk/lib/AuthNet.php:273
 msgid "Error connecting to the gateway"
 msgstr ""
 
@@ -115,7 +115,7 @@ msgid ""
 "(Authorize.Net)"
 msgstr ""
 
-#: includes/class-wc-authnet-privacy.php:171
+#: includes/class-wc-authnet-privacy.php:172
 msgid "Authorize.Net personal data erased."
 msgstr ""
 
@@ -142,24 +142,24 @@ msgid ""
 "numbers."
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:102
+#: includes/class-wc-gateway-authnet.php:107
 #, php-format
 msgid "Gateway error: Please enter your API Login ID <a href=\"%s\">here</a>"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:106
+#: includes/class-wc-gateway-authnet.php:111
 #, php-format
 msgid ""
 "Gateway error: Please enter your Transaction Key <a href=\"%s\">here</a>"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:112
+#: includes/class-wc-gateway-authnet.php:117
 msgid ""
 "Gateway error: Your API Login ID and Transaction Key match. Please check and "
 "re-enter."
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:118
+#: includes/class-wc-gateway-authnet.php:123
 #, php-format
 msgid ""
 "Authorize.Net is enabled, but a SSL certificate is not detected. Your "
@@ -167,99 +167,99 @@ msgid ""
 "\"%1$s\" target=\"_blank\">SSL certificate</a>"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:122
+#: includes/class-wc-gateway-authnet.php:127
 #, php-format
 msgid "Authorize.Net supports these currencies: %s"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:153
+#: includes/class-wc-gateway-authnet.php:158
 msgid "Enable/Disable"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:154
+#: includes/class-wc-gateway-authnet.php:159
 msgid "Enable Authorize.Net"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:160
+#: includes/class-wc-gateway-authnet.php:165
 msgid "Title"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:162
+#: includes/class-wc-gateway-authnet.php:167
 msgid "This controls the title which the user sees during checkout."
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:163
+#: includes/class-wc-gateway-authnet.php:168
 msgid "Credit card"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:166
+#: includes/class-wc-gateway-authnet.php:171
 msgid "Description"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:168
+#: includes/class-wc-gateway-authnet.php:173
 msgid "This controls the description which the user sees during checkout."
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:169
+#: includes/class-wc-gateway-authnet.php:174
 #, php-format
 msgid "Pay with your credit card via %s."
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:172
+#: includes/class-wc-gateway-authnet.php:177
 msgid "Test mode"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:173
+#: includes/class-wc-gateway-authnet.php:178
 msgid "Enable Test Mode"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:175
+#: includes/class-wc-gateway-authnet.php:180
 msgid ""
 "Place the payment gateway in test mode. This will display test information "
 "on the checkout page and enable processing in non HTTPS mode."
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:181
-#: includes/class-wc-gateway-authnet.php:187
+#: includes/class-wc-gateway-authnet.php:186
+#: includes/class-wc-gateway-authnet.php:192
 #, php-format
 msgid "Get your %s from your %s account."
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:191
+#: includes/class-wc-gateway-authnet.php:196
 msgid "Capture"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:192
+#: includes/class-wc-gateway-authnet.php:197
 msgid "Capture charge immediately"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:194
+#: includes/class-wc-gateway-authnet.php:199
 msgid ""
 "Whether or not to immediately capture the charge. When unchecked, the charge "
 "issues an authorization and will need to be captured later."
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:198
+#: includes/class-wc-gateway-authnet.php:203
 msgid "Logging"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:199
+#: includes/class-wc-gateway-authnet.php:204
 msgid "Log debug messages"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:201
+#: includes/class-wc-gateway-authnet.php:206
 msgid "Save debug messages to the WooCommerce System Status log."
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:205
+#: includes/class-wc-gateway-authnet.php:210
 msgid "Gateway Debug"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:206
+#: includes/class-wc-gateway-authnet.php:211
 msgid "Log gateway requests and response to the WooCommerce System Status log."
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:208
+#: includes/class-wc-gateway-authnet.php:213
 msgid ""
 "<strong>CAUTION! Enabling this option will write gateway requests including "
 "card numbers and CVV to the logs.</strong> Do not turn this on unless you "
@@ -270,75 +270,80 @@ msgid ""
 "uploads/wc-logs/</code> folder."
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:212
+#: includes/class-wc-gateway-authnet.php:217
 msgid "Allowed Card types"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:215
+#: includes/class-wc-gateway-authnet.php:220
 msgid "Select the card types you want to allow payments from."
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:218
+#: includes/class-wc-gateway-authnet.php:223
 msgid "Visa"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:219
+#: includes/class-wc-gateway-authnet.php:224
 msgid "MasterCard"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:220
+#: includes/class-wc-gateway-authnet.php:225
 msgid "Discover"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:221
+#: includes/class-wc-gateway-authnet.php:226
 msgid "American Express"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:225
-msgid "Receipt"
-msgstr ""
-
-#: includes/class-wc-gateway-authnet.php:226
-msgid "Send Gateway Receipt"
+#: includes/class-wc-gateway-authnet.php:227
+msgid "JCB"
 msgstr ""
 
 #: includes/class-wc-gateway-authnet.php:228
+msgid "Diners Club"
+msgstr ""
+
+#: includes/class-wc-gateway-authnet.php:232
+msgid "Receipt"
+msgstr ""
+
+#: includes/class-wc-gateway-authnet.php:233
+msgid "Send Gateway Receipt"
+msgstr ""
+
+#: includes/class-wc-gateway-authnet.php:235
 msgid ""
 "If enabled, the customer will be sent an email receipt from Authorize.Net."
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:276
-msgid "Please accept the terms and conditions first"
-msgstr ""
-
-#: includes/class-wc-gateway-authnet.php:277
-msgid "Please fill in required checkout fields first"
-msgstr ""
-
-#: includes/class-wc-gateway-authnet.php:299
+#: includes/class-wc-gateway-authnet.php:283
 msgid "Credit card details cannot be left incomplete."
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:304
+#: includes/class-wc-gateway-authnet.php:288
 msgid "Card Type Not Accepted"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:309
+#: includes/class-wc-gateway-authnet.php:293
 #, php-format
 msgid "%s - Order %s"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:370
+#: includes/class-wc-gateway-authnet.php:363
 #, php-format
 msgid ""
 "Authorize.Net charge authorized (Charge ID: %s). Process order to take "
 "payment, or cancel to remove the pre-authorization."
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:392
-#: includes/class-wc-gateway-authnet.php:393
+#: includes/class-wc-gateway-authnet.php:385
+#: includes/class-wc-gateway-authnet.php:386
 #, php-format
 msgid "Error: %s"
+msgstr ""
+
+#: includes/class-wc-gateway-authnet.php:437
+#, php-format
+msgid "Refunded %s - Refund ID: %s - Reason: %s"
 msgstr ""
 
 #. Plugin Name of the plugin/theme

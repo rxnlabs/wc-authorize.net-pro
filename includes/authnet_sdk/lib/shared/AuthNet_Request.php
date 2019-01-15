@@ -1,6 +1,6 @@
 <?php
 /**
- * Sends requests to the Authorize.Net gateways.
+ * Sends requests to the Authorize.Net gateway.
  *
  * @package    AuthNet
  * @subpackage AuthNet_Request
@@ -101,7 +101,7 @@ abstract class AuthNet_Request {
         }
 
         $response = curl_exec( $curl_request );
-		
+
 		// Saving to Log here
 		if( $this->_logging ) {
 			$message = sprintf( "\nPosting to: \n%s\nRequest: \n%s\nResponse: \n%s", $post_url, $this->_post_string, $response );

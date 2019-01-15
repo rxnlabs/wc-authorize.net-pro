@@ -24,11 +24,15 @@ class WC_AuthNet_Logger {
 	 */
 	public static function log( $message ) {
 
+		if ( ! class_exists( 'WC_Logger' ) ) {
+			return;
+ 		}
+
 		if ( empty( self::$logger ) ) {
-			self::$logger = new WC_Logger();
+			self::$logger = wc_get_logger();
 		}
 
-		self::$logger->add( 'woocommerce-gateway-authnet', $message );
+		self::$logger->debug( $message, array( 'source' => 'woocommerce-gateway-authnet' ) );
 
 	}
 }

@@ -17,7 +17,7 @@ class AuthNet extends AuthNet_Request {
 		}
 		parent::__construct( $login_id, $transaction_key, $logging );
 	}
-	
+
 	protected $_post_fields = array(
 		"version" => "3.1",
 		"delim_char" => "|",
@@ -80,6 +80,14 @@ class AuthNet extends AuthNet_Request {
 		return $this->_sendRequest();
     }
 
+	/**
+	 * Process Product refund transaction
+	 */
+	public function credit() {
+        $this->type = "CREDIT";
+        return $this->_sendRequest();
+    }
+
     /**
      * Alternative syntax for setting x_ fields.
      *
@@ -101,7 +109,7 @@ class AuthNet extends AuthNet_Request {
      * @param array $fields Takes an array or object.
      */
     public function setFields( $fields ) {
-        $array = (array)$fields;
+        $array = (array) $fields;
         foreach( $array as $key => $value ) {
             $this->setField( $key, $value );
         }
@@ -182,9 +190,6 @@ class AuthNet_Gateway_Response extends AuthNet_Response {
      * Constructor. Parses the AuthNet response string.
      *
      * @param string $response      The response from the AuthNet server.
-     * @param string $delimiter     The delimiter used (default is ",")
-     * @param string $encap_char    The encap_char used (default is "|")
-     * @param array  $custom_fields Any custom fields set in the request.
      */
     public function __construct( $response ) {
 
