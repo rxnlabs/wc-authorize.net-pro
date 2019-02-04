@@ -367,7 +367,6 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 				}
 
 				$order->save();
-
 			}
 
 			// Remove cart
@@ -412,10 +411,13 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 			return false;
 		}
 
-		$instance = new WC_AuthNet();
-		$instance->cancel_payment( $order_id );
-
-		$void_status = $order->get_meta( '_authnet_void' );
+		if( $amount == $order->get_total() ) {
+			$instance = new WC_AuthNet();
+			$instance->cancel_payment( $order_id );
+			$void_status = $order->get_meta( '_authnet_void' );
+		} else {
+			$void_status = 'failed';
+		}
 
 		if( $void_status == 'failed' ) {
 			$cc_last4 = $order->get_meta( '_authnet_cc_last4' );
@@ -438,9 +440,10 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 				$order->add_order_note( $refund_message );
 				$order->save();
 				$this->log( "Success: " . html_entity_decode( strip_tags( $refund_message ) ) );
-				return true;
 			}
 		}
+
+		return true;
 	}
 
 	function authnet_request( $args ) {
