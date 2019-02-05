@@ -414,6 +414,8 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 		if( $amount == $order->get_total() ) {
 			$instance = new WC_AuthNet();
 			$instance->cancel_payment( $order_id );
+
+			$order = wc_get_order( $order_id );
 			$void_status = $order->get_meta( '_authnet_void' );
 		} else {
 			$void_status = 'failed';
