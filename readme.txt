@@ -1,12 +1,12 @@
 === Authorize.Net Payment Gateway For WooCommerce ===
 Contributors: mohsinoffline
-Donate link: https://themebound.com/contact-us/send-payment/
+Donate link: https://wpgateways.com/support/send-payment/
 Tags: woocommerce Authorize.Net, Authorize.Net, payment gateway, woocommerce, woocommerce payment gateway
 Plugin URI: https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
 Author URI: https://pledgedplugins.com
 Requires at least: 4.0, WooCommerce 3.0.0
-Tested up to: 5.0
-Stable tag: 4.0.1
+Tested up to: 5.0.3
+Stable tag: 4.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,8 +44,8 @@ Disclaimer: This plugin is not affiliated with or supported by Authorize.Net, Wo
 
 1. Upload `woo-authorize-net-gateway-aim` folder/directory to the `/wp-content/plugins/` directory
 2. Activate the plugin (Wordpress -> Plugins).
-3. Go to the WooCommerce settings page (Wordpress -> WooCommerce -> Settings) and select the Checkout tab.
-4. Under the Checkout tab, you will find all the available payment gateways. Find the 'Authorize.Net' subtab and click it.
+3. Go to the WooCommerce settings page (Wordpress -> WooCommerce -> Settings) and select the Payments tab.
+4. Under the Payments tab, you will find all the available payment methods. Find the 'Authorize.Net' link in the list and click it.
 5. On this page you will find all of the configuration options for this payment gateway.
 6. Enable the method by using the checkbox.
 7. Enter the Authorize.Net account details (API Login ID, Transaction Key).
@@ -54,6 +54,21 @@ That's it! You are ready to accept credit cards with your Authorize.Net payment 
 
 
 == Changelog ==
+
+= 4.0.3 =
+
+* Fixed PHP notices
+* Changed logging method
+* Removed deprecated script code
+* Updated post meta saving method
+* Added "Refund" transaction feature
+* Added shipping fields to gateway request
+* Added JCB, Diners Club in Allowed Card types option
+* Prevented the "state" parameter from being sent in "capture", "void" or "credit" transactions
+
+= 4.0.2 =
+
+* Changed plugin description
 
 = 4.0.1 =
 

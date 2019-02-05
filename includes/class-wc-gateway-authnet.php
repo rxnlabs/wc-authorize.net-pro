@@ -29,7 +29,7 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 		$this->method_title          = __( 'Authorize.Net', 'wc-authnet' );
 		$this->method_description    = __( 'Authorize.Net works by adding credit card fields on the checkout and then sending the details to the gateway for processing the transactions.', 'wc-authnet' );
 		$this->has_fields            = true;
-		$this->supports              = array( 'products' );
+		$this->supports              = array( 'products', 'refunds' );
 		$this->live_url 			 = 'https://secure2.authorize.net/gateway/transact.dll';
 		$this->test_url 			 = '';
 		$this->label_login_id 		 = __( 'API Login ID', 'wc-authnet' );
@@ -60,7 +60,6 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 		}
 
 		// Hooks
-		add_action( 'wp_enqueue_scripts', array( $this, 'payment_scripts' ) );
 		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
 
@@ -85,6 +84,12 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 		}
 		if( in_array( 'discover', $this->allowed_card_types ) ) {
 			$icon .= '<img src="' . WC_HTTPS::force_https_url( WC()->plugin_url() . '/assets/images/icons/credit-cards/discover.png' ) . '" alt="Discover" />';
+		}
+		if( in_array( 'jcb', $this->allowed_card_types ) ) {
+			$icon .= '<img src="' . WC_HTTPS::force_https_url( WC()->plugin_url() . '/assets/images/icons/credit-cards/jcb.png' ) . '" alt="JCB" />';
+		}
+		if( in_array( 'diners-club', $this->allowed_card_types ) ) {
+			$icon .= '<img src="' . WC_HTTPS::force_https_url( WC()->plugin_url() . '/assets/images/icons/credit-cards/diners.png' ) . '" alt="Diners Club" />';
 		}
 		return apply_filters( 'woocommerce_gateway_icon', $icon, $this->id );
 	}
@@ -129,7 +134,7 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 	 */
 	public function is_available() {
 		if ( $this->enabled == "yes" ) {
-			if ( is_add_payment_method_page() && ! $this->saved_cards ) {
+			if ( is_add_payment_method_page() ) {
 				return false;
 			}
 			// Required fields check
@@ -183,7 +188,7 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 			),
 			'transaction_key' => array(
 				'title'       => $this->label_transaction_key,
-				'type'        => 'text',
+				'type'        => 'password',
 				'description' => sprintf( __( 'Get your %s from your %s account.', 'wc-authnet' ), $this->label_transaction_key, $this->method_title ),
 				'default'     => ''
 			),
@@ -219,6 +224,8 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 					'mastercard' => __( 'MasterCard', 'wc-authnet' ),
 					'discover' => __( 'Discover', 'wc-authnet' ),
 					'amex' => __( 'American Express', 'wc-authnet' ),
+					'jcb' => __( 'JCB', 'wc-authnet' ),
+					'diners-club' => __( 'Diners Club', 'wc-authnet' ),
 				),
 			),
 			'customer_receipt' => array(
@@ -256,29 +263,6 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
         $this->form();
 
 		echo '</div>';
-	}
-
-	/**
-	 * payment_scripts function.
-	 *
-	 * Outputs scripts used for Authorize.Net payment
-	 *
-	 * @access public
-	 */
-	public function payment_scripts() {
-		if ( ! is_checkout() ) {
-			return;
-		}
-
-		wp_enqueue_script( 'woocommerce_authnet', plugins_url( 'assets/js/scripts.js', dirname( __FILE__ ) ), array( 'jquery' ), WC_AUTHNET_VERSION, true );
-
-		$authnet_params = array(
-			'i18n_terms'             => __( 'Please accept the terms and conditions first', 'wc-authnet' ),
-			'i18n_required_fields'   => __( 'Please fill in required checkout fields first', 'wc-authnet' ),
-			'error_response_handler' => 'authnetErrorHandler',
-		);
-
-		wp_localize_script( 'woocommerce_authnet', 'wc_authnet_params', apply_filters( 'wc_authnet_params', $authnet_params ) );
 	}
 
 	/**
@@ -329,6 +313,14 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 				'trans_id'			=> $order->get_transaction_id(),
 				'customer_ip'       => WC_Geolocation::get_ip_address(),
 				'currency_code'		=> $this->get_payment_currency( $order_id ),
+				'ship_to_first_name' => isset( $_POST['shipping_first_name'] ) ? $_POST['shipping_first_name'] : $order->get_shipping_first_name(),
+				'ship_to_last_name' => isset( $_POST['shipping_last_name'] ) ? $_POST['shipping_last_name'] : $order->get_shipping_last_name(),
+				'ship_to_company'	=> isset( $_POST['shipping_company'] ) ? $_POST['shipping_company'] : $order->get_shipping_company(),
+				'ship_to_address'   => ( isset( $_POST['shipping_address_1'] ) ? $_POST['shipping_address_1'] : $order->get_shipping_address_1() ) . ' ' . ( isset( $_POST['shipping_address_2'] ) ? $_POST['shipping_address_2'] : $order->get_shipping_address_2() ),
+				'ship_to_country'   => isset( $_POST['shipping_country'] ) ? $_POST['shipping_country'] : $order->get_shipping_country(),
+				'ship_to_state'     => isset( $_POST['shipping_state'] ) ? $_POST['shipping_state'] : $order->get_shipping_state(),
+				'ship_to_city'      => isset( $_POST['shipping_city'] ) ? $_POST['shipping_city'] : $order->get_shipping_city(),
+				'ship_to_zip'       => isset( $_POST['shipping_postcode'] ) ? $_POST['shipping_postcode'] : $order->get_shipping_postcode(),
 			);
 
 			$response = $this->authnet_request( $payment_args );
@@ -338,7 +330,8 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 			}
 
 			// Store charge ID
-			update_post_meta( $order_id, '_authnet_charge_id', $response->transaction_id );
+			$order->update_meta_data( '_authnet_charge_id', $response->transaction_id );
+			$order->update_meta_data( '_authnet_cc_last4', substr( $_POST['authnet-card-number'], -4 ) );
 
 			if ( $response->approved ) {
 				$order->set_transaction_id( $response->transaction_id );
@@ -346,8 +339,8 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 				if( $payment_args['type'] == 'sale' ) {
 
 					// Store captured value
-					update_post_meta( $order_id, '_authnet_charge_captured', 'yes' );
-					update_post_meta( $order_id, 'Authorize.Net Payment ID', $response->transaction_id );
+					$order->update_meta_data( '_authnet_charge_captured', 'yes' );
+					$order->update_meta_data( 'Authorize.Net Payment ID', $response->transaction_id );
 
 					// Payment complete
 					$order->payment_complete( $response->transaction_id );
@@ -360,7 +353,7 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 				} else {
 
 					// Store captured value
-					update_post_meta( $order_id, '_authnet_charge_captured', 'no' );
+					$order->update_meta_data( '_authnet_charge_captured', 'no' );
 
 					if ( $order->has_status( array( 'pending', 'failed' ) ) ) {
 						$order->reduce_order_stock();
@@ -374,7 +367,6 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 				}
 
 				$order->save();
-
 			}
 
 			// Remove cart
@@ -404,6 +396,56 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 			);
 
 		}
+	}
+
+	/**
+	 * Refund a charge
+	 * @param  int $order_id
+	 * @param  float $amount
+	 * @return bool
+	 */
+	public function process_refund( $order_id, $amount = null, $reason = '' ) {
+		$order = wc_get_order( $order_id );
+
+		if ( ! $order || ! $order->get_transaction_id() || $amount <= 0 ) {
+			return false;
+		}
+
+		if( $amount == $order->get_total() ) {
+			$instance = new WC_AuthNet();
+			$instance->cancel_payment( $order_id );
+
+			$order = wc_get_order( $order_id );
+			$void_status = $order->get_meta( '_authnet_void' );
+		} else {
+			$void_status = 'failed';
+		}
+
+		if( $void_status == 'failed' ) {
+			$cc_last4 = $order->get_meta( '_authnet_cc_last4' );
+			$args = array(
+				'amount'    => $amount,
+				'card_num'  => $cc_last4,
+				'trans_id'	=> $order->get_transaction_id(),
+				'type'		=> 'credit',
+			);
+
+			$this->log( "Info: Beginning refund for order $order_id for the amount of {$amount}" );
+
+			$response = $this->authnet_request( $args );
+
+			if ( $response->error || $response->declined ) {
+				$this->log( "Gateway Error: " . $response->error_message );
+				return new WP_Error( 'authnet', $response->error_message );
+			} elseif ( ! empty( $response->transaction_id ) ) {
+				$refund_message = sprintf( __( 'Refunded %s - Refund ID: %s - Reason: %s', 'wc-authnet' ), $amount, $response->transaction_id, $reason );
+				$order->add_order_note( $refund_message );
+				$order->save();
+				$this->log( "Success: " . html_entity_decode( strip_tags( $refund_message ) ) );
+			}
+		}
+
+		return true;
 	}
 
 	function authnet_request( $args ) {
@@ -438,8 +480,12 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 		if( isset( $args['city'] ) ) {
 			$transaction->city = $args['city'];
 		}
-		if( isset( $args['state'] ) ) {
-			$transaction->state = $args['state'];
+		if( ! in_array( $args['type'], array( 'capture', 'cancel', 'credit' ) ) ) {
+			if( isset( $args['state'] ) ) {
+				$transaction->state = $args['state'];
+			} else {
+				$transaction->state = 'NA';
+			}
 		}
 		if( isset( $args['country'] ) ) {
 			$transaction->country = $args['country'];
@@ -464,6 +510,30 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 		}
 		if( isset( $args['description'] ) ) {
 			$transaction->description = $args['description'];
+		}
+		if( isset( $args['ship_to_first_name'] ) ) {
+			$transaction->ship_to_first_name = $args['ship_to_first_name'];
+		}
+		if( isset( $args['ship_to_last_name'] ) ) {
+			$transaction->ship_to_last_name = $args['ship_to_last_name'];
+		}
+		if( isset( $args['ship_to_company'] ) ) {
+			$transaction->ship_to_company = $args['ship_to_company'];
+		}
+		if( isset( $args['ship_to_address'] ) ) {
+			$transaction->ship_to_address = $args['ship_to_address'];
+		}
+		if( isset( $args['ship_to_country'] ) ) {
+			$transaction->ship_to_country = $args['ship_to_country'];
+		}
+		if( isset( $args['ship_to_state'] ) ) {
+			$transaction->ship_to_state = $args['ship_to_state'];
+		}
+		if( isset( $args['ship_to_city'] ) ) {
+			$transaction->ship_to_city = $args['ship_to_city'];
+		}
+		if( isset( $args['ship_to_zip'] ) ) {
+			$transaction->ship_to_zip = $args['ship_to_zip'];
 		}
 
 		$transaction->currency_code = isset( $args['currency_code'] ) ? $args['currency_code'] : get_woocommerce_currency();
@@ -490,12 +560,6 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 				'valid_length' => '[16]'
 			),
 			array(
-				'label' => 'Visa Electron',
-				'name' => 'visa_electron',
-				'pattern' => '/^(4026|417500|4508|4844|491(3|7))/',
-				'valid_length' => '[16]'
-			),
-			array(
 				'label' => 'Discover',
 				'name' => 'discover',
 				'pattern' => '/^(6011|622(12[6-9]|1[3-9][0-9]|[2-8][0-9]{2}|9[0-1][0-9]|92[0-5]|64[4-9])|65)/',
@@ -518,6 +582,12 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 				'name' => 'maestro',
 				'pattern' => '/^(5018|5020|5038|6304|6759|676[1-3])/',
 				'valid_length' => '[12, 13, 14, 15, 16, 17, 18, 19]'
+			),
+			array(
+				'label' => 'Diners Club',
+				'name' => 'diners-club',
+				'pattern' => '/^3[0689]/',
+				'valid_length' => '[14]'
 			),
 		);
 

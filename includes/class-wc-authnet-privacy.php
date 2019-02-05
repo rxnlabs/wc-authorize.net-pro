@@ -99,7 +99,7 @@ class WC_AuthNet_Privacy extends WC_Abstract_Privacy {
 					'data'        => array(
 						array(
 							'name'  => __( 'Authorize.Net payment id', 'wc-authnet' ),
-							'value' => get_post_meta( $order->get_id(), '_authnet_charge_id', true ),
+							'value' => $order->get_meta( '_authnet_charge_id' ),
 						),
 					),
 				);
@@ -155,8 +155,8 @@ class WC_AuthNet_Privacy extends WC_Abstract_Privacy {
 	 * @return array
 	 */
 	protected function maybe_handle_order( $order ) {
-		$order_id        = $order->get_id();
-		$authnet_charge_id   = get_post_meta( $order_id, '_authnet_charge_id', true );
+		$order_id = $order->get_id();
+		$authnet_charge_id = $order->get_meta( '_authnet_charge_id' );
 
 		if ( ! $this->is_retention_expired( $order->get_date_created()->getTimestamp() ) ) {
 			return array( false, true, array( sprintf( __( 'Order ID %d is less than set retention days. Personal data retained. (Authorize.Net)', 'wc-authnet' ), $order->get_id() ) ) );
@@ -166,7 +166,8 @@ class WC_AuthNet_Privacy extends WC_Abstract_Privacy {
 			return array( false, false, array() );
 		}
 
-		delete_post_meta( $order_id, '_authnet_charge_id' );
+		$order->delete_meta_data( '_authnet_charge_id' );
+		$order->save();
 
 		return array( true, false, array( __( 'Authorize.Net personal data erased.', 'wc-authnet' ) ) );
 	}

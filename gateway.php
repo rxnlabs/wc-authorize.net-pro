@@ -2,14 +2,14 @@
 /*
 Plugin Name: WooCommerce Authorize.Net Gateway
 Plugin URI: https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
-Description: A payment gateway for Authorize.Net. A Authorize.Net account and a server with cURL, SSL support, and a valid SSL certificate is required (for security reasons) for this gateway to function. Requires WC 3.0.0+
-Version: 4.0.1
+Description: A payment gateway for Authorize.Net. An Authorize.Net account and a server with cURL, SSL support, and a valid SSL certificate is required (for security reasons) for this gateway to function. Requires WC 3.0.0+
+Version: 4.0.3
 Author: Pledged Plugins
 Author URI: https://pledgedplugins.com
 Text Domain: wc-authnet
 Domain Path: /languages
 WC requires at least: 3.0.0
-WC tested up to: 3.4
+WC tested up to: 3.5
 
 	Copyright: © Pledged Plugins.
 	License: GNU General Public License v3.0
@@ -29,7 +29,7 @@ class WC_AuthNet {
 	 * Constructor
 	 */
 	public function __construct() {
-		define( 'WC_AUTHNET_VERSION', '4.0.1' );
+		define( 'WC_AUTHNET_VERSION', '4.0.3' );
 		define( 'WC_AUTHNET_TEMPLATE_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) . '/templates/' );
 		define( 'WC_AUTHNET_PLUGIN_URL', untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) ) );
 		define( 'WC_AUTHNET_MAIN_FILE', __FILE__ );
@@ -113,8 +113,8 @@ class WC_AuthNet {
 		$order = wc_get_order( $order_id );
 
 		if ( $order->get_payment_method() == 'authnet' ) {
-			$charge   = get_post_meta( $order_id, '_authnet_charge_id', true );
-			$captured = get_post_meta( $order_id, '_authnet_charge_captured', true );
+			$charge   = $order->get_meta( '_authnet_charge_id' );
+			$captured = $order->get_meta( '_authnet_charge_captured' );
 
 			if ( $charge && $captured == 'no' ) {
 				$gateway = new WC_Gateway_AuthNet();
@@ -131,8 +131,8 @@ class WC_AuthNet {
 					$complete_message = sprintf( __( 'Authorize.Net charge complete (Charge ID: %s)', 'wc-authnet' ), $response->transaction_id );
 					$order->add_order_note( $complete_message );
 
-					update_post_meta( $order_id, '_authnet_charge_captured', 'yes' );
-					update_post_meta( $order_id, 'Authorize.Net Payment ID', $response->transaction_id );
+					$order->update_meta_data( '_authnet_charge_captured', 'yes' );
+					$order->update_meta_data( 'Authorize.Net Payment ID', $response->transaction_id );
 
 					$order->set_transaction_id( $response->transaction_id );
 					$order->save();
@@ -150,7 +150,8 @@ class WC_AuthNet {
 		$order = wc_get_order( $order_id );
 
 		if ( $order->get_payment_method() == 'authnet' ) {
-			$charge   = get_post_meta( $order_id, '_authnet_charge_id', true );
+			$charge = $order->get_meta( '_authnet_charge_id' );
+			$charge_captured = $order->get_meta( '_authnet_charge_captured' );
 
 			if ( $charge ) {
 				$gateway = new WC_Gateway_AuthNet();
@@ -162,15 +163,18 @@ class WC_AuthNet {
 				$response = $gateway->authnet_request( $args );
 
 				if ( $response->error || $response->declined ) {
-					$order->add_order_note( __( 'Unable to refund charge!', 'wc-authnet' ) . ' ' . $response->error_message );
+					$order->update_meta_data( '_authnet_void', 'failed' );
+					if( $charge_captured == 'no' ) {
+						$order->add_order_note( __( 'Unable to refund charge!', 'wc-authnet' ) . ' ' . $response->error_message );
+					}
 				} else {
 					$cancel_message = sprintf( __( 'Authorize.Net charge refunded (Charge ID: %s)', 'wc-authnet' ), $response->transaction_id );
 					$order->add_order_note( $cancel_message );
 
-					delete_post_meta( $order_id, '_authnet_charge_captured' );
-					delete_post_meta( $order_id, '_authnet_charge_id' );
-					$order->save();
+					$order->delete_meta_data( '_authnet_charge_captured' );
+					$order->delete_meta_data( '_authnet_charge_id' );
 				}
+				$order->save();
 			}
 		}
 	}
