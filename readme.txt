@@ -5,7 +5,7 @@ Tags: woocommerce Authorize.Net, Authorize.Net, payment gateway, woocommerce, wo
 Plugin URI: https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
 Author URI: https://pledgedplugins.com
 Requires at least: 4.0, WooCommerce 3.0.0
-Tested up to: 5.0.3
+Tested up to: 5.1.0
 Stable tag: 4.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
