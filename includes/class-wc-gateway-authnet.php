@@ -398,7 +398,7 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 		}
 	}
 
-	function is_diff_shipping_field( $field_name ) {
+	public function is_diff_shipping_field( $field_name ) {
 		return isset( $_POST['ship_to_different_address'] ) && !empty( $_POST['ship_to_different_address'] ) && isset( $_POST[ $field_name ] );
 	}
 
