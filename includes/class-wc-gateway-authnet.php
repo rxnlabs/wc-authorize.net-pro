@@ -316,7 +316,7 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 				'ship_to_first_name' => $this->is_diff_shipping_field( 'shipping_first_name' ) ? $_POST['shipping_first_name'] : $order->get_shipping_first_name(),
 				'ship_to_last_name' => $this->is_diff_shipping_field( 'shipping_last_name' ) ? $_POST['shipping_last_name'] : $order->get_shipping_last_name(),
 				'ship_to_company' 	=> $this->is_diff_shipping_field( 'shipping_company' ) ? $_POST['shipping_company'] : $order->get_shipping_company(),
-				'ship_to_address' 	=> trim( $this->is_diff_shipping_field( 'shipping_address_1' ) ? $_POST['shipping_address_1'] : $order->get_shipping_address_1() . ' ' . $this->is_diff_shipping_field( 'shipping_address_2' ) ? $_POST['shipping_address_2'] : $order->get_shipping_address_2() ),
+				'ship_to_address' 	=> trim( ( $this->is_diff_shipping_field( 'shipping_address_1' ) ? $_POST['shipping_address_1'] : $order->get_shipping_address_1() ) . ' ' . ( $this->is_diff_shipping_field( 'shipping_address_2' ) ? $_POST['shipping_address_2'] : $order->get_shipping_address_2() ) ),
 				'ship_to_city' 		=> $this->is_diff_shipping_field( 'shipping_city' ) ? $_POST['shipping_city'] : $order->get_shipping_city(),
 				'ship_to_state' 	=> $this->is_diff_shipping_field( 'shipping_state' ) ? $_POST['shipping_state'] : $order->get_shipping_state(),
 				'ship_to_country' 	=> $this->is_diff_shipping_field( 'shipping_country' ) ? $_POST['shipping_country'] : $order->get_shipping_country(),
@@ -381,8 +381,8 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 			);
 
 		} catch ( Exception $e ) {
-			wc_add_notice( sprintf( __( 'Error: %s', 'wc-authnet' ), $e->getMessage() ), 'error' );
-			$this->log( sprintf( __( 'Error: %s', 'wc-authnet' ), $e->getMessage() ) );
+			wc_add_notice( sprintf( __( 'Gateway Error: %s', 'wc-authnet' ), $e->getMessage() ), 'error' );
+			$this->log( sprintf( __( 'Gateway Error: %s', 'wc-authnet' ), $e->getMessage() ) );
 
 			if ( $order->has_status( array( 'pending', 'failed' ) ) ) {
 				$this->send_failed_order_email( $order_id );
