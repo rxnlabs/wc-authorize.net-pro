@@ -313,14 +313,14 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 				'trans_id'			=> $order->get_transaction_id(),
 				'customer_ip'       => WC_Geolocation::get_ip_address(),
 				'currency_code'		=> $this->get_payment_currency( $order_id ),
-				'ship_to_first_name' => ( $this->is_diff_shipping_address() && isset( $_POST['shipping_first_name'] ) ) ? $_POST['shipping_first_name'] : $order->get_shipping_first_name(),
-				'ship_to_last_name' => ( $this->is_diff_shipping_address() && isset( $_POST['shipping_last_name'] ) ) ? $_POST['shipping_last_name'] : $order->get_shipping_last_name(),
-				'ship_to_company' 	=> ( $this->is_diff_shipping_address() && isset( $_POST['shipping_company'] ) ) ? $_POST['shipping_company'] : $order->get_shipping_company(),
-				'ship_to_address' 	=> ( ( $this->is_diff_shipping_address() && isset( $_POST['shipping_address_1'] ) ) ? $_POST['shipping_address_1'] : $order->get_shipping_address_1() ) . ' ' . ( ( $this->is_diff_shipping_address() && isset( $_POST['shipping_address_2'] ) ) ? $_POST['shipping_address_2'] : $order->get_shipping_address_2() ),
-				'ship_to_city' 		=> ( $this->is_diff_shipping_address() && isset( $_POST['shipping_city'] ) ) ? $_POST['shipping_city'] : $order->get_shipping_city(),
-				'ship_to_state' 	=> ( $this->is_diff_shipping_address() && isset( $_POST['shipping_state'] ) ) ? $_POST['shipping_state'] : $order->get_shipping_state(),
-				'ship_to_country' 	=> ( $this->is_diff_shipping_address() && isset( $_POST['shipping_country'] ) ) ? $_POST['shipping_country'] : $order->get_shipping_country(),
-				'ship_to_zip' 		=> ( $this->is_diff_shipping_address() && isset( $_POST['shipping_postcode'] ) ) ? $_POST['shipping_postcode'] : $order->get_shipping_postcode(),
+				'ship_to_first_name' => $this->is_diff_shipping_field( 'shipping_first_name' ) ? $_POST['shipping_first_name'] : $order->get_shipping_first_name(),
+				'ship_to_last_name' => $this->is_diff_shipping_field( 'shipping_last_name' ) ? $_POST['shipping_last_name'] : $order->get_shipping_last_name(),
+				'ship_to_company' 	=> $this->is_diff_shipping_field( 'shipping_company' ) ? $_POST['shipping_company'] : $order->get_shipping_company(),
+				'ship_to_address' 	=> trim( $this->is_diff_shipping_field( 'shipping_address_1' ) ? $_POST['shipping_address_1'] : $order->get_shipping_address_1() . ' ' . $this->is_diff_shipping_field( 'shipping_address_2' ) ? $_POST['shipping_address_2'] : $order->get_shipping_address_2() ),
+				'ship_to_city' 		=> $this->is_diff_shipping_field( 'shipping_city' ) ? $_POST['shipping_city'] : $order->get_shipping_city(),
+				'ship_to_state' 	=> $this->is_diff_shipping_field( 'shipping_state' ) ? $_POST['shipping_state'] : $order->get_shipping_state(),
+				'ship_to_country' 	=> $this->is_diff_shipping_field( 'shipping_country' ) ? $_POST['shipping_country'] : $order->get_shipping_country(),
+				'ship_to_zip' 		=> $this->is_diff_shipping_field( 'shipping_postcode' ) ? $_POST['shipping_postcode'] : $order->get_shipping_postcode(),
 			);
 
 			$response = $this->authnet_request( $payment_args );
@@ -398,8 +398,8 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 		}
 	}
 
-	function is_diff_shipping_address() {
-		return isset( $_POST['ship_to_different_address'] ) && !empty( $_POST['ship_to_different_address'] );
+	function is_diff_shipping_field( $field_name ) {
+		return isset( $_POST['ship_to_different_address'] ) && !empty( $_POST['ship_to_different_address'] ) && isset( $_POST[ $field_name ] );
 	}
 
 	/**
