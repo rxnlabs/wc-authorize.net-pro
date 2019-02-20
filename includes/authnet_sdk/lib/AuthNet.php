@@ -264,7 +264,7 @@ class AuthNet_Gateway_Response extends AuthNet_Response {
             }
 
 			if( $this->error ) {
-                $this->error_message = sprintf( __( 'Gateway Error: %s', 'wc-authnet' ), $this->response_reason_text );
+                $this->error_message = $this->response_reason_text;
             }
 
 		} else {
