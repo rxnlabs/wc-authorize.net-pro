@@ -219,7 +219,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC
             'title'       => __( 'Logging', 'wc-authnet' ),
             'label'       => __( 'Log debug messages', 'wc-authnet' ),
             'type'        => 'checkbox',
-            'description' => __( 'Save debug messages to the WooCommerce System Status log.', 'wc-authnet' ),
+            'description' => sprintf( __( 'Save debug messages to the WooCommerce System Status log file <code>%s</code>.', 'wc-authnet' ), WC_Log_Handler_File::get_log_file_path( 'woocommerce-gateway-authnet' ) ),
             'default'     => 'no',
         ),
             'debugging'            => array(
@@ -449,6 +449,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC
             // Check for card type supported or not
             
             if ( !in_array( $this->get_card_type( $authnet_source_args['card_number'], 'pattern', 'name' ), $this->allowed_card_types ) ) {
+                WC_Authnet_API::log( sprintf( __( 'Card type being used is not one of supported types in plugin settings: %s', 'wc-authnet' ), $this->get_card_type( $authnet_source_args['card_number'], 'pattern', 'name' ) ) );
                 WC_Authnet_API::log( "Error: Card Type Not Accepted." );
                 throw new Exception( __( 'Card Type Not Accepted.', 'wc-authnet' ) );
             }

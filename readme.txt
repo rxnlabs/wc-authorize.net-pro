@@ -1,5 +1,5 @@
 === Authorize.Net Payment Gateway For WooCommerce ===
-Contributors: mohsinoffline
+Contributors: mohsinoffline, freemius
 Donate link: https://wpgateways.com/support/send-payment/
 Tags: woocommerce Authorize.Net, Authorize.Net, payment gateway, woocommerce, woocommerce payment gateway, woocommerce subscriptions, recurring payments, pre order
 Plugin URI: https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
@@ -79,6 +79,8 @@ A valid SSL certificate is required to ensure your customer credit card details 
 
 = 5.0.1 =
 * Updated "WC tested up to" header to 3.6
+* Replaced deprecated function "reduce_order_stock" with "wc_reduce_stock_levels"
+
 
 = 5.0.0 - MAJOR UPDATE =
 * Updated transaction methods to Payment Transactions API and implemented Authorize.net SDK
