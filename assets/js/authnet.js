@@ -116,7 +116,7 @@ jQuery( function( $ ) {
 					wc_authnet_form.unblock();
 					return false;
 				}
-                
+
                 if( cvc == '' ) {
 					$( '.wc-authnet-error, .authnet_nonce' ).remove();
 					$( '.wc-authnet-error, .authnet_data_descriptor' ).remove();
