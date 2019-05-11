@@ -323,7 +323,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC
      * @param  object $source
      * @return array()
      */
-    protected function generate_payment_request( $order, $source )
+    protected function generate_payment_request( $order, $source, $recurring_description = '' )
     {
         $merchantAuthentication = WC_Authnet_API::get_authnet();
         
@@ -365,7 +365,12 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC
         // Create order information
         $anet_order = new AnetAPI\OrderType();
         $anet_order->setInvoiceNumber( $order->get_id() );
-        $description = sprintf( __( '%1$s - Order %2$s', 'wc-authnet' ), $this->statement_descriptor, $order->get_order_number() );
+        $description = trim( sprintf(
+            __( '%1$s - Order %2$s %3$s', 'wc-authnet' ),
+            $this->statement_descriptor,
+            $order->get_order_number(),
+            $recurring_description
+        ) );
         $anet_order->setDescription( $description );
         // Set the customer's identifying information
         $customerData = new AnetAPI\CustomerDataType();
@@ -406,6 +411,30 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC
         $transactionRequestType->addToTransactionSettings( $emailCustomerSetting );
         $transactionRequestType->addToUserFields( $merchantDefinedField1 );
         $transactionRequestType->addToUserFields( $merchantDefinedField2 );
+        $i = 1;
+        foreach ( $order->get_items() as $id => $item ) {
+            $product = $item->get_product();
+            $lineItem[$i] = new AnetAPI\LineItemType();
+            $lineItem[$i]->setItemId( ( is_object( $product ) && $product->get_sku() ? $product->get_sku() : $product->get_id() ) );
+            $lineItem[$i]->setName( htmlentities(
+                $item['name'],
+                ENT_QUOTES,
+                'UTF-8',
+                false
+            ) );
+            $lineItem[$i]->setUnitPrice( ( isset( $item['recurring_line_total'] ) ? $item['recurring_line_total'] : $order->get_item_total( $item ) ) );
+            $lineItem[$i]->setQuantity( $item['qty'] );
+            $lineItem[$i]->setTaxable( $product->is_taxable() );
+            $lineItems[$i - 1] = $lineItem[$i];
+            $i++;
+        }
+        $transactionRequestType->setLineItems( $lineItems );
+        $taxCharges = new AnetAPI\ExtendedAmountType();
+        $taxCharges->setAmount( $order->get_total_tax() );
+        $transactionRequestType->setTax( $taxCharges );
+        $shippingCharges = new AnetAPI\ExtendedAmountType();
+        $shippingCharges->setAmount( $order->get_total_shipping() );
+        $transactionRequestType->setShipping( $shippingCharges );
         $request = new AnetAPI\CreateTransactionRequest();
         $request->setMerchantAuthentication( $merchantAuthentication );
         $request->setTransactionRequest( $transactionRequestType );
