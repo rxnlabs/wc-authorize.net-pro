@@ -416,12 +416,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC
             $product = $item->get_product();
             $lineItem[$i] = new AnetAPI\LineItemType();
             $lineItem[$i]->setItemId( ( is_object( $product ) && $product->get_sku() ? $product->get_sku() : $product->get_id() ) );
-            $lineItem[$i]->setName( htmlentities(
-                $item['name'],
-                ENT_QUOTES,
-                'UTF-8',
-                false
-            ) );
+            $lineItem[$i]->setName( substr( $item['name'], 0, 30 ) );
             $lineItem[$i]->setUnitPrice( ( isset( $item['recurring_line_total'] ) ? $item['recurring_line_total'] : $order->get_item_total( $item ) ) );
             $lineItem[$i]->setQuantity( $item['qty'] );
             $lineItem[$i]->setTaxable( $product->is_taxable() );

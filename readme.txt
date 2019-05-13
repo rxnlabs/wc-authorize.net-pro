@@ -7,7 +7,7 @@ Author URI: https://pledgedplugins.com
 Requires at least: 4.4
 Tested up to: 5.2
 Requires PHP: 5.6
-Stable tag: 5.0.2
+Stable tag: 5.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -76,6 +76,9 @@ You are in luck! The [4.0.4](https://downloads.wordpress.org/plugin/woo-authoriz
 A valid SSL certificate is required to ensure your customer credit card details are safe and make your site PCI DSS compliant. This plugin does not store the customer credit card numbers or sensitive information on your website.
 
 == Changelog ==
+
+= 5.0.3 =
+* Fixed long item names in line items throwing an error
 
 = 5.0.2 =
 * Added line item data to gateway requests
