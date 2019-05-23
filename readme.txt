@@ -57,27 +57,31 @@ That's it! You are ready to accept credit cards with your Authorize.Net payment 
 
 = 5.1.0 =
 
-* Reverted back to Authorize.net AIM code
-* Deprecated use of Authorize.net SDK
+* Reverted back to Authorize.Net AIM code
+* Deprecated use of Authorize.Net SDK
 * Updated "WC tested up to" header to 3.6
 * Fixed log message and changed logging descriptions
 * Removed $_POST fields from being sent in gateway requests
 * Replaced deprecated function "reduce_order_stock" with "wc_reduce_stock_levels"
 
 = 5.0.3 =
+
 * Fixed long item names in line items throwing an error
 
 = 5.0.2 =
+
 * Added line item data to gateway requests
 * Added shipping and tax amounts to gateway requests
 
 = 5.0.1 =
+
 * Updated "WC tested up to" header to 3.6
 * Replaced deprecated function "reduce_order_stock" with "wc_reduce_stock_levels"
 
 = 5.0.0 - MAJOR UPDATE =
-* Updated transaction methods to Payment Transactions API and implemented Authorize.net SDK
-* Removed Authorize.net AIM code
+
+* Updated transaction methods to Payment Transactions API and implemented Authorize.Net SDK
+* Removed Authorize.Net AIM code
 * Added Freemius integration for analytics, upgrade and support
 
 = 4.0.4 =
