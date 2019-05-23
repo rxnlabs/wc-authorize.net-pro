@@ -4,11 +4,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Authnet logging class which saves important data to the log
+ * AuthNet logging class which saves important data to the log
  *
  * @since 2.6.10
  */
-class WC_Authnet_Logger {
+class WC_AuthNet_Logger {
 
 	public static $logger;
 
@@ -37,4 +37,4 @@ class WC_Authnet_Logger {
 	}
 }
 
-new WC_Authnet_Logger();
+new WC_AuthNet_Logger();
