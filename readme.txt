@@ -38,7 +38,7 @@ Visit the [plugin page](https://pledgedplugins.com/products/authorize-net-paymen
 
 For custom integration with your WordPress website, please [contact us here](https://wpgateways.com/support/custom-payment-gateway-integration/).
 
-Disclaimer: This plugin is not affiliated with or supported by Authorize.Net, WooCommerce.com or Automattic. All logos and trademarks are the property of their respective owners. 
+Disclaimer: This plugin is not affiliated with or supported by Authorize.Net, WooCommerce.com or Automattic. All logos and trademarks are the property of their respective owners.
 
 == Installation ==
 
@@ -59,6 +59,7 @@ That's it! You are ready to accept credit cards with your Authorize.Net payment 
 
 * Reverted back to Authorize.Net AIM code
 * Deprecated use of Authorize.Net SDK
+* Removed currency restrictions
 * Updated "WC tested up to" header to 3.6
 * Fixed log message and changed logging descriptions
 * Removed $_POST fields from being sent in gateway requests

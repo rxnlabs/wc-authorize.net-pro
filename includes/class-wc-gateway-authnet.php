@@ -8,18 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @extends WC_Payment_Gateway
  */
-
 class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
-
-	// Supported currencies
-	private $currencies = array(
-		'AED', 'AMD', 'ANG', 'ARS', 'AUD', 'AWG', 'AZN', 'BBD', 'BDT', 'BGN', 'BIF', 'BMD', 'BND', 'BOB', 'BRL', 'BWP', 'BYR', 'BZD', 'CAD', 'CHF', 'CLP', 'CNY', 'COP',
-		'CRC', 'CVE', 'CYP', 'CZK', 'DJF', 'DKK', 'DOP', 'DZD', 'EEK', 'EGP', 'ETB', 'EUR', 'FJD', 'FKP', 'GBP', 'GEL', 'GHC', 'GIP', 'GMD', 'GNF', 'GTQ', 'GWP', 'GYD',
-		'HKD', 'HNL', 'HTG', 'HUF', 'IDR', 'ILS', 'INR', 'ISK', 'JMD', 'JPY', 'KES', 'KGS', 'KHR', 'KMF', 'KRW', 'KYD', 'KZT', 'LAK', 'LBP', 'LKR', 'LTL', 'LVL', 'MAD',
-		'MDL', 'MGF', 'MNT', 'MOP', 'MRO', 'MTL', 'MUR', 'MVR', 'MWK', 'MYR', 'MZN', 'MXN', 'NAD', 'NGN', 'NIO', 'NOK', 'NPR', 'NZD', 'PAB', 'PEN', 'PGK', 'PHP', 'PKR',
-		'PLN', 'PYG', 'QAR', 'RON', 'RUB', 'RWF', 'SAR', 'SBD', 'SCR', 'SEK', 'SGD', 'SHP', 'SKK', 'SLL', 'SOS', 'STD', 'SVC', 'SZL', 'THB', 'TOP', 'TRY', 'TTD', 'TWD',
-		'TZS', 'UAH', 'UGX', 'USD', 'UYU', 'UZS', 'VND', 'VUV', 'WST', 'XAF', 'XCD', 'XOF', 'XPF', 'YER', 'ZAR', 'ZMK', 'ZWD',
-	);
 
 	/**
 	 * Constructor
@@ -27,7 +16,7 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 	public function __construct() {
 		$this->id                    = 'authnet';
 		$this->method_title          = __( 'Authorize.Net', 'wc-authnet' );
-		$this->method_description    = __( 'Authorize.Net works by adding credit card fields on the checkout and then sending the details to the gateway for processing the transactions.', 'wc-authnet' );
+		$this->method_description 	 = sprintf( esc_html__( 'Live merchant accounts cannot be used in a sandbox environment, so to test the plugin, please make sure you are using a separate sandbox account. If you do not have a sandbox account, you can sign up for one from %shere%s.', 'wc-authnet' ), '<a href="https://developer.authorize.net/hello_world/sandbox.html" target="_blank">', '</a>' ) . '<h3>' . __( 'Upgrade to Enterprise', 'wc-authnet' ) . '</h3>' . sprintf( esc_html__( 'Enterprise version is a full blown plugin that provides full support for processing subscriptions, pre-orders and payments via saved cards. The credit card information is saved in your Authorize.net account and is reused to charge future orders, recurring payments or pre-orders at a later time. %sClick here%s to upgrade to Enterprise version or to know more about it.', 'wc-authnet' ), '<a href="' . wc_authnet_fs()->get_upgrade_url() . '" target="_blank">', '</a>' );
 		$this->has_fields            = true;
 		$this->supports              = array( 'products', 'refunds' );
 		$this->live_url 			 = 'https://secure2.authorize.net/gateway/transact.dll';
@@ -42,17 +31,18 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 		$this->init_settings();
 
 		// Get setting values.
-		$this->title       		  = $this->get_option( 'title' );
-		$this->description 		  = $this->get_option( 'description' );
-		$this->enabled     		  = $this->get_option( 'enabled' );
-		$this->testmode    		  = $this->get_option( 'testmode' ) === 'yes' ? true : false;
-		$this->capture     		  = $this->get_option( 'capture', 'yes' ) === 'yes' ? true : false;
-		$this->login_id	   		  = $this->get_option( 'login_id' );
-		$this->transaction_key	  = $this->get_option( 'transaction_key' );
-		$this->logging     		  = $this->get_option( 'logging' ) === 'yes' ? true : false;
-		$this->debugging   		  = $this->get_option( 'debugging' ) === 'yes' ? true : false;
-		$this->allowed_card_types = $this->get_option( 'allowed_card_types' );
-		$this->customer_receipt   = $this->get_option( 'customer_receipt' ) === 'yes' ? true : false;
+		$this->title       		  	= $this->get_option( 'title' );
+		$this->description 		  	= $this->get_option( 'description' );
+		$this->enabled     		  	= $this->get_option( 'enabled' );
+		$this->testmode    		  	= $this->get_option( 'testmode' ) === 'yes' ? true : false;
+		$this->capture     		  	= $this->get_option( 'capture', 'yes' ) === 'yes' ? true : false;
+		$this->statement_descriptor = $this->get_option( 'statement_descriptor', wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ) );
+		$this->login_id	   		  	= $this->get_option( 'login_id' );
+		$this->transaction_key	  	= $this->get_option( 'transaction_key' );
+		$this->logging     		  	= $this->get_option( 'logging' ) === 'yes' ? true : false;
+		$this->debugging   		  	= $this->get_option( 'debugging' ) === 'yes' ? true : false;
+		$this->allowed_card_types 	= $this->get_option( 'allowed_card_types' );
+		$this->customer_receipt   	= $this->get_option( 'customer_receipt' ) === 'yes' ? true : false;
 
 		if ( $this->testmode ) {
 			$this->description .= ' ' . sprintf( __( '<br /><br /><strong>TEST MODE ENABLED</strong><br /> In test mode, you can use the card number 4111111111111111 with any CVC and a valid expiration date or check the documentation "<a href="%s">%s API</a>" for more card numbers.', 'wc-authnet' ), 'https://developer.authorize.net/hello_world/testing_guide/', $this->method_title );
@@ -73,25 +63,25 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 	 */
 	public function get_icon() {
 		$icon = '';
-		if( in_array( 'visa', $this->allowed_card_types ) ) {
-			$icon .= '<img src="' . WC_HTTPS::force_https_url( WC()->plugin_url() . '/assets/images/icons/credit-cards/visa.png' ) . '" alt="Visa" />';
-		}
-		if( in_array( 'mastercard', $this->allowed_card_types ) ) {
-			$icon .= '<img src="' . WC_HTTPS::force_https_url( WC()->plugin_url() . '/assets/images/icons/credit-cards/mastercard.png' ) . '" alt="Mastercard" />';
-		}
-		if( in_array( 'amex', $this->allowed_card_types ) ) {
-			$icon .= '<img src="' . WC_HTTPS::force_https_url( WC()->plugin_url() . '/assets/images/icons/credit-cards/amex.png' ) . '" alt="Amex" />';
-		}
-		if( in_array( 'discover', $this->allowed_card_types ) ) {
-			$icon .= '<img src="' . WC_HTTPS::force_https_url( WC()->plugin_url() . '/assets/images/icons/credit-cards/discover.png' ) . '" alt="Discover" />';
-		}
-		if( in_array( 'jcb', $this->allowed_card_types ) ) {
-			$icon .= '<img src="' . WC_HTTPS::force_https_url( WC()->plugin_url() . '/assets/images/icons/credit-cards/jcb.png' ) . '" alt="JCB" />';
-		}
-		if( in_array( 'diners-club', $this->allowed_card_types ) ) {
-			$icon .= '<img src="' . WC_HTTPS::force_https_url( WC()->plugin_url() . '/assets/images/icons/credit-cards/diners.png' ) . '" alt="Diners Club" />';
-		}
-		return apply_filters( 'woocommerce_gateway_icon', $icon, $this->id );
+        if ( in_array( 'visa', $this->allowed_card_types ) ) {
+            $icon .= '<img style="margin-left: 0.3em" src="' . WC_HTTPS::force_https_url( WC()->plugin_url() . '/assets/images/icons/credit-cards/visa.svg' ) . '" alt="Visa" width="32" />';
+        }
+        if ( in_array( 'mastercard', $this->allowed_card_types ) ) {
+            $icon .= '<img style="margin-left: 0.3em" src="' . WC_HTTPS::force_https_url( WC()->plugin_url() . '/assets/images/icons/credit-cards/mastercard.svg' ) . '" alt="Mastercard" width="32" />';
+        }
+        if ( in_array( 'amex', $this->allowed_card_types ) ) {
+            $icon .= '<img style="margin-left: 0.3em" src="' . WC_HTTPS::force_https_url( WC()->plugin_url() . '/assets/images/icons/credit-cards/amex.svg' ) . '" alt="Amex" width="32" />';
+        }
+        if ( in_array( 'discover', $this->allowed_card_types ) ) {
+            $icon .= '<img style="margin-left: 0.3em" src="' . WC_HTTPS::force_https_url( WC()->plugin_url() . '/assets/images/icons/credit-cards/discover.svg' ) . '" alt="Discover" width="32" />';
+        }
+        if ( in_array( 'jcb', $this->allowed_card_types ) ) {
+            $icon .= '<img style="margin-left: 0.3em" src="' . WC_HTTPS::force_https_url( WC()->plugin_url() . '/assets/images/icons/credit-cards/jcb.svg' ) . '" alt="JCB" width="32" />';
+        }
+        if ( in_array( 'diners-club', $this->allowed_card_types ) ) {
+            $icon .= '<img style="margin-left: 0.3em" src="' . WC_HTTPS::force_https_url( WC()->plugin_url() . '/assets/images/icons/credit-cards/diners.svg' ) . '" alt="Diners Club" width="32" />';
+        }
+        return apply_filters( 'woocommerce_gateway_icon', $icon, $this->id );
 	}
 
 	/**
@@ -99,34 +89,22 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 	 */
 	public function admin_notices() {
 		if ( $this->enabled == 'no' ) {
-			return;
-		}
+            return;
+        }
 
 		// Check required fields
-		if ( ! $this->login_id ) {
-			echo '<div class="error"><p>' . sprintf( __( 'Gateway error: Please enter your API Login ID <a href="%s">here</a>', 'wc-authnet' ), admin_url( 'admin.php?page=wc-settings&tab=checkout&section=authnet' ) ) . '</p></div>';
-			return;
+        if ( !$this->login_id ) {
+            echo  '<div class="error"><p>' . sprintf( __( 'Gateway error: Please enter your API Login ID <a href="%s">here</a>', 'wc-authnet' ), admin_url( 'admin.php?page=wc-settings&tab=checkout&section=authnet' ) ) . '</p></div>' ;
+            return;
+        } elseif ( !$this->transaction_key ) {
+            echo  '<div class="error"><p>' . sprintf( __( 'Gateway error: Please enter your Transaction Key <a href="%s">here</a>', 'wc-authnet' ), admin_url( 'admin.php?page=wc-settings&tab=checkout&section=authnet' ) ) . '</p></div>' ;
+            return;
+        }
 
-		} elseif ( ! $this->transaction_key ) {
-			echo '<div class="error"><p>' . sprintf( __( 'Gateway error: Please enter your Transaction Key <a href="%s">here</a>', 'wc-authnet' ), admin_url( 'admin.php?page=wc-settings&tab=checkout&section=authnet' ) ) . '</p></div>';
-			return;
-		}
-
-		// Simple check for duplicate keys
-		if ( $this->login_id == $this->transaction_key ) {
-			echo '<div class="error"><p>' . sprintf( __( 'Gateway error: Your API Login ID and Transaction Key match. Please check and re-enter.', 'wc-authnet' ), admin_url( 'admin.php?page=wc-settings&tab=checkout&section=authnet' ) ) . '</p></div>';
-			return;
-		}
-
-		// Show message if enabled and FORCE SSL is disabled and WordpressHTTPS plugin is not detected
-		if ( ! wc_checkout_is_https() ) {
-			echo '<div class="notice notice-warning"><p>' . sprintf( __( 'Authorize.Net is enabled, but a SSL certificate is not detected. Your checkout may not be secure! Please ensure your server has a valid <a href="%1$s" target="_blank">SSL certificate</a>', 'wc-authnet' ), 'https://en.wikipedia.org/wiki/Transport_Layer_Security' ) . '</p></div>';
- 		}
-
-		if ( ! $this->currency_is_accepted() ) {
-			echo '<div class="error"><p>' . sprintf( __( 'Authorize.Net supports these currencies: %s', 'wc-authnet' ), implode( ', ', $this->currencies ) ) . '</p></div>';
-			return;
-		}
+        // Show message if enabled and FORCE SSL is disabled and WordpressHTTPS plugin is not detected
+        if ( !wc_checkout_is_https() ) {
+            echo  '<div class="notice notice-warning"><p>' . sprintf( __( 'Authorize.Net is enabled, but a SSL certificate is not detected. Your checkout may not be secure! Please ensure your server has a valid <a href="%1$s" target="_blank">SSL certificate</a>', 'wc-authnet' ), 'https://en.wikipedia.org/wiki/Transport_Layer_Security' ) . '</p></div>' ;
+        }
 	}
 
 	/**
@@ -134,19 +112,14 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 	 */
 	public function is_available() {
 		if ( $this->enabled == "yes" ) {
-			if ( is_add_payment_method_page() ) {
-				return false;
-			}
-			// Required fields check
-			if ( ! $this->login_id || ! $this->transaction_key ) {
-				return false;
-			}
-			if ( ! $this->currency_is_accepted() ) {
-				return false;
-			}
-			return true;
-		}
-		return parent::is_available();
+            // Required fields check
+            if ( !$this->login_id || !$this->transaction_key ) {
+                return false;
+            }
+            return true;
+        }
+
+        return parent::is_available();
 	}
 
 	/**
@@ -155,76 +128,93 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 	public function init_form_fields() {
 		$this->form_fields = apply_filters( 'wc_authnet_settings', array(
 			'enabled' => array(
-				'title'       => __( 'Enable/Disable', 'wc-authnet' ),
+				'title'		  => __( 'Enable/Disable', 'wc-authnet' ),
 				'label'       => __( 'Enable Authorize.Net', 'wc-authnet' ),
 				'type'        => 'checkbox',
 				'description' => '',
-				'default'     => 'no'
+				'default'     => 'no',
 			),
-			'title' => array(
+			'title'	=> array(
 				'title'       => __( 'Title', 'wc-authnet' ),
 				'type'        => 'text',
 				'description' => __( 'This controls the title which the user sees during checkout.', 'wc-authnet' ),
-				'default'     => __( 'Credit card', 'wc-authnet' )
+				'default'     => __( 'Credit card', 'wc-authnet' ),
 			),
 			'description' => array(
 				'title'       => __( 'Description', 'wc-authnet' ),
 				'type'        => 'textarea',
 				'description' => __( 'This controls the description which the user sees during checkout.', 'wc-authnet' ),
-				'default'     => sprintf( __( 'Pay with your credit card via %s.', 'wc-authnet' ), $this->method_title )
+				'default'     => sprintf( __( 'Pay with your credit card via %s.', 'wc-authnet' ), $this->method_title ),
 			),
 			'testmode' => array(
-				'title'       => __( 'Test mode', 'wc-authnet' ),
-				'label'       => __( 'Enable Test Mode', 'wc-authnet' ),
+				'title'       => __( 'Sandbox mode', 'wc-authnet' ),
+				'label'       => __( 'Enable Sandbox Mode', 'wc-authnet' ),
 				'type'        => 'checkbox',
-				'description' => __( 'Place the payment gateway in test mode. This will display test information on the checkout page and enable processing in non HTTPS mode.', 'wc-authnet' ),
-				'default'     => 'yes'
+				'description' => sprintf( esc_html__( 'Check the Authorize.net testing guide %shere%s. This will display "sandbox mode" warning on checkout.', 'wc-authnet' ), '<a href="https://developer.authorize.net/hello_world/testing_guide/" target="_blank">', '</a>' ),
+				'default'     => 'yes',
 			),
 			'login_id' => array(
-				'title'       => $this->label_login_id,
+				'title'       => __( 'API Login ID', 'wc-authnet' ),
 				'type'        => 'text',
-				'description' => sprintf( __( 'Get your %s from your %s account.', 'wc-authnet' ), $this->label_login_id, $this->method_title ),
-				'default'     => ''
+				'description' => esc_html__( 'Get it from Account → Security Settings → API Credentials & Keys page in your Authorize.net account.', 'wc-authnet' ),
+				'default'     => '',
 			),
 			'transaction_key' => array(
-				'title'       => $this->label_transaction_key,
+				'title'       => __( 'Transaction Key', 'wc-authnet' ),
 				'type'        => 'password',
-				'description' => sprintf( __( 'Get your %s from your %s account.', 'wc-authnet' ), $this->label_transaction_key, $this->method_title ),
-				'default'     => ''
+				'description' => esc_html__( 'Get it from Account → Security Settings → API Credentials & Keys page in your Authorize.net account. For security reasons, you cannot view your Transaction Key, but you will be able to generate a new one.', 'wc-authnet' ),
+				'default'     => '',
+			),
+			'client_key' => array(
+				'title'       => __( 'Public Client Key', 'wc-authnet' ),
+				'type'        => 'text',
+				'description' => esc_html__( 'Get it from Account → Security Settings → Manage Public Client Key page in your Authorize.net account.', 'wc-authnet' ),
+			),
+			'statement_descriptor' => array(
+				'title'       => __( 'Statement Descriptor', 'wc-authnet' ),
+				'type'        => 'text',
+				'description' => __( 'Extra information about a charge. This will appear in your order description. Defaults to site name.', 'wc-authnet' ),
+				'default'     => '',
+				'desc_tip'    => true,
 			),
 			'capture' => array(
 				'title'       => __( 'Capture', 'wc-authnet' ),
 				'label'       => __( 'Capture charge immediately', 'wc-authnet' ),
 				'type'        => 'checkbox',
 				'description' => __( 'Whether or not to immediately capture the charge. When unchecked, the charge issues an authorization and will need to be captured later.', 'wc-authnet' ),
-				'default'     => 'yes'
+				'default'     => 'yes',
 			),
 			'logging' => array(
 				'title'       => __( 'Logging', 'wc-authnet' ),
 				'label'       => __( 'Log debug messages', 'wc-authnet' ),
 				'type'        => 'checkbox',
 				'description' => sprintf( __( 'Save debug messages to the WooCommerce System Status log file <code>%s</code>.', 'wc-authnet' ), WC_Log_Handler_File::get_log_file_path( 'woocommerce-gateway-authnet' ) ),
-				'default'     => 'no'
+				'default'     => 'no',
 			),
 			'debugging' => array(
 				'title'       => __( 'Gateway Debug', 'wc-authnet' ),
 				'label'       => __( 'Log gateway requests and response to the WooCommerce System Status log.', 'wc-authnet' ),
 				'type'        => 'checkbox',
-				'description' => __( '<strong>CAUTION! Enabling this option will write gateway requests including card numbers and CVV to the logs.</strong> Do not turn this on unless you have a problem processing credit cards. You must only ever enable it temporarily for troubleshooting or to send requested information to the plugin author. It must be disabled straight away after the issues are resolved and the plugin logs should be deleted.', 'wc-authnet' ) . sprintf( __( ' <a href="%s">Click here</a> to check and delete the full log file.', 'wc-authnet' ), admin_url( 'admin.php?page=wc-status&tab=logs&log_file=' . WC_Log_Handler_File::get_log_file_name( 'woocommerce-gateway-authnet' ) ) ),
-				'default'     => 'no'
+				'description' => __( '<strong>CAUTION! Enabling this option will write gateway requests possibly including card numbers and CVV to the logs.</strong> Do not turn this on unless you have a problem processing credit cards. You must only ever enable it temporarily for troubleshooting or to send requested information to the plugin author. It must be disabled straight away after the issues are resolved and the plugin logs should be deleted.', 'wc-authnet' ) . ' ' . sprintf( __( '<a href="%s">Click here</a> to check and delete the full log file.', 'wc-authnet' ), admin_url( 'admin.php?page=wc-status&tab=logs&log_file=' . WC_Log_Handler_File::get_log_file_name( 'woocommerce-gateway-authnet' ) ) ),
+				'default'     => 'no',
 			),
 			'allowed_card_types' => array(
 				'title'       => __( 'Allowed Card types', 'wc-authnet' ),
 				'class'       => 'wc-enhanced-select',
 				'type'        => 'multiselect',
 				'description' => __( 'Select the card types you want to allow payments from.', 'wc-authnet' ),
-				'default'     => array( 'visa', 'mastercard', 'discover', 'amex' ),
-				'options'	  => array(
-					'visa' => __( 'Visa', 'wc-authnet' ),
-					'mastercard' => __( 'MasterCard', 'wc-authnet' ),
-					'discover' => __( 'Discover', 'wc-authnet' ),
-					'amex' => __( 'American Express', 'wc-authnet' ),
-					'jcb' => __( 'JCB', 'wc-authnet' ),
+				'default'     => array(
+					'visa',
+					'mastercard',
+					'discover',
+					'amex'
+				),
+				'options'     => array(
+					'visa'        => __( 'Visa', 'wc-authnet' ),
+					'mastercard'  => __( 'MasterCard', 'wc-authnet' ),
+					'discover'    => __( 'Discover', 'wc-authnet' ),
+					'amex'        => __( 'American Express', 'wc-authnet' ),
+					'jcb'         => __( 'JCB', 'wc-authnet' ),
 					'diners-club' => __( 'Diners Club', 'wc-authnet' ),
 				),
 			),
@@ -233,31 +223,16 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 				'label'       => __( 'Send Gateway Receipt', 'wc-authnet' ),
 				'type'        => 'checkbox',
 				'description' => __( 'If enabled, the customer will be sent an email receipt from Authorize.Net.', 'wc-authnet' ),
-				'default'     => 'no'
+				'default'     => 'no',
 			),
-		) );
+        ) );
 	}
 
 	/**
 	 * Payment form on checkout page
 	 */
 	public function payment_fields() {
-		$total = WC()->cart->total;
-
-		// If paying from order, we need to get total from order not cart.
-		if ( isset( $_GET['pay_for_order'] ) && ! empty( $_GET['key'] ) ) {
-			$order = wc_get_order( wc_get_order_id_by_order_key( wc_clean( $_GET['key'] ) ) );
-			$total = $order->get_total();
-		}
-
-        echo '<div class="authnet_new_card" id="authnet-payment-data">';
-
-		if ( $this->description ) {
-			echo apply_filters( 'wc_authnet_description', wpautop( wp_kses_post( $this->description ) ) );
-		}
-        $this->form();
-
-		echo '</div>';
+		$this->form();
 	}
 
 	/**
@@ -267,7 +242,7 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 
 		$order = wc_get_order( $order_id );
 
-		$this->log( "Info: Beginning processing payment for order $order_id for the amount of {$order->get_total()}" );
+		$this->log( "Info: Begin processing payment for order {$order_id} for the amount of {$order->get_total()}" );
 
 		// Use Authorize.Net CURL API for payment
 		try {
@@ -286,7 +261,7 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 
 			$expiry = explode( ' / ', $_POST['authnet-card-expiry'] );
 
-			$description = sprintf( __( '%s - Order %s', 'wc-authnet' ), wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ), $order->get_order_number() );
+			$description = sprintf( __( '%s - Order %s', 'wc-authnet' ), $this->statement_descriptor, $order->get_order_number() );
 
 			$payment_args = array(
 				'card_num'	 		=> str_replace( ' ', '', $_POST['authnet-card-number'] ),
@@ -350,6 +325,7 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 
 					// Store captured value
 					$order->update_meta_data( '_authnet_charge_captured', 'no' );
+					$order->update_meta_data( '_transaction_id', $response->transaction_id );
 
 					if ( $order->has_status( array( 'pending', 'failed' ) ) ) {
 						wc_reduce_stock_levels( $order_id );
@@ -614,27 +590,6 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
  		}
  		return $currency;
  	}
-
-	/**
-	 * Returns true if $currency is accepted by this gateway
-	 *
-	 * @since 2.1.0
-	 * @param string $currency optional three-letter currency code, defaults to
-	 *        order currency (if available) or currently configured WooCommerce
-	 *        currency
-	 * @return boolean true if $currency is accepted, false otherwise
-	 */
-	public function currency_is_accepted( $currency = null ) {
-		// accept all currencies
-		if ( ! $this->currencies ) {
-			return true;
-		}
-		// default to order/WC currency
-		if ( is_null( $currency ) ) {
-			$currency = $this->get_payment_currency();
-		}
-		return in_array( $currency, $this->currencies );
-	}
 
 	/**
 	 * Returns the order_id if on the checkout pay page
