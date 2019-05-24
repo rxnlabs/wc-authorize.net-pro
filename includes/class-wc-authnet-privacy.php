@@ -3,7 +3,7 @@ if ( ! class_exists( 'WC_Abstract_Privacy' ) ) {
 	return;
 }
 
-class WC_AuthNet_Privacy extends WC_Abstract_Privacy {
+class WC_Authnet_Privacy extends WC_Abstract_Privacy {
 	/**
 	 * Constructor
 	 */
@@ -41,7 +41,7 @@ class WC_AuthNet_Privacy extends WC_Abstract_Privacy {
 	}
 
 	/**
-	 * Returns a list of orders that are using one of AuthNet's payment methods.
+	 * Returns a list of orders that are using one of Authnet's payment methods.
 	 *
 	 * @param string  $email_address
 	 * @param int     $page
@@ -212,4 +212,4 @@ class WC_AuthNet_Privacy extends WC_Abstract_Privacy {
 		return $is_expired;
 	}
 }
-new WC_AuthNet_Privacy();
+new WC_Authnet_Privacy();

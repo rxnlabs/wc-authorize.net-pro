@@ -75,7 +75,7 @@ if ( ! function_exists( 'wc_authnet_fs' ) ) {
 /**
  * Main Authorize.Net class which sets the gateway up for us
  */
-class WC_AuthNet {
+class WC_Authnet {
 
 	/**
      * @var Singleton The reference the *Singleton* instance of this class
@@ -347,7 +347,7 @@ class WC_AuthNet {
      * @since 1.0.0
      */
     public function add_gateways( $methods ) {
-        $methods[] = 'WC_Gateway_AuthNet';
+        $methods[] = 'WC_Gateway_Authnet';
         return $methods;
     }
 
@@ -364,7 +364,7 @@ class WC_AuthNet {
 			$captured = $order->get_meta( '_authnet_charge_captured' );
 
 			if ( $charge && $captured == 'no' ) {
-				$gateway = new WC_Gateway_AuthNet();
+				$gateway = new WC_Gateway_Authnet();
 				$args = array(
 					'amount'		=> $order->get_total(),
 					'trans_id'		=> $order->get_transaction_id(),
@@ -401,7 +401,7 @@ class WC_AuthNet {
 			$charge_captured = $order->get_meta( '_authnet_charge_captured' );
 
 			if ( $charge ) {
-				$gateway = new WC_Gateway_AuthNet();
+				$gateway = new WC_Gateway_Authnet();
 				$args = array(
 					'amount'		=> $order->get_total(),
 					'trans_id'		=> $order->get_transaction_id(),
@@ -427,4 +427,4 @@ class WC_AuthNet {
 	}
 
 }
-new WC_AuthNet();
+new WC_Authnet();

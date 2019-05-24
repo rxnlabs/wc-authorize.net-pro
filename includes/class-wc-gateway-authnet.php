@@ -4,11 +4,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * WC_Gateway_AuthNet class.
+ * WC_Gateway_Authnet class.
  *
  * @extends WC_Payment_Gateway
  */
-class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
+class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
+
+	public $capture;
+    public $statement_descriptor;
+    public $saved_cards;
+    public $login_id;
+    public $transaction_key;
+    public $client_key;
+    public $testmode;
+    public $logging;
+    public $debugging;
 
 	/**
 	 * Constructor
@@ -21,8 +31,6 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 		$this->supports              = array( 'products', 'refunds' );
 		$this->live_url 			 = 'https://secure2.authorize.net/gateway/transact.dll';
 		$this->test_url 			 = '';
-		$this->label_login_id 		 = __( 'API Login ID', 'wc-authnet' );
-		$this->label_transaction_key = __( 'Transaction Key', 'wc-authnet' );
 
 		// Load the form fields
 		$this->init_form_fields();
@@ -387,7 +395,7 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 		}
 
 		if( $amount == $order->get_total() ) {
-			$instance = new WC_AuthNet();
+			$instance = new WC_Authnet();
 			$instance->cancel_payment( $order_id );
 
 			$order = wc_get_order( $order_id );
@@ -424,11 +432,11 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 	}
 
 	function authnet_request( $args ) {
-		if( !class_exists( 'AuthNet' ) ) {
+		if( !class_exists( 'Authnet' ) ) {
 			require_once( dirname( __FILE__ ) . '/authnet_sdk/AuthNet.php' );
 		}
 		$gateway_debug = ( $this->logging && $this->debugging );
-		$transaction = new AuthNet( $this->login_id, $this->transaction_key, $gateway_debug );
+		$transaction = new Authnet( $this->login_id, $this->transaction_key, $gateway_debug );
 		$transaction->setSandbox( $this->testmode );
 
 		if( isset( $args['amount'] ) ) {
@@ -615,7 +623,7 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 	 */
 	public function log( $message ) {
 		if ( $this->logging ) {
-			WC_AuthNet_Logger::log( $message );
+			WC_Authnet_Logger::log( $message );
 		}
 	}
 

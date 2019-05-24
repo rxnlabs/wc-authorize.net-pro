@@ -58,12 +58,7 @@ That's it! You are ready to accept credit cards with your Authorize.Net payment 
 = 5.1.0 =
 
 * Reverted back to Authorize.Net AIM code
-* Deprecated use of Authorize.Net SDK
-* Removed currency restrictions
-* Updated "WC tested up to" header to 3.6
-* Fixed log message and changed logging descriptions
-* Removed $_POST fields from being sent in gateway requests
-* Replaced deprecated function "reduce_order_stock" with "wc_reduce_stock_levels"
+* Removed the use of Authorize.Net SDK since it is not GPL licensed
 
 = 5.0.3 =
 
