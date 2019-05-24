@@ -130,7 +130,7 @@ class WC_AuthNet {
         add_submenu_page(
             'woocommerce',
             'WooCommerce Authorize.Net Gateway',
-            'Authorize.net',
+            'Authorize.Net',
             'manage_options',
             'authnet',
             array( $this, 'submenu_page' )
@@ -141,10 +141,10 @@ class WC_AuthNet {
         ?>
         <div class="wrap">
             <h1>WooCommerce Authorize.Net Gateway</h1>
-            <h3><?php _e( 'About Authorize.net', 'wc-authnet' ); ?></h3>
+            <h3><?php _e( 'About Authorize.Net', 'wc-authnet' ); ?></h3>
             <p><?php printf( __( 'As a leading payment gateway, %sAuthorize.Net%s is trusted by more than 430,000 merchants, handling more than 1 billion transactions and $149 billion in payments every year. Authorize.Net has been working with merchants and small businesses since 1996 and will offer you a credit card payment solution that works for your business and lets you focus on what you love best.', 'wc-authnet' ), '<a href="https://reseller.authorize.net/application/?resellerId=100678" target="_blank">', '</a>' ); ?></p>
 			<h3><?php _e( 'About this WooCommerce Extension', 'wc-authnet' ); ?></h3>
-			<p><?php _e( 'This extension enables you to use the Authorize.net payment gateway to accept payments via credit cards directly on checkout on your WooCommerce powered WordPress e-commerce website without redirecting customers away to the gateway website.', 'wc-authnet' ); ?></p>
+			<p><?php _e( 'This extension enables you to use the Authorize.Net payment gateway to accept payments via credit cards directly on checkout on your WooCommerce powered WordPress e-commerce website without redirecting customers away to the gateway website.', 'wc-authnet' ); ?></p>
 			<p>
 				<a class="button" href="<?php echo $this->settings_url(); ?>">
 					<?php _e( 'Settings', 'wc-authnet' ); ?>
@@ -347,7 +347,7 @@ class WC_AuthNet {
      * @since 1.0.0
      */
     public function add_gateways( $methods ) {
-        $methods[] = 'WC_Gateway_Authnet';
+        $methods[] = 'WC_Gateway_AuthNet';
         return $methods;
     }
 

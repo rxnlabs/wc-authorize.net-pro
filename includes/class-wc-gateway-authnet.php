@@ -16,7 +16,7 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 	public function __construct() {
 		$this->id                    = 'authnet';
 		$this->method_title          = __( 'Authorize.Net', 'wc-authnet' );
-		$this->method_description 	 = sprintf( esc_html__( 'Live merchant accounts cannot be used in a sandbox environment, so to test the plugin, please make sure you are using a separate sandbox account. If you do not have a sandbox account, you can sign up for one from %shere%s.', 'wc-authnet' ), '<a href="https://developer.authorize.net/hello_world/sandbox.html" target="_blank">', '</a>' ) . '<h3>' . __( 'Upgrade to Enterprise', 'wc-authnet' ) . '</h3>' . sprintf( esc_html__( 'Enterprise version is a full blown plugin that provides full support for processing subscriptions, pre-orders and payments via saved cards. The credit card information is saved in your Authorize.net account and is reused to charge future orders, recurring payments or pre-orders at a later time. %sClick here%s to upgrade to Enterprise version or to know more about it.', 'wc-authnet' ), '<a href="' . wc_authnet_fs()->get_upgrade_url() . '" target="_blank">', '</a>' );
+		$this->method_description 	 = sprintf( esc_html__( 'Live merchant accounts cannot be used in a sandbox environment, so to test the plugin, please make sure you are using a separate sandbox account. If you do not have a sandbox account, you can sign up for one from %shere%s.', 'wc-authnet' ), '<a href="https://developer.authorize.net/hello_world/sandbox.html" target="_blank">', '</a>' ) . '<h3>' . __( 'Upgrade to Enterprise', 'wc-authnet' ) . '</h3>' . sprintf( esc_html__( 'Enterprise version is a full blown plugin that provides full support for processing subscriptions, pre-orders and payments via saved cards. The credit card information is saved in your Authorize.Net account and is reused to charge future orders, recurring payments or pre-orders at a later time. %sClick here%s to upgrade to Enterprise version or to know more about it.', 'wc-authnet' ), '<a href="' . wc_authnet_fs()->get_upgrade_url() . '" target="_blank">', '</a>' );
 		$this->has_fields            = true;
 		$this->supports              = array( 'products', 'refunds' );
 		$this->live_url 			 = 'https://secure2.authorize.net/gateway/transact.dll';
@@ -150,25 +150,25 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 				'title'       => __( 'Sandbox mode', 'wc-authnet' ),
 				'label'       => __( 'Enable Sandbox Mode', 'wc-authnet' ),
 				'type'        => 'checkbox',
-				'description' => sprintf( esc_html__( 'Check the Authorize.net testing guide %shere%s. This will display "sandbox mode" warning on checkout.', 'wc-authnet' ), '<a href="https://developer.authorize.net/hello_world/testing_guide/" target="_blank">', '</a>' ),
+				'description' => sprintf( esc_html__( 'Check the Authorize.Net testing guide %shere%s. This will display "sandbox mode" warning on checkout.', 'wc-authnet' ), '<a href="https://developer.authorize.net/hello_world/testing_guide/" target="_blank">', '</a>' ),
 				'default'     => 'yes',
 			),
 			'login_id' => array(
 				'title'       => __( 'API Login ID', 'wc-authnet' ),
 				'type'        => 'text',
-				'description' => esc_html__( 'Get it from Account → Security Settings → API Credentials & Keys page in your Authorize.net account.', 'wc-authnet' ),
+				'description' => esc_html__( 'Get it from Account → Security Settings → API Credentials & Keys page in your Authorize.Net account.', 'wc-authnet' ),
 				'default'     => '',
 			),
 			'transaction_key' => array(
 				'title'       => __( 'Transaction Key', 'wc-authnet' ),
 				'type'        => 'password',
-				'description' => esc_html__( 'Get it from Account → Security Settings → API Credentials & Keys page in your Authorize.net account. For security reasons, you cannot view your Transaction Key, but you will be able to generate a new one.', 'wc-authnet' ),
+				'description' => esc_html__( 'Get it from Account → Security Settings → API Credentials & Keys page in your Authorize.Net account. For security reasons, you cannot view your Transaction Key, but you will be able to generate a new one.', 'wc-authnet' ),
 				'default'     => '',
 			),
 			'client_key' => array(
 				'title'       => __( 'Public Client Key', 'wc-authnet' ),
 				'type'        => 'text',
-				'description' => esc_html__( 'Get it from Account → Security Settings → Manage Public Client Key page in your Authorize.net account.', 'wc-authnet' ),
+				'description' => esc_html__( 'Get it from Account → Security Settings → Manage Public Client Key page in your Authorize.Net account.', 'wc-authnet' ),
 			),
 			'statement_descriptor' => array(
 				'title'       => __( 'Statement Descriptor', 'wc-authnet' ),
@@ -232,6 +232,9 @@ class WC_Gateway_AuthNet extends WC_Payment_Gateway_CC {
 	 * Payment form on checkout page
 	 */
 	public function payment_fields() {
+		if ( $this->description ) {
+			echo apply_filters( 'wc_authnet_description', wpautop( wp_kses_post( $this->description ) ) );
+		}
 		$this->form();
 	}
 
