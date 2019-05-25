@@ -1,5 +1,5 @@
 === Authorize.Net Payment Gateway For WooCommerce ===
-Contributors: mohsinoffline, freemius
+Contributors: mohsinoffline
 Donate link: https://wpgateways.com/support/send-payment/
 Tags: woocommerce Authorize.Net, Authorize.Net, payment gateway, woocommerce, woocommerce payment gateway, woocommerce subscriptions, recurring payments, pre order
 Plugin URI: https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
@@ -7,7 +7,7 @@ Author URI: https://pledgedplugins.com
 Requires at least: 4.4
 Tested up to: 5.2
 Requires PHP: 5.6
-Stable tag: 5.0.2
+Stable tag: 5.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -63,19 +63,17 @@ That's it! You are ready to accept credit cards with your Authorize.Net merchant
 
 == Frequently Asked Questions ==
 
-= Which API method does this plugin use? =
-Since version 5.0.0, the plugin uses the latest Authorize.net  [Payment Transactions API](https://developer.authorize.net/api/reference/features/payment_transactions.html) along with [Accept.js](https://developer.authorize.net/api/reference/features/acceptjs.html) integration to provide maximum security to your transactions.
-
-= Does this plugin support Authorize.Net AIM Emulation? =
-Unfortunately, the [Authorize.net emulation method is deprecated](https://developer.authorize.net/api/upgrade_guide/#aim), and will soon be phased out. If you are using another merchant account provider that supports Authorize.net AIM emulator, we would advise you to use it's native API instead of emulation and chances are that *we already have* a **[WooCommerce integration](https://pledgedplugins.com/product-category/woocommerce/)** available for it.
-
-= I **still** need to use Authorize.Net AIM Emulation? =
-You are in luck! The [4.0.4](https://downloads.wordpress.org/plugin/woo-authorize-net-gateway-aim.4.0.4.zip) version of the plugin offers the same functionality and uses Authorize.Net AIM integration, so you can use it and change the transaction processing URL. Make sure you DO NOT update thereafter or you will be upgraded to the latest API :).
-
 = Is SSL Required to use this plugin? =
 A valid SSL certificate is required to ensure your customer credit card details are safe and make your site PCI DSS compliant. This plugin does not store the customer credit card numbers or sensitive information on your website.
 
 == Changelog ==
+
+= 5.1.0 - MAJOR UPDATE =
+* Reverted back to Authorize.Net AIM code
+* Removed the use of Authorize.Net SDK since it is not GPL licensed
+
+= 5.0.3 =
+* Fixed long item names in line items throwing an error
 
 = 5.0.2 =
 * Added line item data to gateway requests
