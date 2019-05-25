@@ -306,6 +306,8 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				'tax'				=> $order->get_total_tax(),
 				'shipping'			=> $order->get_total_shipping(),
 			);
+            
+            $line_items = array();
 
 			foreach ( $order->get_items() as $id => $item ) {
 				$product = $item->get_product();
