@@ -303,7 +303,23 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				'ship_to_state' 	=> $order->get_shipping_state(),
 				'ship_to_country' 	=> $order->get_shipping_country(),
 				'ship_to_zip' 		=> $order->get_shipping_postcode(),
+				'tax'				=> $order->get_total_tax(),
+				'shipping'			=> $order->get_total_shipping(),
 			);
+
+			foreach ( $order->get_items() as $id => $item ) {
+				$product = $item->get_product();
+
+				$line_item['id'] = is_object( $product ) && $product->get_sku() ? $product->get_sku() : $product->get_id();
+				$line_item['name'] = substr( $item['name'], 0, 30 );
+				$line_item['description'] = '';
+				$line_item['quantity'] = $item['qty'];
+				$line_item['unit_price'] = $order->get_item_total( $item );
+				$line_item['taxable'] = $product->is_taxable();
+
+				$line_items[] = $line_item;
+			}
+			$payment_args['line_items'] = $line_items;
 
 			$response = $this->authnet_request( $payment_args );
 
@@ -517,6 +533,17 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		}
 		if( isset( $args['ship_to_zip'] ) ) {
 			$transaction->ship_to_zip = $args['ship_to_zip'];
+		}
+		if( isset( $args['tax'] ) ) {
+			$transaction->tax = $args['tax'];
+		}
+		if( isset( $args['shipping'] ) ) {
+			$transaction->freight = $args['shipping'];
+		}
+		if( $args['line_items'] ) {
+			foreach ( $args['line_items'] as $line_item ) {
+				$transaction->addLineItem( $line_item['id'],$line_item['name'],$line_item['description'],$line_item['quantity'],$line_item['unit_price'],$line_item['taxable'] );
+			}
 		}
 
 		$transaction->currency_code = isset( $args['currency_code'] ) ? $args['currency_code'] : get_woocommerce_currency();

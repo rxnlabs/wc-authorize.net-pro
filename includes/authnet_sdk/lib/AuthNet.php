@@ -33,6 +33,11 @@ class AuthNet extends AuthNet_Request {
      */
     public $verify_fields = true;
 
+	/**
+     * Only used if merchant wants to send multiple line items about the charge.
+     */
+    private $_additional_line_items = array();
+
     /**
      * A list of all fields in the AIM API.
      * Used to warn user if they try to set a field not offered in the API.
@@ -115,6 +120,27 @@ class AuthNet extends AuthNet_Request {
         }
     }
 
+	/**
+     * Add a line item.
+     *
+     * @param string $item_id
+     * @param string $item_name
+     * @param string $item_description
+     * @param string $item_quantity
+     * @param string $item_unit_price
+     * @param string $item_taxable
+     */
+    public function addLineItem($item_id, $item_name, $item_description, $item_quantity, $item_unit_price, $item_taxable)
+    {
+        $line_item = "";
+        $delimiter = "";
+        foreach (func_get_args() as $key => $value) {
+            $line_item .= $delimiter . $value;
+            $delimiter = "<|>";
+        }
+        $this->_additional_line_items[] = $line_item;
+    }
+
     /**
      * Set an individual name/value pair. This will append x_ to the name
      * before posting.
@@ -172,6 +198,10 @@ class AuthNet extends AuthNet_Request {
         $this->_post_string = "";
         foreach( $this->_post_fields as $key => $value ) {
             $this->_post_string .= "x_$key=" . urlencode( $value ) . "&";
+        }
+		// Add line items
+        foreach( $this->_additional_line_items as $key => $value ) {
+            $this->_post_string .= "x_line_item=" . urlencode( $value ) . "&";
         }
         $this->_post_string = rtrim( $this->_post_string, "& " );
     }

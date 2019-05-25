@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: WooCommerce Authorize.Net Gateway\n"
-"POT-Creation-Date: 2019-05-24 17:42+0530\n"
-"PO-Revision-Date: 2019-05-24 17:41+0530\n"
+"POT-Creation-Date: 2019-05-25 14:50+0530\n"
+"PO-Revision-Date: 2019-05-25 14:50+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -148,7 +148,7 @@ msgstr ""
 msgid "Unable to capture charge!"
 msgstr ""
 
-#: gateway.php:378 includes/class-wc-gateway-authnet.php:331
+#: gateway.php:378 includes/class-wc-gateway-authnet.php:347
 #, php-format
 msgid "Authorize.Net charge complete (Charge ID: %s)"
 msgstr ""
@@ -162,16 +162,16 @@ msgstr ""
 msgid "Authorize.Net charge refunded (Charge ID: %s)"
 msgstr ""
 
-#: includes/authnet_sdk/lib/AuthNet.php:206
+#: includes/authnet_sdk/lib/AuthNet.php:236
 #, php-format
 msgid "Unrecognized response from the gateway: %s"
 msgstr ""
 
-#: includes/authnet_sdk/lib/AuthNet.php:263
+#: includes/authnet_sdk/lib/AuthNet.php:293
 msgid "Your card has been declined."
 msgstr ""
 
-#: includes/authnet_sdk/lib/AuthNet.php:273
+#: includes/authnet_sdk/lib/AuthNet.php:303
 msgid "Error connecting to the gateway"
 msgstr ""
 
@@ -484,20 +484,20 @@ msgstr ""
 msgid "%s - Order %s"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:346
+#: includes/class-wc-gateway-authnet.php:362
 #, php-format
 msgid ""
 "Authorize.Net charge authorized (Charge ID: %s). Process order to take "
 "payment, or cancel to remove the pre-authorization."
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:367
-#: includes/class-wc-gateway-authnet.php:368
+#: includes/class-wc-gateway-authnet.php:383
+#: includes/class-wc-gateway-authnet.php:384
 #, php-format
 msgid "Gateway Error: %s"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:424
+#: includes/class-wc-gateway-authnet.php:440
 #, php-format
 msgid "Refunded %s - Refund ID: %s - Reason: %s"
 msgstr ""
