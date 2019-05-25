@@ -69,12 +69,10 @@ A valid SSL certificate is required to ensure your customer credit card details 
 == Changelog ==
 
 = 5.1.0 - MAJOR UPDATE =
-
 * Reverted back to Authorize.Net AIM code
 * Removed the use of Authorize.Net SDK since it is not GPL licensed
 
 = 5.0.3 =
-
 * Fixed long item names in line items throwing an error
 
 = 5.0.2 =
