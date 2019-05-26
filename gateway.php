@@ -366,9 +366,9 @@ class WC_Authnet {
 			if ( $charge && $captured == 'no' ) {
 				$gateway = new WC_Gateway_Authnet();
 				$args = array(
-					'amount'		=> $order->get_total(),
-					'trans_id'		=> $order->get_transaction_id(),
-					'type' 			=> 'capture',
+					'x_amount'		=> $order->get_total(),
+					'x_trans_id'	=> $order->get_transaction_id(),
+					'x_type' 		=> 'PRIOR_AUTH_CAPTURE',
 				);
 				$response = $gateway->authnet_request( $args );
 
@@ -403,9 +403,9 @@ class WC_Authnet {
 			if ( $charge ) {
 				$gateway = new WC_Gateway_Authnet();
 				$args = array(
-					'amount'		=> $order->get_total(),
-					'trans_id'		=> $order->get_transaction_id(),
-					'type' 			=> 'cancel',
+					'x_amount'		=> $order->get_total(),
+					'x_trans_id'		=> $order->get_transaction_id(),
+					'x_type' 			=> 'VOID',
 				);
 				$response = $gateway->authnet_request( $args );
 
