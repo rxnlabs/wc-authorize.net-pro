@@ -9,6 +9,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @extends WC_Payment_Gateway
  */
 class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
+    
+    const ENDPOINT_URL_TEST = 'https://test.authorize.net/gateway/transact.dll';
+    const ENDPOINT_URL_LIVE = 'https://secure2.authorize.net/gateway/transact.dll';
 
 	public $capture;
     public $statement_descriptor;
@@ -29,8 +32,6 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		$this->method_description 	 = sprintf( esc_html__( 'Live merchant accounts cannot be used in a sandbox environment, so to test the plugin, please make sure you are using a separate sandbox account. If you do not have a sandbox account, you can sign up for one from %shere%s.', 'wc-authnet' ), '<a href="https://developer.authorize.net/hello_world/sandbox.html" target="_blank">', '</a>' ) . '<h3>' . __( 'Upgrade to Enterprise', 'wc-authnet' ) . '</h3>' . sprintf( esc_html__( 'Enterprise version is a full blown plugin that provides full support for processing subscriptions, pre-orders and payments via saved cards. The credit card information is saved in your Authorize.Net account and is reused to charge future orders, recurring payments or pre-orders at a later time. %sClick here%s to upgrade to Enterprise version or to know more about it.', 'wc-authnet' ), '<a href="' . wc_authnet_fs()->get_upgrade_url() . '" target="_blank">', '</a>' );
 		$this->has_fields            = true;
 		$this->supports              = array( 'products', 'refunds' );
-		$this->live_url 			 = 'https://secure2.authorize.net/gateway/transact.dll';
-		$this->test_url 			 = '';
 
 		// Load the form fields
 		$this->init_form_fields();
@@ -275,36 +276,37 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 			$description = sprintf( __( '%s - Order %s', 'wc-authnet' ), $this->statement_descriptor, $order->get_order_number() );
 
 			$payment_args = array(
-				'card_num'	 		=> str_replace( ' ', '', $_POST['authnet-card-number'] ),
-				'exp_date'	 		=> $expiry[0] . $expiry[1],
-				'card_code'	 		=> $_POST['authnet-card-cvc'],
-				'description'		=> $description,
-				'amount'			=> $order->get_total(),
-				'type'				=> $this->capture ? 'sale' : 'auth',
-				'first_name'		=> $order->get_billing_first_name(),
-				'last_name'			=> $order->get_billing_last_name(),
-				'address'			=> trim( $order->get_billing_address_1() . ' ' . $order->get_billing_address_2() ),
-				'city'				=> $order->get_billing_city(),
-				'state'				=> $order->get_billing_state(),
-				'country'			=> $order->get_billing_country(),
-				'zip'				=> $order->get_billing_postcode(),
-				'email' 			=> $order->get_billing_email(),
-				'phone'				=> $order->get_billing_phone(),
-				'company'			=> $order->get_billing_company(),
-				'invoice_num'	 	=> $order_id,
-				'trans_id'			=> $order->get_transaction_id(),
-				'customer_ip'       => WC_Geolocation::get_ip_address(),
-				'currency_code'		=> $this->get_payment_currency( $order_id ),
-				'ship_to_first_name' => $order->get_shipping_first_name(),
-				'ship_to_last_name' => $order->get_shipping_last_name(),
-				'ship_to_company' 	=> $order->get_shipping_company(),
-				'ship_to_address' 	=> trim( $order->get_shipping_address_1() . ' ' . $order->get_shipping_address_2() ),
-				'ship_to_city' 		=> $order->get_shipping_city(),
-				'ship_to_state' 	=> $order->get_shipping_state(),
-				'ship_to_country' 	=> $order->get_shipping_country(),
-				'ship_to_zip' 		=> $order->get_shipping_postcode(),
-				'tax'				=> $order->get_total_tax(),
-				'shipping'			=> $order->get_total_shipping(),
+				'x_card_num'	 		=> str_replace( ' ', '', $_POST['authnet-card-number'] ),
+				'x_exp_date'	 		=> $expiry[0] . $expiry[1],
+				'x_card_code'	 		=> $_POST['authnet-card-cvc'],
+				'x_description'		=> $description,
+				'x_amount'			=> $order->get_total(),
+				'x_type'				=> $this->capture ? 'AUTH_CAPTURE' : 'AUTH_ONLY',
+				'x_first_name'		=> $order->get_billing_first_name(),
+				'x_last_name'			=> $order->get_billing_last_name(),
+				'x_address'			=> trim( $order->get_billing_address_1() . ' ' . $order->get_billing_address_2() ),
+				'x_city'				=> $order->get_billing_city(),
+				'x_state'				=> $order->get_billing_state(),
+				'x_country'			=> $order->get_billing_country(),
+				'x_zip'				=> $order->get_billing_postcode(),
+				'x_email' 			=> $order->get_billing_email(),
+				'x_phone'				=> $order->get_billing_phone(),
+				'x_company'			=> $order->get_billing_company(),
+				'x_invoice_num'	 	=> $order_id,
+				'x_trans_id'			=> $order->get_transaction_id(),
+				'x_customer_ip'       => WC_Geolocation::get_ip_address(),
+				'x_currency_code'		=> $this->get_payment_currency( $order_id ),
+				'x_ship_to_first_name' => $order->get_shipping_first_name(),
+				'x_ship_to_last_name' => $order->get_shipping_last_name(),
+				'x_ship_to_company' 	=> $order->get_shipping_company(),
+				'x_ship_to_address' 	=> trim( $order->get_shipping_address_1() . ' ' . $order->get_shipping_address_2() ),
+				'x_ship_to_city' 		=> $order->get_shipping_city(),
+				'x_ship_to_state' 	=> $order->get_shipping_state(),
+				'x_ship_to_country' 	=> $order->get_shipping_country(),
+				'x_ship_to_zip' 		=> $order->get_shipping_postcode(),
+				'x_tax'				=> $order->get_total_tax(),
+				'x_freight'			=> $order->get_total_shipping(),
+				'x_email_customer'	=> $this->customer_receipt,
 			);
             
             $line_items = array();
@@ -425,10 +427,10 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		if( $void_status == 'failed' ) {
 			$cc_last4 = $order->get_meta( '_authnet_cc_last4' );
 			$args = array(
-				'amount'    => $amount,
-				'card_num'  => $cc_last4,
-				'trans_id'	=> $order->get_transaction_id(),
-				'type'		=> 'credit',
+				'x_amount'      => $amount,
+				'x_card_num'    => $cc_last4,
+				'x_trans_id'    => $order->get_transaction_id(),
+				'x_type'		=> 'credit',
 			);
 
 			$this->log( "Info: Beginning refund for order $order_id for the amount of {$amount}" );
@@ -450,6 +452,52 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 	}
 
 	function authnet_request( $args ) {
+        
+          
+        $_x_post_fields = array(
+            'x_version' => '3.1', 
+            'x_delim_char' => '|',
+            'x_delim_data' => 'TRUE',
+            'x_relay_response' => 'FALSE',
+            'x_encap_char' => '',
+            'x_login' => $this->login_id,
+            'x_tran_key' => $this->transaction_key,
+            'x_method' => 'CC',
+        );
+
+      
+        $_x_post_fields = array_merge( $_x_post_fields, $args );
+        
+        if( isset( $_x_post_fields['x_state'] ) && empty( $_x_post_fields['x_state'] ) ) {
+            $_x_post_fields['x_state'] = 'NA';
+        }
+        
+        $post_string = http_build_query( $_x_post_fields );
+        
+        
+		// Setting custom timeout for the HTTP request
+		add_filter( 'http_request_timeout', array( $this, 'http_request_timeout' ), 9999 );
+
+        $headers = array( 'Content-Type' => 'application/json' );
+        $endpoint_url = $this->testmode ? self::ENDPOINT_URL_TEST : self::ENDPOINT_URL_LIVE;
+        $response = wp_remote_post( $endpoint_url, array( 'body' => $post_string ) );
+
+		$result = is_wp_error( $response ) ? $response : explode( '|', wp_remote_retrieve_body( $response ) );
+
+        // Saving to Log here
+		if( $this->logging && $this->debugging ) {
+			$message = sprintf( "\nPosting to: \n%s\nRequest: \n%s\nResponse: \n%s", $endpoint_url, print_r( $_x_post_fields, 1 ), print_r( $result, 1 ) );
+			WC_Authnet_Logger::log( $message );
+		}
+
+		remove_filter( 'http_request_timeout', array( $this, 'http_request_timeout' ), 9999 );
+        
+        if ( is_wp_error( $result ) ) {
+			return $result;
+		} elseif( count( $result ) < 10 ) {
+			return new WP_Error( 'invalid_response', __( 'There was an error with the gateway response.', 'wc-authnet' ) );
+		}
+    
 		if( !class_exists( 'Authnet' ) ) {
 			require_once( dirname( __FILE__ ) . '/authnet_sdk/AuthNet.php' );
 		}
@@ -556,6 +604,11 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
 		return $response;
 	}
+    
+    public function http_request_timeout( $timeout_value ) {
+		return 45; // 45 seconds. Too much for production, only for testing.
+	}
+
 
 	function get_card_type( $value, $field = 'pattern', $return = 'label' ) {
 		$card_types = array(
