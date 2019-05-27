@@ -21,7 +21,7 @@ This plugin enables you to use the Authorize.Net payment gateway and accept cred
 
 #### FREE Pro Version Features
 * **Easy Install**: Like all Pledged Plugins add-ons, this plugin installs with one click. After installing, you will have only a few fields to fill out before you are ready to accept credit cards on your store.
-* **Secure Credit Card Processing**: Uses [Accept.js](https://developer.authorize.net/api/reference/features/acceptjs.html) library to send secure payment data directly to Authorize.net so no worries about certifying with PCI-DSS.
+* **Secure Credit Card Processing**: Securely process credit cards without redirecting your customers to the gateway website.
 * **Refund via Dashboard**: Process full or partial refunds, directly from your WordPress dashboard! No need to search order in your Authorize.net account.
 * **Authorize Now, Capture Later**: Optionally choose only to authorize transactions, and capture at a later date.
 * **Restrict Card Types**: Optionally choose to restrict certain card types and the plugin will hide its icon and provide a proper error message on checkout.
@@ -45,7 +45,7 @@ Visit the [plugin page](https://pledgedplugins.com/products/authorize-net-paymen
 For custom payment gateway integration with your WordPress website, please [contact us here](https://wpgateways.com/support/custom-payment-gateway-integration/).
 
 #### Disclaimer
-This plugin is not affiliated with or supported by Authorize.Net, WooCommerce.com or Automattic. All logos and trademarks are the property of their respective owners. 
+This plugin is not affiliated with or supported by Authorize.Net, WooCommerce.com or Automattic. All logos and trademarks are the property of their respective owners.
 
 == Installation ==
 
@@ -82,7 +82,6 @@ A valid SSL certificate is required to ensure your customer credit card details 
 = 5.0.1 =
 * Updated "WC tested up to" header to 3.6
 * Replaced deprecated function "reduce_order_stock" with "wc_reduce_stock_levels"
-
 
 = 5.0.0 - MAJOR UPDATE =
 * Updated transaction methods to Payment Transactions API and implemented Authorize.net SDK
