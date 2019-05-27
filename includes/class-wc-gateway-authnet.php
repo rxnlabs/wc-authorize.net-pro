@@ -465,7 +465,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
         $_x_post_fields = array_merge( $_x_post_fields, $args );
 
         $line_items = '';
-        if( $args['line_items'] ) {
+        if( isset( $args['line_items'] ) ) {
             unset( $_x_post_fields['line_items'] );
 			foreach ( $args['line_items'] as $line_item ) {
 				$line_items .= '&x_line_item=' . implode( '<|>', $line_item );
