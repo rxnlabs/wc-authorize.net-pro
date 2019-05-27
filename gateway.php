@@ -372,16 +372,16 @@ class WC_Authnet {
 				);
 				$response = $gateway->authnet_request( $args );
 
-				if ( $response->error || $response->declined ) {
-					$order->add_order_note( __( 'Unable to capture charge!', 'wc-authnet' ) . ' ' . $response->error_message );
+				if ( is_wp_error( $response ) ) {
+					$order->add_order_note( __( 'Unable to capture charge!', 'wc-authnet' ) . ' ' . $response->get_error_message() );
 				} else {
-					$complete_message = sprintf( __( 'Authorize.Net charge complete (Charge ID: %s)', 'wc-authnet' ), $response->transaction_id );
+					$complete_message = sprintf( __( 'Authorize.Net charge complete (Charge ID: %s)', 'wc-authnet' ), $response['transaction_id'] );
 					$order->add_order_note( $complete_message );
 
 					$order->update_meta_data( '_authnet_charge_captured', 'yes' );
-					$order->update_meta_data( 'Authorize.Net Payment ID', $response->transaction_id );
+					$order->update_meta_data( 'Authorize.Net Payment ID', $response['transaction_id'] );
 
-					$order->set_transaction_id( $response->transaction_id );
+					$order->set_transaction_id( $response['transaction_id'] );
 					$order->save();
 				}
 			}
@@ -409,13 +409,13 @@ class WC_Authnet {
 				);
 				$response = $gateway->authnet_request( $args );
 
-				if ( $response->error || $response->declined ) {
+				if ( is_wp_error( $response ) ) {
 					$order->update_meta_data( '_authnet_void', 'failed' );
 					if( $charge_captured == 'no' ) {
-						$order->add_order_note( __( 'Unable to refund charge!', 'wc-authnet' ) . ' ' . $response->error_message );
+						$order->add_order_note( __( 'Unable to refund charge!', 'wc-authnet' ) . ' ' . $response->get_error_message() );
 					}
 				} else {
-					$cancel_message = sprintf( __( 'Authorize.Net charge refunded (Charge ID: %s)', 'wc-authnet' ), $response->transaction_id );
+					$cancel_message = sprintf( __( 'Authorize.Net charge refunded (Charge ID: %s)', 'wc-authnet' ), $response['transaction_id'] );
 					$order->add_order_note( $cancel_message );
 
 					$order->delete_meta_data( '_authnet_charge_captured' );

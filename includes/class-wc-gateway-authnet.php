@@ -327,55 +327,54 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
 			$response = $this->authnet_request( $payment_args );
 
-			if ( $response->error || $response->declined ) {
-				throw new Exception( $response->error_message );
+			if ( is_wp_error( $response ) ) {
+				throw new Exception( $response->get_error_message() );
 			}
 
 			// Store charge ID
-			$order->update_meta_data( '_authnet_charge_id', $response->transaction_id );
+			$order->update_meta_data( '_authnet_charge_id', $response['transaction_id'] );
 			$order->update_meta_data( '_authnet_cc_last4', substr( $_POST['authnet-card-number'], -4 ) );
 
-			if ( $response->approved ) {
-				$order->set_transaction_id( $response->transaction_id );
+			
+            $order->set_transaction_id( $response['transaction_id'] );
 
-				if( $payment_args['type'] == 'sale' ) {
+            if( $payment_args['x_type'] == 'AUTH_CAPTURE' ) {
 
-					// Store captured value
-					$order->update_meta_data( '_authnet_charge_captured', 'yes' );
-					$order->update_meta_data( 'Authorize.Net Payment ID', $response->transaction_id );
+                // Store captured value
+                $order->update_meta_data( '_authnet_charge_captured', 'yes' );
+                $order->update_meta_data( 'Authorize.Net Payment ID', $response['transaction_id'] );
 
-					// Payment complete
-					$order->payment_complete( $response->transaction_id );
+                // Payment complete
+                $order->payment_complete( $response['transaction_id'] );
 
-					// Add order note
-					$complete_message = sprintf( __( 'Authorize.Net charge complete (Charge ID: %s)', 'wc-authnet' ), $response->transaction_id );
-					$order->add_order_note( $complete_message );
-					$this->log( "Success: $complete_message" );
+                // Add order note
+                $complete_message = sprintf( __( 'Authorize.Net charge complete (Charge ID: %s)', 'wc-authnet' ), $response['transaction_id'] );
+                $order->add_order_note( $complete_message );
+                $this->log( "Success: $complete_message" );
 
-				} else {
+            } else {
 
-					// Store captured value
-					$order->update_meta_data( '_authnet_charge_captured', 'no' );
-					$order->update_meta_data( '_transaction_id', $response->transaction_id );
+                // Store captured value
+                $order->update_meta_data( '_authnet_charge_captured', 'no' );
+                $order->update_meta_data( '_transaction_id', $response['transaction_id'] );
 
-					if ( $order->has_status( array( 'pending', 'failed' ) ) ) {
-						wc_reduce_stock_levels( $order_id );
-					}
+                if ( $order->has_status( array( 'pending', 'failed' ) ) ) {
+                    wc_reduce_stock_levels( $order_id );
+                }
 
-					// Mark as on-hold
-					$authorized_message = sprintf( __( 'Authorize.Net charge authorized (Charge ID: %s). Process order to take payment, or cancel to remove the pre-authorization.', 'wc-authnet' ), $response->transaction_id );
-					$order->update_status( 'on-hold', $authorized_message );
-					$this->log( "Success: $authorized_message" );
+                // Mark as on-hold
+                $authorized_message = sprintf( __( 'Authorize.Net charge authorized (Charge ID: %s). Process order to take payment, or cancel to remove the pre-authorization.', 'wc-authnet' ), $response['transaction_id'] );
+                $order->update_status( 'on-hold', $authorized_message );
+                $this->log( "Success: $authorized_message" );
 
-				}
+            }
 
-				$order->save();
-			}
+            $order->save();
 
 			// Remove cart
 			WC()->cart->empty_cart();
 
-			do_action( 'wc_gateway_' . $this->id . '_process_payment', $response, $order );
+			do_action( 'wc_gateway_authnet_process_payment', $response, $order );
 
 			// Return thank you page redirect
 			return array(
@@ -437,11 +436,11 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
 			$response = $this->authnet_request( $args );
 
-			if ( $response->error || $response->declined ) {
-				$this->log( "Gateway Error: " . $response->error_message );
-				return new WP_Error( 'authnet', $response->error_message );
-			} elseif ( ! empty( $response->transaction_id ) ) {
-				$refund_message = sprintf( __( 'Refunded %s - Refund ID: %s - Reason: %s', 'wc-authnet' ), $amount, $response->transaction_id, $reason );
+			if ( is_wp_error( $response ) ) {
+                $this->log( "Gateway Error: " . $response->get_error_message() );
+                return $response;
+			} elseif ( ! empty( $response['transaction_id'] ) ) {
+				$refund_message = sprintf( __( 'Refunded %s - Refund ID: %s - Reason: %s', 'wc-authnet' ), $amount, $response['transaction_id'], $reason );
 				$order->add_order_note( $refund_message );
 				$order->save();
 				$this->log( "Success: " . html_entity_decode( strip_tags( $refund_message ) ) );
@@ -468,17 +467,24 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
       
         $_x_post_fields = array_merge( $_x_post_fields, $args );
         
+        $line_items = '';
+        if( $args['line_items'] ) {
+            unset( $_x_post_fields['line_items'] );
+			foreach ( $args['line_items'] as $line_item ) {
+				$line_items .= '&x_line_item=' . implode( '<|>', $line_item );
+			}
+		}
+        
         if( isset( $_x_post_fields['x_state'] ) && empty( $_x_post_fields['x_state'] ) ) {
             $_x_post_fields['x_state'] = 'NA';
         }
         
-        $post_string = http_build_query( $_x_post_fields );
+        $post_string = http_build_query( $_x_post_fields ) . $line_items;
         
         
 		// Setting custom timeout for the HTTP request
 		add_filter( 'http_request_timeout', array( $this, 'http_request_timeout' ), 9999 );
 
-        $headers = array( 'Content-Type' => 'application/json' );
         $endpoint_url = $this->testmode ? self::ENDPOINT_URL_TEST : self::ENDPOINT_URL_LIVE;
         $response = wp_remote_post( $endpoint_url, array( 'body' => $post_string ) );
 
@@ -497,8 +503,33 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		} elseif( count( $result ) < 10 ) {
 			return new WP_Error( 'invalid_response', __( 'There was an error with the gateway response.', 'wc-authnet' ) );
 		}
+        
+        $authnet_response = array( 
+            'response_code'        => $result[0],
+            'response_subcode'     => $result[1],
+            'response_reason_code' => $result[2],
+            'response_reason_text' => $result[3],
+            'authorization_code'   => $result[4],
+            'avs_response'         => $result[5],
+            'transaction_id'       => $result[6],
+            'card_code_response'   => $result[38],
+            'cavv_response'        => $result[39],
+            'account_number'       => $result[50],
+            'card_type'            => $result[51],
+        );
+        
+        if( $authnet_response['response_code'] == 2 ) {
+           return new WP_Error( 'card_declined', __( 'Your card has been declined.', 'wc-authnet' ) );
+        }
+
+        if( $authnet_response['response_code'] == 3 ) {
+            return new WP_Error( 'card_error', $authnet_response['response_reason_text'] );
+        }
+        
+        return $authnet_response;
+
     
-		if( !class_exists( 'Authnet' ) ) {
+		/*if( !class_exists( 'Authnet' ) ) {
 			require_once( dirname( __FILE__ ) . '/authnet_sdk/AuthNet.php' );
 		}
 		$gateway_debug = ( $this->logging && $this->debugging );
@@ -601,8 +632,10 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		$transaction->customer_ip = isset( $args['customer_ip'] ) ? $args['customer_ip'] : WC_Geolocation::get_ip_address();
 
 		$response = $transaction->{$args['type']}();
+        
+        
 
-		return $response;
+		return $response;*/
 	}
     
     public function http_request_timeout( $timeout_value ) {
