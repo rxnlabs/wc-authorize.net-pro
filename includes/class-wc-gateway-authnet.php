@@ -488,7 +488,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
         // Saving to Log here
 		if( $this->logging && $this->debugging ) {
-			$message = sprintf( "\nPosting to: \n%s\nRequest: \n%s\nResponse: \n%s", $endpoint_url, print_r( $_x_post_fields, 1 ), print_r( $result, 1 ) );
+			$message = sprintf( "\nPosting to: \n%s\nRequest: \n%s\nLine Items: \n%s\nResponse: \n%s", $endpoint_url, print_r( $_x_post_fields, 1 ), print_r( $args['line_items'], 1 ), print_r( $result, 1 ) );
 			WC_Authnet_Logger::log( $message );
 		}
 
