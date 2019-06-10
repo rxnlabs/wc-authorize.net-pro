@@ -315,7 +315,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				$product = $item->get_product();
 
 				$line_item['id'] = is_object( $product ) && $product->get_sku() ? $product->get_sku() : $product->get_id();
-				$line_item['name'] = substr( $item['name'], 0, 30 );
+				$line_item['name'] = substr( $this->format_line_item( $item['name'] ), 0, 30 );
 				$line_item['description'] = '';
 				$line_item['quantity'] = $item['qty'];
 				$line_item['unit_price'] = $order->get_item_total( $item );
@@ -488,7 +488,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
         // Saving to Log here
 		if( $this->logging && $this->debugging ) {
-			$message = sprintf( "\nPosting to: \n%s\nRequest: \n%s\nResponse: \n%s", $endpoint_url, print_r( $_x_post_fields, 1 ), print_r( $result, 1 ) );
+			$message = sprintf( "\nPosting to: \n%s\nRequest: \n%s\nLine Items: \n%s\nResponse: \n%s", $endpoint_url, print_r( $_x_post_fields, 1 ), print_r( $args['line_items'], 1 ), print_r( $result, 1 ) );
 			WC_Authnet_Logger::log( $message );
 		}
 
@@ -524,6 +524,58 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
         return $authnet_response;
 	}
+
+	/**
+     * Taken from https://gist.github.com/jaywilliams/119517
+     * @param $string
+     * @return string
+     */
+    protected function format_line_item( $string ) {
+
+        // Replace Single Curly Quotes
+        $search[]  = chr(226).chr(128).chr(152);
+        $replace[] = "'";
+        $search[]  = chr(226).chr(128).chr(153);
+        $replace[] = "'";
+
+		// Replace Smart Double Curly Quotes
+        $search[]  = chr(226).chr(128).chr(156);
+        $replace[] = '"';
+        $search[]  = chr(226).chr(128).chr(157);
+        $replace[] = '"';
+
+		// Replace En Dash
+        $search[]  = chr(226).chr(128).chr(147);
+        $replace[] = '--';
+
+		// Replace Em Dash
+        $search[]  = chr(226).chr(128).chr(148);
+        $replace[] = '---';
+
+		// Replace Bullet
+        $search[]  = chr(226).chr(128).chr(162);
+        $replace[] = '*';
+
+		// Replace Middle Dot
+        $search[]  = chr(194).chr(183);
+        $replace[] = '*';
+
+		// Replace Ellipsis with three consecutive dots
+        $search[]  = chr(226).chr(128).chr(166);
+        $replace[] = '...';
+
+		// Replace Ampersand with dash
+        $search[]  = '&';
+        $replace[] = '-';
+
+        // Apply Replacements
+        $string = str_replace( $search, $replace, $string );
+
+		// Remove any non-ASCII Characters
+        $string = preg_replace( "/[^\x01-\x7F]/", "", $string );
+
+        return $string;
+    }
 
     public function http_request_timeout( $timeout_value ) {
 		return 45; // 45 seconds. Too much for production, only for testing.
