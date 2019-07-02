@@ -50,7 +50,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		$this->transaction_key	  	= $this->get_option( 'transaction_key' );
 		$this->logging     		  	= $this->get_option( 'logging' ) === 'yes' ? true : false;
 		$this->debugging   		  	= $this->get_option( 'debugging' ) === 'yes' ? true : false;
-		$this->allowed_card_types 	= $this->get_option( 'allowed_card_types' );
+		$this->allowed_card_types 	= $this->get_option( 'allowed_card_types', array() );
 		$this->customer_receipt   	= $this->get_option( 'customer_receipt' ) === 'yes' ? true : false;
 
 		if ( $this->testmode ) {
