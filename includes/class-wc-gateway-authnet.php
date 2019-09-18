@@ -322,6 +322,10 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				$line_item['taxable'] = $product->is_taxable();
 
 				$line_items[] = $line_item;
+
+				if( count( $line_items ) >= 30 ) {
+					break;
+				}
 			}
 			$payment_args['line_items'] = $line_items;
 
