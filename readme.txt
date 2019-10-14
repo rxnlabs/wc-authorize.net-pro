@@ -7,7 +7,7 @@ Author URI: https://pledgedplugins.com
 Requires at least: 4.4
 Tested up to: 5.2
 Requires PHP: 5.6
-Stable tag: 5.1.4
+Stable tag: 5.1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,7 +22,7 @@ This plugin enables you to use the Authorize.Net payment gateway and accept cred
 #### FREE Pro Version Features
 * **Easy Install**: Like all Pledged Plugins add-ons, this plugin installs with one click. After installing, you will have only a few fields to fill out before you are ready to accept credit cards on your store.
 * **Secure Credit Card Processing**: Securely process credit cards without redirecting your customers to the gateway website.
-* **Refund via Dashboard**: Process full or partial refunds, directly from your WordPress dashboard! No need to search order in your Authorize.net account.
+* **Refund via Dashboard**: Process full or partial refunds, directly from your WordPress dashboard! No need to search order in your Authorize.Net account.
 * **Authorize Now, Capture Later**: Optionally choose only to authorize transactions, and capture at a later date.
 * **Restrict Card Types**: Optionally choose to restrict certain card types and the plugin will hide its icon and provide a proper error message on checkout.
 * **Gateway Receipts**: Optionally choose to send receipts from your Authorize.Net merchant account.
@@ -36,7 +36,7 @@ This plugin enables you to use the Authorize.Net payment gateway and accept cred
 > [Click here](https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/) for Pricing details.
 
 #### Requirements
-* Active  [Authorize.net](https://www.authorize.net/)  account – Sign up for a sandbox account  [here](https://developer.authorize.net/hello_world/sandbox.html)  if you need to test.
+* Active  [Authorize.Net](https://www.authorize.net/)  account – Sign up for a sandbox account  [here](https://developer.authorize.net/hello_world/sandbox.html)  if you need to test.
 * [**WooCommerce**](https://woocommerce.com/)  version 3.0.0 or later.
 * A valid SSL certificate is required to ensure your customer credit card details are safe and make your site PCI DSS compliant. This plugin does not store the customer credit card numbers or sensitive information on your website.
 #### Extend, Contribute, Integrate
@@ -57,7 +57,7 @@ This plugin is not affiliated with or supported by Authorize.Net, WooCommerce.co
 6. Enable the method by using the checkbox.
 7. Enter the Authorize.Net account details (API Login ID, Transaction Key and Public Client Key).
 
-**IMPORTANT:** Live merchant accounts cannot be used in a sandbox environment, so to test the plugin, please make sure you are using a separate sandbox account. If you do not have a sandbox account, you can sign up for one from <https://developer.authorize.net/hello_world/sandbox.html>. Check the Authorize.net testing guide from <https://developer.authorize.net/hello_world/testing_guide/> to generate various test scenarios before going live.
+**IMPORTANT:** Live merchant accounts cannot be used in a sandbox environment, so to test the plugin, please make sure you are using a separate sandbox account. If you do not have a sandbox account, you can sign up for one from <https://developer.authorize.net/hello_world/sandbox.html>. Check the Authorize.Net testing guide from <https://developer.authorize.net/hello_world/testing_guide/> to generate various test scenarios before going live.
 
 That's it! You are ready to accept credit cards with your Authorize.Net merchant account now connected to WooCommerce.
 
@@ -67,6 +67,9 @@ That's it! You are ready to accept credit cards with your Authorize.Net merchant
 A valid SSL certificate is required to ensure your customer credit card details are safe and make your site PCI DSS compliant. This plugin does not store the customer credit card numbers or sensitive information on your website.
 
 == Changelog ==
+
+= 5.1.5 =
+* Made compatible with WooCommerce Sequential Order Numbers Pro
 
 = 5.1.4 =
 * Restricted the line items to be sent in the gateway request to 30
@@ -96,8 +99,8 @@ A valid SSL certificate is required to ensure your customer credit card details 
 * Replaced deprecated function "reduce_order_stock" with "wc_reduce_stock_levels"
 
 = 5.0.0 - MAJOR UPDATE =
-* Updated transaction methods to Payment Transactions API and implemented Authorize.net SDK
-* Removed Authorize.net AIM code
+* Updated transaction methods to Payment Transactions API and implemented Authorize.Net SDK
+* Removed Authorize.Net AIM code
 * Added Freemius integration for analytics, upgrade and support
 
 = 4.0.4 =
