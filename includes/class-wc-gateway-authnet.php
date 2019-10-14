@@ -292,7 +292,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				'x_email' 				=> $order->get_billing_email(),
 				'x_phone'				=> $order->get_billing_phone(),
 				'x_company'				=> $order->get_billing_company(),
-				'x_invoice_num'	 		=> $order_id,
+				'x_invoice_num'	 		=> $order->get_order_number(),
 				'x_trans_id'			=> $order->get_transaction_id(),
 				'x_customer_ip'       	=> WC_Geolocation::get_ip_address(),
 				'x_currency_code'		=> $this->get_payment_currency( $order_id ),
