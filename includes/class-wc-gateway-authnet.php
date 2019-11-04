@@ -389,11 +389,10 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 			wc_add_notice( sprintf( __( 'Gateway Error: %s', 'wc-authnet' ), $e->getMessage() ), 'error' );
 			$this->log( sprintf( __( 'Gateway Error: %s', 'wc-authnet' ), $e->getMessage() ) );
 
-			if ( $order->has_status( array( 'pending', 'failed' ) ) ) {
-				$this->send_failed_order_email( $order_id );
-			}
-
 			do_action( 'wc_gateway_' . $this->id . '_process_payment_error', $e, $order );
+
+			/* translators: error message */
+			$order->update_status( 'failed' );
 
 			return array(
 				'result'   => 'fail',
@@ -684,18 +683,4 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		}
 	}
 
-	/**
-	 * Sends the failed order email to admin
-	 *
-	 * @version 1.0.2
-	 * @since 1.0.2
-	 * @param int $order_id
-	 * @return null
-	 */
-	public function send_failed_order_email( $order_id ) {
-		$emails = WC()->mailer()->get_emails();
-		if ( ! empty( $emails ) && ! empty( $order_id ) ) {
-			$emails['WC_Email_Failed_Order']->trigger( $order_id );
-		}
-	}
 }
