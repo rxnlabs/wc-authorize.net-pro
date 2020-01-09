@@ -70,9 +70,10 @@ A valid SSL certificate is required to ensure your customer credit card details 
 
 = 5.1.8 =
 * Updated "WC tested up to" header to 3.9
+* Restricted the city to be sent in the gateway request to 40 characters
 * Restricted the address to be sent in the gateway request to 60 characters
 * Restricted the company to be sent in the gateway request to 50 characters
-* Restricted the order description to be sent in the gateway request to 50 characters
+* Restricted the first name, last name, order description to be sent in the gateway request to 50 characters
 
 = 5.1.7 =
 * Updated "WC tested up to" header to 3.8
