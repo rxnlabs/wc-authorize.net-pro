@@ -314,8 +314,8 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 			foreach ( $order->get_items() as $id => $item ) {
 				$product = $item->get_product();
 
-				$line_item['id'] = is_object( $product ) && $product->get_sku() ? $product->get_sku() : $product->get_id();
-				$line_item['name'] = substr( $this->format_line_item( $item['name'] ), 0, 30 );
+				$line_item['id'] = is_object( $product ) && $product->get_sku() ? substr( $product->get_sku(), 0, 31 ) : substr( $product->get_id(), 0, 31 );
+				$line_item['name'] = substr( $this->format_line_item( $item['name'] ), 0, 31 );
 				$line_item['description'] = '';
 				$line_item['quantity'] = $item['qty'];
 				$line_item['unit_price'] = $order->get_item_total( $item );
