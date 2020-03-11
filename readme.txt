@@ -69,7 +69,7 @@ A valid SSL certificate is required to ensure your customer credit card details 
 == Changelog ==
 
 = 5.1.10 =
-* Updated "WC tested up to" header to 3.9
+* Updated "WC tested up to" header to 4.0
 
 = 5.1.9 =
 * Restricted the line item id to be sent in the gateway request to 31 characters
