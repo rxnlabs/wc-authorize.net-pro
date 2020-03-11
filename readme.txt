@@ -83,7 +83,7 @@ A valid SSL certificate is required to ensure your customer credit card details 
 * Updated "WC tested up to" header to 3.8
 
 = 5.1.6 =
-Fixed order status not changing to Failed on decline
+* Fixed order status not changing to Failed on decline
 
 = 5.1.5 =
 * Made compatible with WooCommerce Sequential Order Numbers Pro
