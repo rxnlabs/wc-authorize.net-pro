@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce Authorize.Net Gateway
 Plugin URI: https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
 Description: A payment gateway for Authorize.Net. An Authorize.Net account and a server with cURL, SSL support, and a valid SSL certificate is required (for security reasons) for this gateway to function. Requires WC 3.0.0+
-Version: 5.1.10
+Version: 5.1.11
 Author: Pledged Plugins
 Author URI: https://pledgedplugins.com
 Text Domain: wc-authnet
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'WC_AUTHNET_VERSION', '5.1.10' );
+define( 'WC_AUTHNET_VERSION', '5.1.11' );
 define( 'WC_AUTHNET_MIN_PHP_VER', '5.6.0' );
 define( 'WC_AUTHNET_MIN_WC_VER', '3.0.0' );
 define( 'WC_AUTHNET_PLUGIN_URL', untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) ) );
@@ -369,6 +369,8 @@ class WC_Authnet {
 					'x_trans_id'	=> $order->get_transaction_id(),
 					'x_type' 		=> 'PRIOR_AUTH_CAPTURE',
 				);
+				$args = apply_filters( 'wc_authnet_request_args', $args, $order );
+
 				$response = $gateway->authnet_request( $args );
 
 				if ( is_wp_error( $response ) ) {
@@ -406,6 +408,8 @@ class WC_Authnet {
 					'x_trans_id'		=> $order->get_transaction_id(),
 					'x_type' 			=> 'VOID',
 				);
+				$args = apply_filters( 'wc_authnet_request_args', $args, $order );
+
 				$response = $gateway->authnet_request( $args );
 
 				if ( is_wp_error( $response ) ) {
