@@ -329,6 +329,8 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 			}
 			$payment_args['line_items'] = $line_items;
 
+			$payment_args = apply_filters( 'wc_authnet_request_args', $payment_args, $order );
+
 			$response = $this->authnet_request( $payment_args );
 
 			if ( is_wp_error( $response ) ) {
@@ -436,6 +438,8 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
 			$this->log( "Info: Beginning refund for order $order_id for the amount of {$amount}" );
 
+			$args = apply_filters( 'wc_authnet_request_args', $args, $order );
+
 			$response = $this->authnet_request( $args );
 
 			if ( is_wp_error( $response ) ) {
@@ -485,6 +489,8 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		add_filter( 'http_request_timeout', array( $this, 'http_request_timeout' ), 9999 );
 
         $endpoint_url = $this->testmode ? self::ENDPOINT_URL_TEST : self::ENDPOINT_URL_LIVE;
+		$endpoint_url = apply_filters( 'wc_authnet_request_url', $endpoint_url );
+
         $response = wp_remote_post( $endpoint_url, array( 'body' => $post_string ) );
 
 		$result = is_wp_error( $response ) ? $response : explode( '|', wp_remote_retrieve_body( $response ) );

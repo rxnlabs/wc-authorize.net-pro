@@ -7,7 +7,7 @@ Author URI: https://pledgedplugins.com
 Requires at least: 4.4
 Tested up to: 5.4
 Requires PHP: 5.6
-Stable tag: 5.1.10
+Stable tag: 5.1.11
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -68,6 +68,9 @@ A valid SSL certificate is required to ensure your customer credit card details 
 
 == Changelog ==
 
+= 5.1.11 =
+* Added filters for Authorize.Net request parameters and transaction POST URL
+
 = 5.1.10 =
 * Updated "WC tested up to" header to 4.0
 
@@ -86,7 +89,7 @@ A valid SSL certificate is required to ensure your customer credit card details 
 * Updated "WC tested up to" header to 3.8
 
 = 5.1.6 =
-Fixed order status not changing to Failed on decline
+* Fixed order status not changing to Failed on decline
 
 = 5.1.5 =
 * Made compatible with WooCommerce Sequential Order Numbers Pro
