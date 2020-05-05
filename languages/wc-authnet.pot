@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: WooCommerce Authorize.Net Gateway\n"
-"POT-Creation-Date: 2020-01-09 17:27+0530\n"
-"PO-Revision-Date: 2020-01-09 17:27+0530\n"
+"POT-Creation-Date: 2020-04-24 18:28+0530\n"
+"PO-Revision-Date: 2020-04-24 18:28+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -21,11 +21,11 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: gateway.php:144
+#: gateway.php:143
 msgid "About Authorize.Net"
 msgstr ""
 
-#: gateway.php:145
+#: gateway.php:144
 #, php-format
 msgid ""
 "As a leading payment gateway, %sAuthorize.Net%s is trusted by more than "
@@ -36,11 +36,11 @@ msgid ""
 "love best."
 msgstr ""
 
-#: gateway.php:146
+#: gateway.php:145
 msgid "About this WooCommerce Extension"
 msgstr ""
 
-#: gateway.php:147
+#: gateway.php:146
 msgid ""
 "This extension enables you to use the Authorize.Net payment gateway to "
 "accept payments via credit cards directly on checkout on your WooCommerce "
@@ -48,19 +48,19 @@ msgid ""
 "the gateway website."
 msgstr ""
 
-#: gateway.php:150 gateway.php:194
+#: gateway.php:149 gateway.php:193
 msgid "Settings"
 msgstr ""
 
-#: gateway.php:153 gateway.php:194
+#: gateway.php:152 gateway.php:193
 msgid "Support"
 msgstr ""
 
-#: gateway.php:156
+#: gateway.php:155
 msgid "License"
 msgstr ""
 
-#: gateway.php:157
+#: gateway.php:156
 #, php-format
 msgid ""
 "You are using our %1$sFREE PRO%2$s version of the extension. Here are the "
@@ -68,11 +68,11 @@ msgid ""
 "version:"
 msgstr ""
 
-#: gateway.php:159
+#: gateway.php:158
 msgid "Process Subscriptions:"
 msgstr ""
 
-#: gateway.php:160
+#: gateway.php:159
 #, php-format
 msgid ""
 "Use with %1$sWooCommerce Subscriptions%2$s extension to %3$screate and "
@@ -80,11 +80,11 @@ msgid ""
 "residual revenue you can track and count on."
 msgstr ""
 
-#: gateway.php:162
+#: gateway.php:161
 msgid "Setup Pre-Orders:"
 msgstr ""
 
-#: gateway.php:163
+#: gateway.php:162
 #, php-format
 msgid ""
 "Use with %1$sWooCommerce Pre-Orders%2$s extension&nbsp;so customers can "
@@ -93,71 +93,71 @@ msgid ""
 "available."
 msgstr ""
 
-#: gateway.php:165
+#: gateway.php:164
 msgid "Pay via Saved Cards:"
 msgstr ""
 
-#: gateway.php:166
+#: gateway.php:165
 msgid ""
 "Enable option to use saved card details on the gateway servers for quicker "
 "checkout. No sensitive card data is stored on the website!"
 msgstr ""
 
-#: gateway.php:170
+#: gateway.php:169
 msgid "Upgrade to Enterprise!"
 msgstr ""
 
-#: gateway.php:176
+#: gateway.php:175
 msgid "Account"
 msgstr ""
 
-#: gateway.php:194
+#: gateway.php:193
 msgid "About"
 msgstr ""
 
-#: gateway.php:254
+#: gateway.php:253
 #, php-format
 msgid ""
 "Authorize.Net is almost ready. To get started, <a href=\"%s\">set your "
 "Authorize.Net account keys</a>."
 msgstr ""
 
-#: gateway.php:292
+#: gateway.php:291
 #, php-format
 msgid ""
 "WooCommerce Authorize.Net - The minimum PHP version required for this plugin "
 "is %1$s. You are running %2$s."
 msgstr ""
 
-#: gateway.php:297
+#: gateway.php:296
 msgid "WooCommerce Authorize.Net requires WooCommerce to be activated to work."
 msgstr ""
 
-#: gateway.php:301
+#: gateway.php:300
 #, php-format
 msgid ""
 "WooCommerce Authorize.Net - The minimum WooCommerce version required for "
 "this plugin is %1$s. You are running %2$s."
 msgstr ""
 
-#: gateway.php:306
+#: gateway.php:305
 msgid "WooCommerce Authorize.Net - cURL is not installed."
 msgstr ""
 
-#: gateway.php:376
+#: gateway.php:377
 msgid "Unable to capture charge!"
 msgstr ""
 
-#: gateway.php:378 includes/class-wc-gateway-authnet.php:354
+#: gateway.php:379 includes/class-wc-gateway-authnet.php:356
 #, php-format
 msgid "Authorize.Net charge complete (Charge ID: %s)"
 msgstr ""
 
-#: gateway.php:415
+#: gateway.php:418
 msgid "Unable to refund charge!"
 msgstr ""
 
-#: gateway.php:418
+#: gateway.php:421
 #, php-format
 msgid "Authorize.Net charge refunded (Charge ID: %s)"
 msgstr ""
@@ -471,29 +471,29 @@ msgstr ""
 msgid "%s - Order %s"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:369
+#: includes/class-wc-gateway-authnet.php:371
 #, php-format
 msgid ""
 "Authorize.Net charge authorized (Charge ID: %s). Process order to take "
 "payment, or cancel to remove the pre-authorization."
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:389
-#: includes/class-wc-gateway-authnet.php:390
+#: includes/class-wc-gateway-authnet.php:391
+#: includes/class-wc-gateway-authnet.php:392
 #, php-format
 msgid "Gateway Error: %s"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:445
+#: includes/class-wc-gateway-authnet.php:449
 #, php-format
 msgid "Refunded %s - Refund ID: %s - Reason: %s"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:503
+#: includes/class-wc-gateway-authnet.php:509
 msgid "There was an error with the gateway response."
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:521
+#: includes/class-wc-gateway-authnet.php:527
 msgid "Your card has been declined."
 msgstr ""
 

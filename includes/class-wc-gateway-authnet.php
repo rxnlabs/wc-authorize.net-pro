@@ -266,19 +266,19 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 			}
 
 			// Check for card type supported or not
-			if( ! in_array( $this->get_card_type( $_POST['authnet-card-number'], 'pattern', 'name' ), $this->allowed_card_types ) ) {
-				$this->log( sprintf( __( 'Card type being used is not one of supported types in plugin settings: %s', 'wc-authnet' ), $this->get_card_type( $_POST['authnet-card-number'] ) ) );
+			if( ! in_array( $this->get_card_type( wc_clean( $_POST['authnet-card-number'] ), 'pattern', 'name' ), $this->allowed_card_types ) ) {
+				$this->log( sprintf( __( 'Card type being used is not one of supported types in plugin settings: %s', 'wc-authnet' ), $this->get_card_type( wc_clean( $_POST['authnet-card-number'] ) ) ) );
 				throw new Exception( __( 'Card Type Not Accepted', 'wc-authnet' ) );
 			}
 
-			$expiry = explode( ' / ', $_POST['authnet-card-expiry'] );
+			$expiry = explode( ' / ', wc_clean( $_POST['authnet-card-expiry'] ) );
 
 			$description = sprintf( __( '%s - Order %s', 'wc-authnet' ), $this->statement_descriptor, $order->get_order_number() );
 
 			$payment_args = array(
-				'x_card_num'	 		=> str_replace( ' ', '', $_POST['authnet-card-number'] ),
+				'x_card_num'	 		=> str_replace( ' ', '', wc_clean( $_POST['authnet-card-number'] ) ),
 				'x_exp_date'	 		=> $expiry[0] . $expiry[1],
-				'x_card_code'	 		=> $_POST['authnet-card-cvc'],
+				'x_card_code'	 		=> wc_clean( $_POST['authnet-card-cvc'] ),
 				'x_description'			=> substr( $description, 0, 255 ),
 				'x_amount'				=> $order->get_total(),
 				'x_type'				=> $this->capture ? 'AUTH_CAPTURE' : 'AUTH_ONLY',
@@ -339,7 +339,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
 			// Store charge ID
 			$order->update_meta_data( '_authnet_charge_id', $response['transaction_id'] );
-			$order->update_meta_data( '_authnet_cc_last4', substr( $_POST['authnet-card-number'], -4 ) );
+			$order->update_meta_data( '_authnet_cc_last4', substr( wc_clean( $_POST['authnet-card-number'] ), -4 ) );
 
             $order->set_transaction_id( $response['transaction_id'] );
 
