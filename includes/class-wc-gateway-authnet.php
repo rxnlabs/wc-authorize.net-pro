@@ -310,14 +310,15 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 			);
 
             $line_items = array();
-
 			foreach ( $order->get_items() as $id => $item ) {
 				$product = $item->get_product();
-
-				$line_item['id'] = is_object( $product ) && $product->get_sku() ? substr( $product->get_sku(), 0, 31 ) : substr( $product->get_id(), 0, 31 );
-				$line_item['name'] = substr( $this->format_line_item( $item['name'] ), 0, 31 );
+                if( !is_object( $product ) ) {
+                    continue;
+                }
+				$line_item['id'] = $product->get_sku() ? substr( $product->get_sku(), 0, 31 ) : substr( $product->get_id(), 0, 31 );
+				$line_item['name'] = substr( $this->format_line_item( $item->get_name() ), 0, 31 );
 				$line_item['description'] = '';
-				$line_item['quantity'] = $item['qty'];
+				$line_item['quantity'] = $item->get_quantity();
 				$line_item['unit_price'] = $order->get_item_total( $item );
 				$line_item['taxable'] = $product->is_taxable();
 
@@ -389,9 +390,13 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
 		} catch ( Exception $e ) {
 			wc_add_notice( sprintf( __( 'Gateway Error: %s', 'wc-authnet' ), $e->getMessage() ), 'error' );
-			$this->log( sprintf( __( 'Gateway Error: %s', 'wc-authnet' ), $e->getMessage() ) );
+            $this->log( sprintf( __( 'Gateway Error: %s', 'wc-authnet' ), $e->getMessage() ) );
+            if( is_wp_error( $response ) ) {
+                $response = $response->get_error_data();
+                $order->add_order_note( sprintf( __( 'Authorize.Net failure reason: %s', 'wc-authnet' ), $response['response_reason_text'] ) );
+            }
 
-			do_action( 'wc_gateway_' . $this->id . '_process_payment_error', $e, $order );
+			do_action( 'wc_gateway_authnet_process_payment_error', $e, $order );
 
 			/* translators: error message */
 			$order->update_status( 'failed' );
@@ -524,11 +529,11 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
         );
 
         if( $authnet_response['response_code'] == 2 ) {
-           return new WP_Error( 'card_declined', __( 'Your card has been declined.', 'wc-authnet' ) );
+           return new WP_Error( 'card_declined', __( 'Your card has been declined.', 'wc-authnet' ), $authnet_response );
         }
 
         if( $authnet_response['response_code'] == 3 ) {
-            return new WP_Error( 'card_error', $authnet_response['response_reason_text'] );
+            return new WP_Error( 'card_error', $authnet_response['response_reason_text'], $authnet_response );
         }
 
         return $authnet_response;
