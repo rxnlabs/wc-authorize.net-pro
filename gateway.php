@@ -123,6 +123,7 @@ class WC_Authnet {
         add_action( 'admin_init', array( $this, 'check_environment' ) );
         add_action( 'admin_notices', array( $this, 'admin_notices' ), 15 );
         add_action( 'plugins_loaded', array( $this, 'init' ) );
+        wc_authnet_fs()->add_filter( 'templates/pricing.php', array( $this, 'checkout_notice' ) );
     }
 
     public function submenu_setup() {
@@ -253,6 +254,13 @@ class WC_Authnet {
             $this->add_admin_notice( 'prompt_connect', 'notice notice-warning', sprintf( __( 'Authorize.Net is almost ready. To get started, <a href="%s">set your Authorize.Net account keys</a>.', 'wc-authnet' ), $setting_link ) );
         }
 
+        if ( class_exists( 'WC_Subscriptions_Order' ) && function_exists( 'wcs_create_renewal_order' ) ) {
+            $this->subscription_support_enabled = true;
+        }
+        if ( class_exists( 'WC_Pre_Orders_Order' ) ) {
+            $this->pre_order_enabled = true;
+        }
+
     }
 
     /**
@@ -320,6 +328,27 @@ class WC_Authnet {
             ) ) ;
             echo  '</p></div>' ;
         }
+    }
+
+    public function checkout_notice( $html ) {
+        $notices = array();
+        $notice_html = '';
+        if( ! $this->subscription_support_enabled ) {
+           $notices[] = __( 'To process subscription payments using Authorize.Net you will need the <a target="_blank" href="https://woocommerce.com/products/woocommerce-subscriptions/">WooCommerce Subscriptions</a> extension installed and running. Please ignore and proceed to upgrade if you are not setting up subscriptions.', 'wc-authnet' );
+        } elseif( ! $this->pre_order_enabled ) {
+           $notices[] = __( 'To process pre-orders using Authorize.Net you will need the <a target="_blank" href="https://woocommerce.com/products/woocommerce-pre-orders/">WooCommerce Pre-Orders</a> extension installed and running. Please ignore and proceed to upgrade if you are not setting up pre-orders.', 'wc-authnet' );
+        }
+        if( !empty( $notices ) ) {
+            $notice_html =  "<div class='notice notice-warning' style='margin:50px 0 -30px;'>" ;
+            if( ! $this->subscription_support_enabled ) {
+                $notice_html .= __( '<h3>WooCommerce Subscriptions Not Detected!</h3>', 'wc-authnet' );
+            }
+            foreach( $notices as $notice ) {
+                $notice_html .= wpautop( $notice );
+            }
+            $notice_html .=  '</div>' ;
+        }
+        return $notice_html . $html;
     }
 
     /**
