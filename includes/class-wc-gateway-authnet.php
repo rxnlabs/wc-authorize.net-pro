@@ -529,15 +529,66 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
         );
 
         if( $authnet_response['response_code'] == 2 ) {
-           return new WP_Error( 'card_declined', __( 'Your card has been declined.', 'wc-authnet' ), $authnet_response );
+            $decline_message = __( 'Your card has been declined.', 'wc-authnet' );
+            return new WP_Error( 'card_declined', $this->get_error_message( $authnet_response['response_reason_code'], $decline_message ), $authnet_response );
         }
 
         if( $authnet_response['response_code'] == 3 ) {
-            return new WP_Error( 'card_error', $authnet_response['response_reason_text'], $authnet_response );
+            return new WP_Error( 'card_error', $this->get_error_message( $authnet_response['response_reason_code'], $authnet_response['response_reason_text'] ), $authnet_response );
         }
 
         return $authnet_response;
 	}
+
+    public function get_error_message( $reason_code, $default_message ) {
+        switch ( $reason_code ) {
+            case '2' :
+            case '3' :
+            case '4' :
+            case '41' :
+                $message = esc_html__( 'Your card has been declined.', 'wc-authnet' );
+                break;
+
+            case '8' :
+                $message = esc_html__( 'The credit card has expired.', 'wc-authnet' );
+                break;
+
+            case '17' :
+            case '28' :
+                $message = esc_html__( 'The merchant does not accept this type of credit card.', 'wc-authnet' );
+                break;
+
+            case '27' :
+                $message = esc_html__( 'The address provided does not match the billing address of the cardholder. Please verify the information and try again.', 'wc-authnet' );
+                break;
+
+            case '49' :
+                $message = esc_html__( 'The transaction amount is greater than the maximum amount allowed.', 'wc-authnet' );
+                break;
+
+            case '7' :
+            case '44' :
+            case '45' :
+            case '65' :
+            case '78' :
+            case '6' :
+            case '37' :
+            case '200' :
+            case '201' :
+            case '202' :
+                $message = esc_html__( 'There was an error processing your credit card. Please verify the information and try again.', 'wc-authnet' );
+                break;
+
+            default :
+                $message = $default_message;
+
+        }
+
+        $message = '<!-- Error: ' . $reason_code . ' -->' . $message;
+
+		return $message;
+
+    }
 
 	/**
      * Taken from https://gist.github.com/jaywilliams/119517
