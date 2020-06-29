@@ -391,8 +391,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		} catch ( Exception $e ) {
 			wc_add_notice( sprintf( __( 'Gateway Error: %s', 'wc-authnet' ), $e->getMessage() ), 'error' );
             $this->log( sprintf( __( 'Gateway Error: %s', 'wc-authnet' ), $e->getMessage() ) );
-            if( is_wp_error( $response ) ) {
-                $response = $response->get_error_data();
+            if( is_wp_error( $response ) && $response = $response->get_error_data() ) {
                 $order->add_order_note( sprintf( __( 'Authorize.Net failure reason: %s', 'wc-authnet' ), $response['response_reason_text'] ) );
             }
 
