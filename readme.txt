@@ -7,7 +7,7 @@ Author URI: https://pledgedplugins.com
 Requires at least: 4.4
 Tested up to: 5.4
 Requires PHP: 5.6
-Stable tag: 5.1.14
+Stable tag: 5.1.15
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -68,13 +68,17 @@ A valid SSL certificate is required to ensure your customer credit card details 
 
 == Changelog ==
 
+= 5.1.15 =
+* Added descriptive error messages
+* Updated "WC tested up to" header to 4.3
+
 = 5.1.14 =
 * Updated "WC tested up to" header to 4.2
 * Added Pre-upgrade notice on pricing page
 
 = 5.1.13 =
-Fixed order line items
-Print failed transaction response reason in order notes
+* Fixed order line items
+* Print failed transaction response reason in order notes
 
 = 5.1.12 =
 * Sanitized user input in POST variable
