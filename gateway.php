@@ -123,7 +123,7 @@ class WC_Authnet {
         add_action( 'admin_init', array( $this, 'check_environment' ) );
         add_action( 'admin_notices', array( $this, 'admin_notices' ), 15 );
         add_action( 'plugins_loaded', array( $this, 'init' ) );
-        wc_authnet_fs()->add_filter( 'templates/pricing.php', array( $this, 'checkout_notice' ) );
+        wc_authnet_fs()->add_filter( 'templates/checkout.php', array( $this, 'checkout_notice' ) );
     }
 
     public function submenu_setup() {
