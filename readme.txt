@@ -11,7 +11,7 @@ Stable tag: 5.1.15
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-This plugin enables you to use the Authorize.Net payment gateway and accept credit cards directly on your WooCommerce powered WordPress e-commerce website without redirecting customers away to the gateway website.
+WooCommerce integration for Authorize.Net payment gateway. And accept credit cards directly on WordPress e-commerce websites.
 
 == Description ==
 
