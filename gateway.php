@@ -8,7 +8,7 @@ Author: Pledged Plugins
 Author URI: https://pledgedplugins.com
 Text Domain: wc-authnet
 Domain Path: /languages
-WC requires at least: 3.0.0
+WC requires at least: 3.3
 WC tested up to: 4.3
 
 	Copyright: © Pledged Plugins.
@@ -247,7 +247,7 @@ class WC_Authnet {
 
         // Check if secret key present. Otherwise prompt, via notice, to go to setting.
 		$options = get_option( 'woocommerce_authnet_settings' );
-		$secret = $options['transaction_key'];
+		$secret = isset( $options['transaction_key'] ) ? $options['transaction_key'] : '';
 
         if ( empty( $secret ) && !( isset( $_GET['page'], $_GET['section'] ) && 'wc-settings' === $_GET['page'] && 'authnet' === $_GET['section'] ) ) {
             $setting_link = $this->settings_url();
