@@ -37,7 +37,7 @@ WooCommerce integration for Authorize.Net payment gateway. And accept credit car
 
 #### Requirements
 * Active  [Authorize.Net](https://www.authorize.net/)  account – Sign up for a sandbox account  [here](https://developer.authorize.net/hello_world/sandbox.html)  if you need to test.
-* [**WooCommerce**](https://woocommerce.com/)  version 3.0.0 or later.
+* [**WooCommerce**](https://woocommerce.com/)  version 3.3.0 or later.
 * A valid SSL certificate is required to ensure your customer credit card details are safe and make your site PCI DSS compliant. This plugin does not store the customer credit card numbers or sensitive information on your website.
 #### Extend, Contribute, Integrate
 Visit the [plugin page](https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/) for more details. Contributors are welcome to send pull requests via [Bitbucket repository](https://bitbucket.org/pledged/wc-authorize.net-pro/).
