@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: WooCommerce Authorize.Net Gateway\n"
-"POT-Creation-Date: 2020-07-06 15:26+0530\n"
-"PO-Revision-Date: 2020-07-06 15:25+0530\n"
+"POT-Creation-Date: 2020-08-19 12:58+0530\n"
+"PO-Revision-Date: 2020-08-19 12:56+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -165,20 +165,20 @@ msgstr ""
 msgid "<h3>WooCommerce Subscriptions Not Detected!</h3>"
 msgstr ""
 
-#: gateway.php:406
+#: gateway.php:408
 msgid "Unable to capture charge!"
 msgstr ""
 
-#: gateway.php:408 includes/class-wc-gateway-authnet.php:357
+#: gateway.php:410 includes/class-wc-gateway-authnet.php:357
 #, php-format
 msgid "Authorize.Net charge complete (Charge ID: %s)"
 msgstr ""
 
-#: gateway.php:447
+#: gateway.php:452
 msgid "Unable to refund charge!"
 msgstr ""
 
-#: gateway.php:450
+#: gateway.php:455
 #, php-format
 msgid "Authorize.Net charge refunded (Charge ID: %s)"
 msgstr ""
@@ -270,13 +270,15 @@ msgstr ""
 
 #: includes/class-wc-gateway-authnet.php:106
 #, php-format
-msgid "Gateway error: Please enter your API Login ID <a href=\"%s\">here</a>"
+msgid ""
+"Authorize.Net error: Please enter your API Login ID <a href=\"%s\">here</a>"
 msgstr ""
 
 #: includes/class-wc-gateway-authnet.php:109
 #, php-format
 msgid ""
-"Gateway error: Please enter your Transaction Key <a href=\"%s\">here</a>"
+"Authorize.Net error: Please enter your Transaction Key <a href=\"%s\">here</"
+"a>"
 msgstr ""
 
 #: includes/class-wc-gateway-authnet.php:115

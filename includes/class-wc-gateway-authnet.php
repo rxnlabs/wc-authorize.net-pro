@@ -103,10 +103,10 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
 		// Check required fields
         if ( !$this->login_id ) {
-            echo  '<div class="error"><p>' . sprintf( __( 'Gateway error: Please enter your API Login ID <a href="%s">here</a>', 'wc-authnet' ), admin_url( 'admin.php?page=wc-settings&tab=checkout&section=authnet' ) ) . '</p></div>' ;
+            echo  '<div class="error"><p>' . sprintf( __( 'Authorize.Net error: Please enter your API Login ID <a href="%s">here</a>', 'wc-authnet' ), admin_url( 'admin.php?page=wc-settings&tab=checkout&section=authnet' ) ) . '</p></div>' ;
             return;
         } elseif ( !$this->transaction_key ) {
-            echo  '<div class="error"><p>' . sprintf( __( 'Gateway error: Please enter your Transaction Key <a href="%s">here</a>', 'wc-authnet' ), admin_url( 'admin.php?page=wc-settings&tab=checkout&section=authnet' ) ) . '</p></div>' ;
+            echo  '<div class="error"><p>' . sprintf( __( 'Authorize.Net error: Please enter your Transaction Key <a href="%s">here</a>', 'wc-authnet' ), admin_url( 'admin.php?page=wc-settings&tab=checkout&section=authnet' ) ) . '</p></div>' ;
             return;
         }
 
