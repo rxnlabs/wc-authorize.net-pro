@@ -71,6 +71,7 @@ A valid SSL certificate is required to ensure your customer credit card details 
 = 5.1.18 =
 * Updated "WC tested up to" header to 4.6
 * Compatible to WordPress 5.5+
+* Updated freemius SDK to 2.4.0
 
 = 5.1.17 =
 * Updated "WC tested up to" header to 4.4
