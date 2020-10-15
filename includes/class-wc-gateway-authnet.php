@@ -103,16 +103,16 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
 		// Check required fields
         if ( !$this->login_id ) {
-            echo  '<div class="error"><p>' . sprintf( __( 'Authorize.Net error: Please enter your API Login ID <a href="%s">here</a>', 'wc-authnet' ), admin_url( 'admin.php?page=wc-settings&tab=checkout&section=authnet' ) ) . '</p></div>' ;
+            echo  '<div class="error"><p>' . sprintf( __( 'Authorize.Net error: Please enter your API Login ID <a href="%s">here</a>', 'wc-authnet' ), admin_url( 'admin.php?page=wc-settings&tab=checkout&section=authnet' ) ) . '</p></div>';
             return;
         } elseif ( !$this->transaction_key ) {
-            echo  '<div class="error"><p>' . sprintf( __( 'Authorize.Net error: Please enter your Transaction Key <a href="%s">here</a>', 'wc-authnet' ), admin_url( 'admin.php?page=wc-settings&tab=checkout&section=authnet' ) ) . '</p></div>' ;
+            echo  '<div class="error"><p>' . sprintf( __( 'Authorize.Net error: Please enter your Transaction Key <a href="%s">here</a>', 'wc-authnet' ), admin_url( 'admin.php?page=wc-settings&tab=checkout&section=authnet' ) ) . '</p></div>';
             return;
         }
 
         // Show message if enabled and FORCE SSL is disabled and WordpressHTTPS plugin is not detected
         if ( !wc_checkout_is_https() ) {
-            echo  '<div class="notice notice-warning"><p>' . sprintf( __( 'Authorize.Net is enabled, but a SSL certificate is not detected. Your checkout may not be secure! Please ensure your server has a valid <a href="%1$s" target="_blank">SSL certificate</a>', 'wc-authnet' ), 'https://en.wikipedia.org/wiki/Transport_Layer_Security' ) . '</p></div>' ;
+            echo  '<div class="notice notice-warning"><p>' . sprintf( __( 'Authorize.Net is enabled, but a SSL certificate is not detected. Your checkout may not be secure! Please ensure your server has a valid <a href="%1$s" target="_blank">SSL certificate</a>', 'wc-authnet' ), 'https://en.wikipedia.org/wiki/Transport_Layer_Security' ) . '</p></div>';
         }
 	}
 
@@ -391,8 +391,9 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		} catch ( Exception $e ) {
 			wc_add_notice( sprintf( __( 'Gateway Error: %s', 'wc-authnet' ), $e->getMessage() ), 'error' );
             $this->log( sprintf( __( 'Gateway Error: %s', 'wc-authnet' ), $e->getMessage() ) );
-            if( is_wp_error( $response ) && $response = $response->get_error_data() ) {
-                $order->add_order_note( sprintf( __( 'Authorize.Net failure reason: %s', 'wc-authnet' ), $response['response_reason_text'] ) );
+
+			if( is_wp_error( $response ) && $response = $response->get_error_data() ) {
+                $order->add_order_note( sprintf( __( 'Authorize.Net failure reason: %s', 'wc-authnet' ), $response['response_reason_code'] . ' - ' . $response['response_reason_text'] ) );
             }
 
 			do_action( 'wc_gateway_authnet_process_payment_error', $e, $order );
@@ -404,7 +405,6 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				'result'   => 'fail',
 				'redirect' => ''
 			);
-
 		}
 	}
 
