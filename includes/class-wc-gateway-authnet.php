@@ -344,7 +344,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
             $order->set_transaction_id( $response['transaction_id'] );
 
-            if( $payment_args['x_type'] == 'AUTH_CAPTURE' ) {
+            if( $payment_args['x_type'] == 'AUTH_CAPTURE' && $response['response_code'] != 4 ) {
 
                 // Store captured value
                 $order->update_meta_data( '_authnet_charge_captured', 'yes' );
