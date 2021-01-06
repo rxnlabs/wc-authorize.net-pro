@@ -70,7 +70,7 @@ A valid SSL certificate is required to ensure your customer credit card details 
 
 = 5.1.20 =
 * Updated freemius sdk to 2.4.1
-* Updated min WC version to 3.0.0
+* Updated min WC version to 3.3
 * Updated "WC tested up to" header to 4.9
 
 = 5.1.19 =

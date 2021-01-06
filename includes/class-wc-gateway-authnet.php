@@ -722,7 +722,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 	/**
 	 * Returns the order_id if on the checkout pay page
 	 *
-	 * @since 3.0.0
+	 * @since 3.3
 	 * @return int order identifier
 	 */
 	public function get_checkout_pay_page_order_id() {
