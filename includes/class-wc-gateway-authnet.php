@@ -541,7 +541,8 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 	}
 
     public function get_error_message( $reason_code, $default_message, $response ) {
-        switch ( $reason_code ) {
+
+		switch ( $reason_code ) {
             case '2' :
             case '3' :
             case '4' :
@@ -581,15 +582,12 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
             default :
                 $message = $default_message;
-
         }
 
+		$message = apply_filters( 'woocommerce_authnet_error_message', $message, $response );
         $message = '<!-- Error: ' . $reason_code . ' -->' . $message;
 
-		$message = apply_filters( 'woocommerce_authnet_error_message', $message, $response );
-
 		return $message;
-
     }
 
 	/**
