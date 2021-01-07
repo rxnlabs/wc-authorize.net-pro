@@ -632,6 +632,10 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
         $search[]  = '&';
         $replace[] = '-';
 
+		// Replace Percentage with pc char
+        $search[]  = '%';
+        $replace[] = 'pc';
+
         // Apply Replacements
         $string = str_replace( $search, $replace, $string );
 
