@@ -510,7 +510,8 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
         if ( is_wp_error( $result ) ) {
 			return $result;
 		} elseif( count( $result ) < 10 ) {
-			return new WP_Error( 'invalid_response', __( 'There was an error with the gateway response.', 'wc-authnet' ) );
+			$error_message = __( 'There was an error with the gateway response.', 'wc-authnet' );
+			return new WP_Error( 'invalid_response', apply_filters( 'woocommerce_authnet_error_message', $error_message, $result ) );
 		}
 
         $authnet_response = array(
@@ -529,18 +530,19 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
         if( $authnet_response['response_code'] == 2 ) {
             $decline_message = __( 'Your card has been declined.', 'wc-authnet' );
-            return new WP_Error( 'card_declined', $this->get_error_message( $authnet_response['response_reason_code'], $decline_message ), $authnet_response );
+            return new WP_Error( 'card_declined', $this->get_error_message( $authnet_response['response_reason_code'], $decline_message, $authnet_response ), $authnet_response );
         }
 
         if( $authnet_response['response_code'] == 3 ) {
-            return new WP_Error( 'card_error', $this->get_error_message( $authnet_response['response_reason_code'], $authnet_response['response_reason_text'] ), $authnet_response );
+            return new WP_Error( 'card_error', $this->get_error_message( $authnet_response['response_reason_code'], $authnet_response['response_reason_text'], $authnet_response ), $authnet_response );
         }
 
         return $authnet_response;
 	}
 
-    public function get_error_message( $reason_code, $default_message ) {
-        switch ( $reason_code ) {
+    public function get_error_message( $reason_code, $default_message, $response ) {
+
+		switch ( $reason_code ) {
             case '2' :
             case '3' :
             case '4' :
@@ -580,13 +582,12 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
             default :
                 $message = $default_message;
-
         }
 
+		$message = apply_filters( 'woocommerce_authnet_error_message', $message, $response );
         $message = '<!-- Error: ' . $reason_code . ' -->' . $message;
 
 		return $message;
-
     }
 
 	/**
@@ -631,6 +632,10 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		// Replace Ampersand with dash
         $search[]  = '&';
         $replace[] = '-';
+
+		// Replace Percentage with pc char
+        $search[]  = '%';
+        $replace[] = 'pc';
 
         // Apply Replacements
         $string = str_replace( $search, $replace, $string );
@@ -722,7 +727,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 	/**
 	 * Returns the order_id if on the checkout pay page
 	 *
-	 * @since 3.0.0
+	 * @since 3.3
 	 * @return int order identifier
 	 */
 	public function get_checkout_pay_page_order_id() {

@@ -7,7 +7,7 @@ Author URI: https://pledgedplugins.com
 Requires at least: 4.4
 Tested up to: 5.6
 Requires PHP: 5.6
-Stable tag: 5.1.19
+Stable tag: 5.1.20
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -68,6 +68,13 @@ A valid SSL certificate is required to ensure your customer credit card details 
 
 == Changelog ==
 
+= 5.1.20 =
+* Updated Freemius SDK to 2.4.1
+* Updated minimum WC version to 3.3
+* Updated "WC tested up to" header to 4.9
+* Fixed invalid line item ID issue
+* Added filter on error message displayed at checkout
+
 = 5.1.19 =
 * Fixed "Pending Review" orders being marked as paid
 * Updated "WC tested up to" header to 4.8
@@ -76,7 +83,7 @@ A valid SSL certificate is required to ensure your customer credit card details 
 = 5.1.18 =
 * Updated "WC tested up to" header to 4.6
 * Compatible to WordPress 5.5+
-* Updated freemius SDK to 2.4.0
+* Updated Freemius SDK to 2.4.0
 
 = 5.1.17 =
 * Updated "WC tested up to" header to 4.4
@@ -133,7 +140,7 @@ A valid SSL certificate is required to ensure your customer credit card details 
 * Updated "WC tested up to" header to 3.7
 
 = 5.1.2 =
-* Updated freemius sdk to 2.3.0
+* Updated Freemius SDK to 2.3.0
 
 = 5.1.1 =
 * Sanitized line items to prevent invalid characters
