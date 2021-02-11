@@ -481,6 +481,8 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 			foreach ( $args['line_items'] as $line_item ) {
 				$line_items .= '&x_line_item=' . implode( '<|>', $line_item );
 			}
+		} else {
+			$args['line_items'] = false;
 		}
 
         if( isset( $_x_post_fields['x_state'] ) && empty( $_x_post_fields['x_state'] ) ) {
