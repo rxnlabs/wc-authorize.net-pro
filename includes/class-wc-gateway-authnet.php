@@ -1,4 +1,5 @@
 <?php
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -27,11 +28,11 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 	 * Constructor
 	 */
 	public function __construct() {
-		$this->id                    = 'authnet';
-		$this->method_title          = __( 'Authorize.Net', 'wc-authnet' );
-		$this->method_description 	 = sprintf( esc_html__( 'Live merchant accounts cannot be used in a sandbox environment, so to test the plugin, please make sure you are using a separate sandbox account. If you do not have a sandbox account, you can sign up for one from %shere%s.', 'wc-authnet' ), '<a href="https://developer.authorize.net/hello_world/sandbox.html" target="_blank">', '</a>' ) . '<h3>' . __( 'Upgrade to Enterprise', 'wc-authnet' ) . '</h3>' . sprintf( esc_html__( 'Enterprise version is a full blown plugin that provides full support for processing subscriptions, pre-orders and payments via saved cards. The credit card information is saved in your Authorize.Net account and is reused to charge future orders, recurring payments or pre-orders at a later time. %sClick here%s to upgrade to Enterprise version or to know more about it.', 'wc-authnet' ), '<a href="' . wc_authnet_fs()->get_upgrade_url() . '" target="_blank">', '</a>' );
-		$this->has_fields            = true;
-		$this->supports              = array( 'products', 'refunds' );
+		$this->id                   = 'authnet';
+		$this->method_title         = __( 'Authorize.Net', 'wc-authnet' );
+		$this->method_description	= sprintf( esc_html__( 'Live merchant accounts cannot be used in a sandbox environment, so to test the plugin, please make sure you are using a separate sandbox account. If you do not have a sandbox account, you can sign up for one from %shere%s.', 'wc-authnet' ), '<a href="https://developer.authorize.net/hello_world/sandbox.html" target="_blank">', '</a>' ) . '<h3>' . __( 'Upgrade to Enterprise', 'wc-authnet' ) . '</h3>' . sprintf( esc_html__( 'Enterprise version is a full blown plugin that provides full support for processing subscriptions, pre-orders and payments via saved cards. The credit card information is saved in your Authorize.Net account and is reused to charge future orders, recurring payments or pre-orders at a later time. %sClick here%s to upgrade to Enterprise version or to know more about it.', 'wc-authnet' ), '<a href="' . wc_authnet_fs()->get_upgrade_url() . '" target="_blank">', '</a>' );
+		$this->has_fields			= true;
+		$this->supports             = array( 'products', 'refunds' );
 
 		// Load the form fields
 		$this->init_form_fields();
@@ -344,7 +345,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
             $order->set_transaction_id( $response['transaction_id'] );
 
-            if( $payment_args['x_type'] == 'AUTH_CAPTURE' && $response['response_code'] != 4 ) {
+            if ( $payment_args['x_type'] == 'AUTH_CAPTURE' && $response['response_code'] != 4 ) {
 
                 // Store captured value
                 $order->update_meta_data( '_authnet_charge_captured', 'yes' );
