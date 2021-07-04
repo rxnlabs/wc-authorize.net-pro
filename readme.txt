@@ -7,7 +7,7 @@ Author URI: https://pledgedplugins.com
 Requires at least: 4.4
 Tested up to: 5.7
 Requires PHP: 5.6
-Stable tag: 5.1.23
+Stable tag: 5.1.24
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -68,13 +68,16 @@ A valid SSL certificate is required to ensure your customer credit card details 
 
 == Changelog ==
 
+= 5.1.24 =
+* Updated "WC tested up to" header to 5.5
+
 = 5.1.23 =
 * Updated "WC tested up to" header to 5.3
 * Updated Freemius SDK to 2.4.2
 
 = 5.1.22 =
 * Updated "WC tested up to" header to 5.1
-* Compatible to WordPress 5.7
+* Updated compatibility info to WordPress 5.7
 
 = 5.1.21 =
 * Fixed notice for undefined line items
