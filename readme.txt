@@ -69,7 +69,7 @@ A valid SSL certificate is required to ensure your customer credit card details 
 == Changelog ==
 
 = 5.1.25 =
-* Updated "WC tested up to" header to 5.6
+* Updated "WC tested up to" header to 5.7
 * Updated compatibility info to WordPress 5.8
 
 = 5.1.24 =
