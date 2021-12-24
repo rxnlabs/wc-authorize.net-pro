@@ -303,7 +303,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				'x_ship_to_address' 	=> substr( trim( $order->get_shipping_address_1() . ' ' . $order->get_shipping_address_2() ), 0, 60 ),
 				'x_ship_to_city' 		=> substr( $order->get_shipping_city(), 0, 40 ),
 				'x_ship_to_state' 		=> substr( $order->get_shipping_state(), 0, 40 ),
-				'x_ship_to_country' 	=> substr( $order->get_shipping_country(), 0, 40 ),
+				'x_ship_to_country' 	=> substr( $order->get_shipping_country(), 0, 60 ),
 				'x_ship_to_zip' 		=> substr( $order->get_shipping_postcode(), 0, 20 ),
 				'x_tax'					=> $order->get_total_tax(),
 				'x_freight'				=> $order->get_total_shipping(),
