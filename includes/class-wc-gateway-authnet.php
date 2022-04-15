@@ -349,6 +349,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
                 // Store captured value
                 $order->update_meta_data( '_authnet_charge_captured', 'yes' );
+                $order->update_meta_data( '_authnet_authorization_code', $response['authorization_code'] );
                 $order->update_meta_data( 'Authorize.Net Payment ID', $response['transaction_id'] );
 
                 // Payment complete
@@ -363,6 +364,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
                 // Store captured value
                 $order->update_meta_data( '_authnet_charge_captured', 'no' );
+                $order->update_meta_data( '_authnet_authorization_code', $response['authorization_code'] );
                 $order->update_meta_data( '_transaction_id', $response['transaction_id'] );
 
                 if ( $order->has_status( array( 'pending', 'failed' ) ) ) {

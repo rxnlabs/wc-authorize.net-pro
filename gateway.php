@@ -419,6 +419,7 @@ class WC_Authnet {
 					$gateway->log( "Success: $complete_message" );
 
 					$order->update_meta_data( '_authnet_charge_captured', 'yes' );
+					$order->update_meta_data( '_authnet_authorization_code', $response['authorization_code'] );
 					$order->update_meta_data( 'Authorize.Net Payment ID', $response['transaction_id'] );
 
 					$order->set_transaction_id( $response['transaction_id'] );
