@@ -7,7 +7,7 @@ Author URI: https://pledgedplugins.com
 Requires at least: 4.4
 Tested up to: 5.9
 Requires PHP: 5.6
-Stable tag: 5.1.27
+Stable tag: 5.1.28
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -67,6 +67,10 @@ That's it! You are ready to accept credit cards with your Authorize.Net merchant
 A valid SSL certificate is required to ensure your customer credit card details are safe and make your site PCI DSS compliant. This plugin does not store the customer credit card numbers or sensitive information on your website.
 
 == Changelog ==
+
+= 5.1.28 =
+* Updated "WC tested up to" header to 6.4
+* Capture or void payment if the order is authorized regardless of whether it was changed from on-hold or not
 
 = 5.1.27 =
 * Updated Freemius SDK to 2.4.3
