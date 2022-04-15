@@ -355,7 +355,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
                 $order->payment_complete( $response['transaction_id'] );
 
                 // Add order note
-                $complete_message = sprintf( __( 'Authorize.Net charge complete (Charge ID: %s)', 'wc-authnet' ), $response['transaction_id'] );
+                $complete_message = sprintf( __( "Authorize.Net charge complete (Charge ID: %s) \n\nAVS Response Code: %s \n\nCVV2 Response Code: %s", 'wc-authnet' ), $response['transaction_id'], $response['avs_response'], $response['cavv_response'] );
                 $order->add_order_note( $complete_message );
                 $this->log( "Success: $complete_message" );
 
@@ -370,7 +370,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
                 }
 
                 // Mark as on-hold
-                $authorized_message = sprintf( __( 'Authorize.Net charge authorized (Charge ID: %s). Process order to take payment, or cancel to remove the pre-authorization.', 'wc-authnet' ), $response['transaction_id'] );
+                $authorized_message = sprintf( __( "Authorize.Net charge authorized (Charge ID: %s). Process order to take payment, or cancel to remove the pre-authorization.\n\nAVS Response Code: %s \n\nCVV2 Response Code: %s", 'wc-authnet' ), $response['transaction_id'], $response['avs_response'], $response['cavv_response'] );
                 $order->update_status( 'on-hold', $authorized_message );
                 $this->log( "Success: $authorized_message" );
 
@@ -394,7 +394,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
             $this->log( sprintf( __( 'Gateway Error: %s', 'wc-authnet' ), $e->getMessage() ) );
 
 			if( is_wp_error( $response ) && $response = $response->get_error_data() ) {
-                $order->add_order_note( sprintf( __( 'Authorize.Net failure reason: %s', 'wc-authnet' ), $response['response_reason_code'] . ' - ' . $response['response_reason_text'] ) );
+                $order->add_order_note( sprintf( __( "Authorize.Net failure reason: %s \n\nAVS Response Code: %s \n\nCVV2 Response Code: %s", 'wc-authnet' ), $response['response_reason_code'] . ' - ' . $response['response_reason_text'], $response['avs_response'], $response['cavv_response'] ) );
             }
 
 			do_action( 'wc_gateway_authnet_process_payment_error', $e, $order );
@@ -451,7 +451,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
                 $this->log( "Gateway Error: " . $response->get_error_message() );
                 return $response;
 			} elseif ( ! empty( $response['transaction_id'] ) ) {
-				$refund_message = sprintf( __( 'Refunded %s - Refund ID: %s - Reason: %s', 'wc-authnet' ), $amount, $response['transaction_id'], $reason );
+				$refund_message = sprintf( __( "Refunded %s - Refund ID: %s - Reason: %s \n\nAVS Response Code: %s \n\nCVV2 Response Code: %s", 'wc-authnet' ), $amount, $response['transaction_id'], $reason, $response['avs_response'], $response['cavv_response'] );
 				$order->add_order_note( $refund_message );
 				$order->save();
 				$this->log( "Success: " . html_entity_decode( strip_tags( $refund_message ) ) );
