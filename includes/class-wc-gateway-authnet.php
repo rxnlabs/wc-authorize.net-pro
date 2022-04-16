@@ -356,7 +356,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
                 $order->payment_complete( $response['transaction_id'] );
 
                 // Add order note
-                $complete_message = sprintf( __( "Authorize.Net charge complete (Charge ID: %s) \n\nAVS Response Code: %s \n\nCVV2 Response Code: %s", 'wc-authnet' ), $response['transaction_id'], $response['avs_response'], $response['cavv_response'] );
+                $complete_message = sprintf( __( "Authorize.Net charge complete (Charge ID: %s) \n\nAVS Response Code: %s \n\nCVV2 Response Code: %s", 'wc-authnet' ), $response['transaction_id'], self::get_avs_message( $response['avs_response'] ), self::get_cvv_message( $response['card_code_response'] ) );
                 $order->add_order_note( $complete_message );
                 $this->log( "Success: $complete_message" );
 
@@ -367,12 +367,16 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
                 $order->update_meta_data( '_authnet_authorization_code', $response['authorization_code'] );
                 $order->update_meta_data( '_transaction_id', $response['transaction_id'] );
 
+	            if( $response['response_code'] == 4 ) {
+		            $order->update_meta_data( '_authnet_fds_hold', 'yes' );
+	            }
+
                 if ( $order->has_status( array( 'pending', 'failed' ) ) ) {
                     wc_reduce_stock_levels( $order_id );
                 }
 
                 // Mark as on-hold
-                $authorized_message = sprintf( __( "Authorize.Net charge authorized (Charge ID: %s). Process order to take payment, or cancel to remove the pre-authorization.\n\nAVS Response Code: %s \n\nCVV2 Response Code: %s", 'wc-authnet' ), $response['transaction_id'], $response['avs_response'], $response['cavv_response'] );
+                $authorized_message = sprintf( __( "Authorize.Net charge authorized (Charge ID: %s). Process order to take payment, or cancel to remove the pre-authorization.\n\nAVS Response Code: %s \n\nCVV2 Response Code: %s \n\n", 'wc-authnet' ), $response['transaction_id'], self::get_avs_message( $response['avs_response'] ), self::get_cvv_message( $response['card_code_response'] ) );
                 $order->update_status( 'on-hold', $authorized_message );
                 $this->log( "Success: $authorized_message" );
 
@@ -396,7 +400,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
             $this->log( sprintf( __( 'Gateway Error: %s', 'wc-authnet' ), $e->getMessage() ) );
 
 			if( is_wp_error( $response ) && $response = $response->get_error_data() ) {
-                $order->add_order_note( sprintf( __( "Authorize.Net failure reason: %s \n\nAVS Response Code: %s \n\nCVV2 Response Code: %s", 'wc-authnet' ), $response['response_reason_code'] . ' - ' . $response['response_reason_text'], $response['avs_response'], $response['cavv_response'] ) );
+                $order->add_order_note( sprintf( __( "Authorize.Net failure reason: %s \n\nAVS Response Code: %s \n\nCVV2 Response Code: %s", 'wc-authnet' ), $response['response_reason_code'] . ' - ' . $response['response_reason_text'], self::get_avs_message( $response['avs_response'] ), self::get_cvv_message( $response['card_code_response'] ) ) );
             }
 
 			do_action( 'wc_gateway_authnet_process_payment_error', $e, $order );
@@ -453,7 +457,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
                 $this->log( "Gateway Error: " . $response->get_error_message() );
                 return $response;
 			} elseif ( ! empty( $response['transaction_id'] ) ) {
-				$refund_message = sprintf( __( "Refunded %s - Refund ID: %s - Reason: %s \n\nAVS Response Code: %s \n\nCVV2 Response Code: %s", 'wc-authnet' ), $amount, $response['transaction_id'], $reason, $response['avs_response'], $response['cavv_response'] );
+				$refund_message = sprintf( __( "Refunded %s - Refund ID: %s - Reason: %s", 'wc-authnet' ), $amount, $response['transaction_id'], $reason );
 				$order->add_order_note( $refund_message );
 				$order->save();
 				$this->log( "Success: " . html_entity_decode( strip_tags( $refund_message ) ) );
@@ -738,6 +742,58 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 	public function get_checkout_pay_page_order_id() {
 		global $wp;
 		return isset( $wp->query_vars['order-pay'] ) ? absint( $wp->query_vars['order-pay'] ) : 0;
+	}
+
+	/**
+	 * get_avs_message function.
+	 *
+	 * @access public
+	 * @param string $code
+	 * @return string
+	 */
+	public function get_avs_message( $code ) {
+		$avs_messages = array(
+			'A' => __( 'Street Address: Match -- First 5 Digits of ZIP: No Match', 'woocommerce-cardpay-authnet' ),
+			'B' => __( 'Address not provided for AVS check or street address match, postal code could not be verified', 'woocommerce-cardpay-authnet' ),
+			'E' => __( 'AVS Error', 'woocommerce-cardpay-authnet' ),
+			'G' => __( 'Non U.S. Card Issuing Bank', 'woocommerce-cardpay-authnet' ),
+			'N' => __( 'Street Address: No Match -- First 5 Digits of ZIP: No Match', 'woocommerce-cardpay-authnet' ),
+			'P' => __( 'AVS not applicable for this transaction', 'woocommerce-cardpay-authnet' ),
+			'R' => __( 'Retry, System Is Unavailable', 'woocommerce-cardpay-authnet' ),
+			'S' => __( 'AVS Not Supported by Card Issuing Bank', 'woocommerce-cardpay-authnet'),
+			'U' => __( 'Address Information For This Cardholder Is Unavailable', 'woocommerce-cardpay-authnet' ),
+			'W' => __( 'Street Address: No Match -- All 9 Digits of ZIP: Match', 'woocommerce-cardpay-authnet' ),
+			'X' => __( 'Street Address: Match -- All 9 Digits of ZIP: Match', 'woocommerce-cardpay-authnet' ),
+			'Y' => __( 'Street Address: Match - First 5 Digits of ZIP: Match', 'woocommerce-cardpay-authnet' ),
+			'Z' => __( 'Street Address: No Match - First 5 Digits of ZIP: Match', 'woocommerce-cardpay-authnet' ),
+		);
+		if ( array_key_exists( $code, $avs_messages ) ) {
+			return $code . ' - ' . $avs_messages[$code];
+		} else {
+			return $code;
+		}
+	}
+
+	/**
+	 * get_cvv_message function.
+	 *
+	 * @access public
+	 * @param string $code
+	 * @return string
+	 */
+	public function get_cvv_message( $code ) {
+		$cvv_messages = array(
+			'M' => __( 'CVV2/CVC2 Match', 'woocommerce-cardpay-authnet' ),
+			'N' => __( 'CVV2 / CVC2 No Match', 'woocommerce-cardpay-authnet' ),
+			'P' => __( 'Not Processed', 'woocommerce-cardpay-authnet' ),
+			'S' => __( 'Merchant Has Indicated that CVV2 / CVC2 is not present on card', 'woocommerce-cardpay-authnet' ),
+			'U' => __( 'Issuer is not certified and/or has not provided visa encryption keys', 'woocommerce-cardpay-authnet' ),
+		);
+		if ( array_key_exists( $code, $cvv_messages ) ) {
+			return $code . ' - ' . $cvv_messages[$code];
+		} else {
+			return $code;
+		}
 	}
 
 	/**

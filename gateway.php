@@ -414,7 +414,7 @@ class WC_Authnet {
 				if ( is_wp_error( $response ) ) {
 					$order->add_order_note( __( 'Unable to capture charge!', 'wc-authnet' ) . ' ' . $response->get_error_message() );
 				} else {
-					$complete_message = sprintf( __( "Authorize.Net charge complete (Charge ID: %s) \n\nAVS Response Code: %s \n\nCVV2 Response Code: %s", 'wc-authnet' ), $response['transaction_id'], $response['avs_response'], $response['cavv_response'] );
+					$complete_message = sprintf( __( "Authorize.Net charge complete (Charge ID: %s)", 'wc-authnet' ), $response['transaction_id'] );
 					$order->add_order_note( $complete_message );
 					$gateway->log( "Success: $complete_message" );
 
@@ -460,7 +460,7 @@ class WC_Authnet {
 						$order->add_order_note( __( 'Unable to refund charge!', 'wc-authnet' ) . ' ' . $response->get_error_message() );
 					}
 				} else {
-					$cancel_message = sprintf( __( "Authorize.Net charge refunded (Charge ID: %s) \n\nAVS Response Code: %s \n\nCVV2 Response Code: %s", 'wc-authnet' ), $response['transaction_id'], $response['avs_response'], $response['cavv_response'] );
+					$cancel_message = sprintf( __( "Authorize.Net charge refunded (Charge ID: %s)", 'wc-authnet' ), $response['transaction_id'] );
 					$order->add_order_note( $cancel_message );
 					$gateway->log( "Success: $cancel_message" );
 
