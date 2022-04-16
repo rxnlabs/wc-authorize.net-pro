@@ -7,7 +7,7 @@ Author URI: https://pledgedplugins.com
 Requires at least: 4.4
 Tested up to: 5.9
 Requires PHP: 5.6
-Stable tag: 5.1.28
+Stable tag: 5.1.29
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -67,6 +67,13 @@ That's it! You are ready to accept credit cards with your Authorize.Net merchant
 A valid SSL certificate is required to ensure your customer credit card details are safe and make your site PCI DSS compliant. This plugin does not store the customer credit card numbers or sensitive information on your website.
 
 == Changelog ==
+
+= 5.1.29 =
+* Updated "WC tested up to" header to 6.5
+* Added AVS and CVV responses to order notes
+* Fixed capture payments that are put on hold by Authorize.Net fraud filters
+* Shown error while processing transaction with non ecommerce merchant account
+* Saved "authorization_code" from transaction response to order meta
 
 = 5.1.28 =
 * Updated "WC tested up to" header to 6.4

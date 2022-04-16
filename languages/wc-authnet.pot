@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: WooCommerce Authorize.Net Gateway\n"
-"POT-Creation-Date: 2022-04-14 20:03+0530\n"
-"PO-Revision-Date: 2022-04-14 20:03+0530\n"
+"POT-Creation-Date: 2022-04-16 20:23+0530\n"
+"PO-Revision-Date: 2022-04-16 20:23+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -169,16 +169,16 @@ msgstr ""
 msgid "Unable to capture charge!"
 msgstr ""
 
-#: gateway.php:417 includes/class-wc-gateway-authnet.php:358
+#: gateway.php:424
 #, php-format
 msgid "Authorize.Net charge complete (Charge ID: %s)"
 msgstr ""
 
-#: gateway.php:459
+#: gateway.php:467
 msgid "Unable to refund charge!"
 msgstr ""
 
-#: gateway.php:462
+#: gateway.php:470
 #, php-format
 msgid "Authorize.Net charge refunded (Charge ID: %s)"
 msgstr ""
@@ -494,60 +494,154 @@ msgstr ""
 msgid "%s - Order %s"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:373
+#: includes/class-wc-gateway-authnet.php:359
+#, php-format
+msgid ""
+"Authorize.Net charge complete (Charge ID: %s) \n"
+"\n"
+"AVS Response: %s \n"
+"\n"
+"CVV2 Response: %s"
+msgstr ""
+
+#: includes/class-wc-gateway-authnet.php:379
 #, php-format
 msgid ""
 "Authorize.Net charge authorized (Charge ID: %s). Process order to take "
-"payment, or cancel to remove the pre-authorization."
+"payment, or cancel to remove the pre-authorization.\n"
+"\n"
+"AVS Response: %s \n"
+"\n"
+"CVV2 Response: %s \n"
+"\n"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:393
-#: includes/class-wc-gateway-authnet.php:394
+#: includes/class-wc-gateway-authnet.php:399
+#: includes/class-wc-gateway-authnet.php:400
 #, php-format
 msgid "Gateway Error: %s"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:397
+#: includes/class-wc-gateway-authnet.php:403
 #, php-format
-msgid "Authorize.Net failure reason: %s"
+msgid ""
+"Authorize.Net failure reason: %s \n"
+"\n"
+"AVS Response: %s \n"
+"\n"
+"CVV2 Response: %s"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:454
+#: includes/class-wc-gateway-authnet.php:460
 #, php-format
 msgid "Refunded %s - Refund ID: %s - Reason: %s"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:516
+#: includes/class-wc-gateway-authnet.php:522
 msgid "There was an error with the gateway response."
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:535
-#: includes/class-wc-gateway-authnet.php:553
+#: includes/class-wc-gateway-authnet.php:541
+#: includes/class-wc-gateway-authnet.php:559
 msgid "Your card has been declined."
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:557
+#: includes/class-wc-gateway-authnet.php:563
 msgid "The credit card has expired."
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:562
+#: includes/class-wc-gateway-authnet.php:568
 msgid "The merchant does not accept this type of credit card."
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:566
+#: includes/class-wc-gateway-authnet.php:572
 msgid ""
 "The address provided does not match the billing address of the cardholder. "
 "Please verify the information and try again."
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:570
+#: includes/class-wc-gateway-authnet.php:576
 msgid "The transaction amount is greater than the maximum amount allowed."
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:583
+#: includes/class-wc-gateway-authnet.php:589
 msgid ""
 "There was an error processing your credit card. Please verify the "
 "information and try again."
+msgstr ""
+
+#: includes/class-wc-gateway-authnet.php:756
+msgid "Street Address: Match -- First 5 Digits of ZIP: No Match"
+msgstr ""
+
+#: includes/class-wc-gateway-authnet.php:757
+msgid ""
+"Address not provided for AVS check or street address match, postal code "
+"could not be verified"
+msgstr ""
+
+#: includes/class-wc-gateway-authnet.php:758
+msgid "AVS Error"
+msgstr ""
+
+#: includes/class-wc-gateway-authnet.php:759
+msgid "Non U.S. Card Issuing Bank"
+msgstr ""
+
+#: includes/class-wc-gateway-authnet.php:760
+msgid "Street Address: No Match -- First 5 Digits of ZIP: No Match"
+msgstr ""
+
+#: includes/class-wc-gateway-authnet.php:761
+msgid "AVS not applicable for this transaction"
+msgstr ""
+
+#: includes/class-wc-gateway-authnet.php:762
+msgid "Retry, System Is Unavailable"
+msgstr ""
+
+#: includes/class-wc-gateway-authnet.php:763
+msgid "AVS Not Supported by Card Issuing Bank"
+msgstr ""
+
+#: includes/class-wc-gateway-authnet.php:764
+msgid "Address Information For This Cardholder Is Unavailable"
+msgstr ""
+
+#: includes/class-wc-gateway-authnet.php:765
+msgid "Street Address: No Match -- All 9 Digits of ZIP: Match"
+msgstr ""
+
+#: includes/class-wc-gateway-authnet.php:766
+msgid "Street Address: Match -- All 9 Digits of ZIP: Match"
+msgstr ""
+
+#: includes/class-wc-gateway-authnet.php:767
+msgid "Street Address: Match - First 5 Digits of ZIP: Match"
+msgstr ""
+
+#: includes/class-wc-gateway-authnet.php:768
+msgid "Street Address: No Match - First 5 Digits of ZIP: Match"
+msgstr ""
+
+#: includes/class-wc-gateway-authnet.php:786
+msgid "CVV2/CVC2 Match"
+msgstr ""
+
+#: includes/class-wc-gateway-authnet.php:787
+msgid "CVV2 / CVC2 No Match"
+msgstr ""
+
+#: includes/class-wc-gateway-authnet.php:788
+msgid "Not Processed"
+msgstr ""
+
+#: includes/class-wc-gateway-authnet.php:789
+msgid "Merchant Has Indicated that CVV2 / CVC2 is not present on card"
+msgstr ""
+
+#: includes/class-wc-gateway-authnet.php:790
+msgid "Issuer is not certified and/or has not provided visa encryption keys"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
