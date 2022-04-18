@@ -74,6 +74,7 @@ A valid SSL certificate is required to ensure your customer credit card details 
 * Fixed capture payments that are put on hold by Authorize.Net fraud filters
 * Shown error while processing transaction with non ecommerce merchant account
 * Saved "authorization_code" from transaction response to order meta
+* General code clean up
 
 = 5.1.28 =
 * Updated "WC tested up to" header to 6.4
