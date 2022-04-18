@@ -23,6 +23,8 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
     public $testmode;
     public $logging;
     public $debugging;
+    public $allowed_card_types;
+    public $customer_receipt;
 
 	/**
 	 * Constructor
@@ -44,15 +46,15 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		$this->title       		  	= $this->get_option( 'title' );
 		$this->description 		  	= $this->get_option( 'description' );
 		$this->enabled     		  	= $this->get_option( 'enabled' );
-		$this->testmode    		  	= $this->get_option( 'testmode' ) === 'yes' ? true : false;
-		$this->capture     		  	= $this->get_option( 'capture', 'yes' ) === 'yes' ? true : false;
+		$this->testmode    		  	= $this->get_option( 'testmode' ) === 'yes';
+		$this->capture     		  	= $this->get_option( 'capture', 'yes' ) === 'yes';
 		$this->statement_descriptor = $this->get_option( 'statement_descriptor', wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ) );
 		$this->login_id	   		  	= $this->get_option( 'login_id' );
 		$this->transaction_key	  	= $this->get_option( 'transaction_key' );
-		$this->logging     		  	= $this->get_option( 'logging' ) === 'yes' ? true : false;
-		$this->debugging   		  	= $this->get_option( 'debugging' ) === 'yes' ? true : false;
+		$this->logging     		  	= $this->get_option( 'logging' ) === 'yes';
+		$this->debugging   		  	= $this->get_option( 'debugging' ) === 'yes';
 		$this->allowed_card_types 	= $this->get_option( 'allowed_card_types', array() );
-		$this->customer_receipt   	= $this->get_option( 'customer_receipt' ) === 'yes' ? true : false;
+		$this->customer_receipt   	= $this->get_option( 'customer_receipt' ) === 'yes';
 
 		if ( $this->testmode ) {
 			$this->description .= ' ' . sprintf( __( '<br /><br /><strong>TEST MODE ENABLED</strong><br /> In test mode, you can use the card number 4111111111111111 with any CVC and a valid expiration date or check the documentation "<a href="%s">%s API</a>" for more card numbers.', 'wc-authnet' ), 'https://developer.authorize.net/hello_world/testing_guide/', $this->method_title );
@@ -257,9 +259,10 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
 		$this->log( "Info: Begin processing payment for order {$order_id} for the amount of {$order->get_total()}" );
 
+		$response = false;
+
 		// Use Authorize.Net CURL API for payment
 		try {
-			$payment_args = array();
 
 			// Check for CC details filled or not
 			if( empty( $_POST['authnet-card-number'] ) || empty( $_POST['authnet-card-expiry'] ) || empty( $_POST['authnet-card-cvc'] ) ) {
@@ -306,12 +309,12 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				'x_ship_to_country' 	=> substr( $order->get_shipping_country(), 0, 60 ),
 				'x_ship_to_zip' 		=> substr( $order->get_shipping_postcode(), 0, 20 ),
 				'x_tax'					=> $order->get_total_tax(),
-				'x_freight'				=> $order->get_total_shipping(),
+				'x_freight'				=> $order->get_shipping_total(),
 				'x_email_customer'		=> $this->customer_receipt,
 			);
 
             $line_items = array();
-			foreach ( $order->get_items() as $id => $item ) {
+			foreach ( $order->get_items() as $item ) {
 				$product = $item->get_product();
                 if( !is_object( $product ) ) {
                     continue;
@@ -705,12 +708,13 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		);
 
 		foreach( $card_types as $type ) {
-			$card_type = $type['name'];
 			$compare = $type[$field];
 			if ( ( $field == 'pattern' && preg_match( $compare, $value, $match ) ) || $compare == $value ) {
 				return $type[$return];
 			}
 		}
+
+		return false;
 
 	}
 
@@ -800,7 +804,6 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 	 *
 	 * @since 2.6.10
 	 *
-	 * @param string $context
 	 * @param string $message
 	 */
 	public function log( $message ) {

@@ -77,14 +77,14 @@ if ( ! function_exists( 'wc_authnet_fs' ) ) {
 class WC_Authnet {
 
 	/**
-     * @var Singleton The reference the *Singleton* instance of this class
+     * @var WC_Authnet Singleton The reference the *Singleton* instance of this class
      */
     private static $instance;
 
     /**
      * Returns the *Singleton* instance of this class.
      *
-     * @return Singleton The *Singleton* instance.
+     * @return WC_Authnet Singleton The *Singleton* instance.
      */
     public static function get_instance() {
         if ( null === self::$instance ) {
