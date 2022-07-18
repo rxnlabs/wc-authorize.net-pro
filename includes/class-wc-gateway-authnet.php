@@ -367,9 +367,8 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
                 // Store captured value
                 $order->update_meta_data( '_authnet_charge_captured', 'no' );
-                $order->update_meta_data( '_transaction_id', $response['transaction_id'] );
 
-	            if( $response['response_code'] == 4 ) {
+	            if ( $response['response_code'] == 4 ) {
 		            $order->update_meta_data( '_authnet_fds_hold', 'yes' );
 	            }
 
