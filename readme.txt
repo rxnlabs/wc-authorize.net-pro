@@ -7,17 +7,17 @@ Author URI: https://pledgedplugins.com
 Requires at least: 4.4
 Tested up to: 6.0
 Requires PHP: 5.6
-Stable tag: 5.2.1
+Stable tag: 5.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-WooCommerce integration for Authorize.Net payment gateway. And accept credit cards directly on WordPress e-commerce websites.
+Authorize.Net payment gateway integration for WooCommerce to accept credit cards directly on WordPress e-commerce websites.
 
 == Description ==
 
-[Authorize.Net](https://www.authorize.net/) Payment Gateway allows you to accept credit cards from all over the world on your websites and deposit funds automatically into your merchant bank account.
+[Authorize.Net](https://www.authorize.net/) Payment Gateway for [WooCommerce](https://woocommerce.com/) allows you to accept credit cards payments into your Authorize.Net merchant account from all over the world on your websites.
 
-[WooCommerce](https://woocommerce.com/) is one of the oldest and most powerful e-commerce solutions for WordPress. This platform is very widely supported in the WordPress community which makes it easy for even an entry level e-commerce entrepreneur to learn to use and modify.
+WooCommerce is one of the oldest and most powerful e-commerce solutions for WordPress. This platform is very widely supported in the WordPress community which makes it easy for even an entry level e-commerce entrepreneur to learn to use and modify.
 
 #### FREE Pro Version Features
 * **Easy Install**: Like all Pledged Plugins add-ons, this plugin installs with one click. After installing, you will have only a few fields to fill out before you are ready to accept credit cards on your store.
@@ -32,7 +32,7 @@ WooCommerce integration for Authorize.Net payment gateway. And accept credit car
 > * **Process Subscriptions:**  Use with  [WooCommerce Subscriptions](https://woocommerce.com/products/woocommerce-subscriptions/)  extension to **create and manage products with recurring payments**  — payments that will give you residual revenue you can track and count on.
 > * **Setup Pre-Orders:**  Use with  [WooCommerce Pre-Orders](https://woocommerce.com/products/woocommerce-pre-orders/)  extension so customers can order products before they’re available by submitting their card details. The card is then automatically charged when the pre-order is available.
 > * **Pay via Saved Cards:** Enable option to use saved card details on the gateway servers for quicker checkout. No sensitive card data is stored on the website!
-> 
+>
 > [Click here](https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/) for Pricing details.
 
 #### Requirements
@@ -67,6 +67,11 @@ That's it! You are ready to accept credit cards with your Authorize.Net merchant
 A valid SSL certificate is required to ensure your customer credit card details are safe and make your site PCI DSS compliant. This plugin does not store the customer credit card numbers or sensitive information on your website.
 
 == Changelog ==
+
+= 5.2.2 =
+* Added minor improvements in code base
+* Fixed plugin SEO texts
+* Updated "WC tested up to" header to 7.0
 
 = 5.2.1 =
 * Fixed PHP notices
