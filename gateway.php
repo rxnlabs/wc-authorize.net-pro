@@ -124,6 +124,7 @@ class WC_Authnet {
         add_action( 'admin_notices', array( $this, 'admin_notices' ), 15 );
         add_action( 'plugins_loaded', array( $this, 'init' ) );
         wc_authnet_fs()->add_filter( 'templates/checkout.php', array( $this, 'checkout_notice' ) );
+        wc_authnet_fs()->add_filter( 'templates/pricing.php', array( $this, 'checkout_notice' ) );
     }
 
     public function submenu_setup() {
@@ -334,9 +335,7 @@ class WC_Authnet {
         $notices = array();
         $notice_html = '';
         if( ! $this->subscription_support_enabled ) {
-           $notices[] = __( 'To process subscription payments using Authorize.Net you will need the <a target="_blank" href="https://woocommerce.com/products/woocommerce-subscriptions/">WooCommerce Subscriptions</a> extension installed and running. Please ignore and proceed to upgrade if you are not setting up subscriptions.', 'wc-authnet' );
-        } elseif( ! $this->pre_order_enabled ) {
-           $notices[] = __( 'To process pre-orders using Authorize.Net you will need the <a target="_blank" href="https://woocommerce.com/products/woocommerce-pre-orders/">WooCommerce Pre-Orders</a> extension installed and running. Please ignore and proceed to upgrade if you are not setting up pre-orders.', 'wc-authnet' );
+           $notices[] = __( 'To process subscription payments using Authorize.Net you will need the <a target="_blank" href="https://woocommerce.com/products/woocommerce-subscriptions/">WooCommerce Subscriptions</a> extension installed and running. Please continue with your purchase if you are not setting up subscriptions or will install WooCommerce Subscriptions later.', 'wc-authnet' );
         }
         if( !empty( $notices ) ) {
             $notice_html =  "<div class='notice notice-warning' style='margin:50px 0 -30px;'>" ;
