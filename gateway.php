@@ -255,7 +255,7 @@ class WC_Authnet {
             $this->add_admin_notice( 'prompt_connect', 'notice notice-warning', sprintf( __( 'Authorize.Net is almost ready. To get started, <a href="%s">set your Authorize.Net account keys</a>.', 'wc-authnet' ), $setting_link ) );
         }
 
-        if ( class_exists( 'WC_Subscriptions_Order' ) && function_exists( 'wcs_create_renewal_order' ) ) {
+	    if ( class_exists( 'WC_Subscriptions' ) && function_exists( 'wcs_create_renewal_order' ) ) {
             $this->subscription_support_enabled = true;
         }
         if ( class_exists( 'WC_Pre_Orders_Order' ) ) {
