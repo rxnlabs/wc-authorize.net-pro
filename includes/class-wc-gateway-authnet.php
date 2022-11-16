@@ -595,7 +595,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
         }
 
 		$message = apply_filters( 'woocommerce_authnet_error_message', $message, $response );
-        $message = '<!-- Error: ' . $reason_code . ' -->' . $message;
+        $message = '<!-- Error: ' . $reason_code . ' --> ' . $message;
 
 		return $message;
     }
