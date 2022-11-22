@@ -3,13 +3,13 @@
 Plugin Name: WooCommerce Authorize.Net Gateway
 Plugin URI: https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
 Description: A payment gateway for Authorize.Net. An Authorize.Net account and a server with cURL, SSL support, and a valid SSL certificate is required (for security reasons) for this gateway to function. Requires WC 3.3+
-Version: 5.2.2
+Version: 5.2.3
 Author: Pledged Plugins
 Author URI: https://pledgedplugins.com
 Text Domain: wc-authnet
 Domain Path: /languages
 WC requires at least: 3.3
-WC tested up to: 7.0
+WC tested up to: 7.1
 
 	Copyright: © Pledged Plugins.
 	License: GNU General Public License v3.0
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'WC_AUTHNET_VERSION', '5.2.2' );
+define( 'WC_AUTHNET_VERSION', '5.2.3' );
 define( 'WC_AUTHNET_MIN_PHP_VER', '5.6.0' );
 define( 'WC_AUTHNET_MIN_WC_VER', '3.3' );
 define( 'WC_AUTHNET_PLUGIN_URL', untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) ) );
@@ -124,6 +124,7 @@ class WC_Authnet {
         add_action( 'admin_notices', array( $this, 'admin_notices' ), 15 );
         add_action( 'plugins_loaded', array( $this, 'init' ) );
         wc_authnet_fs()->add_filter( 'templates/checkout.php', array( $this, 'checkout_notice' ) );
+        wc_authnet_fs()->add_filter( 'templates/pricing.php', array( $this, 'checkout_notice' ) );
     }
 
     public function submenu_setup() {
@@ -254,7 +255,7 @@ class WC_Authnet {
             $this->add_admin_notice( 'prompt_connect', 'notice notice-warning', sprintf( __( 'Authorize.Net is almost ready. To get started, <a href="%s">set your Authorize.Net account keys</a>.', 'wc-authnet' ), $setting_link ) );
         }
 
-        if ( class_exists( 'WC_Subscriptions_Order' ) && function_exists( 'wcs_create_renewal_order' ) ) {
+	    if ( class_exists( 'WC_Subscriptions' ) && function_exists( 'wcs_create_renewal_order' ) ) {
             $this->subscription_support_enabled = true;
         }
         if ( class_exists( 'WC_Pre_Orders_Order' ) ) {
@@ -334,9 +335,7 @@ class WC_Authnet {
         $notices = array();
         $notice_html = '';
         if( ! $this->subscription_support_enabled ) {
-           $notices[] = __( 'To process subscription payments using Authorize.Net you will need the <a target="_blank" href="https://woocommerce.com/products/woocommerce-subscriptions/">WooCommerce Subscriptions</a> extension installed and running. Please ignore and proceed to upgrade if you are not setting up subscriptions.', 'wc-authnet' );
-        } elseif( ! $this->pre_order_enabled ) {
-           $notices[] = __( 'To process pre-orders using Authorize.Net you will need the <a target="_blank" href="https://woocommerce.com/products/woocommerce-pre-orders/">WooCommerce Pre-Orders</a> extension installed and running. Please ignore and proceed to upgrade if you are not setting up pre-orders.', 'wc-authnet' );
+           $notices[] = __( 'To process subscription payments using Authorize.Net you will need the <a target="_blank" href="https://woocommerce.com/products/woocommerce-subscriptions/">WooCommerce Subscriptions</a> extension installed and running. Please continue with your purchase if you are not setting up subscriptions or will install WooCommerce Subscriptions later.', 'wc-authnet' );
         }
         if( !empty( $notices ) ) {
             $notice_html =  "<div class='notice notice-warning' style='margin:50px 0 -30px;'>" ;
