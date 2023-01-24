@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * WC_Gateway_Authnet class.
  *
- * @extends WC_Payment_Gateway
+ * @extends WC_Payment_Gateway_CC
  */
 class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 

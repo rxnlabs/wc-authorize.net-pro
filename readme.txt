@@ -7,7 +7,7 @@ Author URI: https://pledgedplugins.com
 Requires at least: 4.4
 Tested up to: 6.1
 Requires PHP: 5.6
-Stable tag: 5.2.3
+Stable tag: 5.2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -49,7 +49,7 @@ This plugin is not affiliated with or supported by Authorize.Net, WooCommerce.co
 
 == Installation ==
 
-1. Upload `woo-authorize-net-gateway-aim` folder/directory to the `/wp-content/plugins/` directory
+1. Upload `woo-authorize-net-gateway-aim` folder/directory to the `/wp-content/plugins/` directory.
 2. Activate the plugin (WordPress -> Plugins).
 3. Go to the WooCommerce settings page (WordPress -> WooCommerce -> Settings) and select the Payments tab.
 4. Under the Payments tab, you will find all the available payment methods. Find the 'Authorize.Net' link in the list and click it.
@@ -67,6 +67,9 @@ That's it! You are ready to accept credit cards with your Authorize.Net merchant
 A valid SSL certificate is required to ensure your customer credit card details are safe and make your site PCI DSS compliant. This plugin does not store the customer credit card numbers or sensitive information on your website.
 
 == Changelog ==
+
+= 5.2.4 =
+* Updated "WC tested up to" header to 7.3
 
 = 5.2.3 =
 * Updated Freemius SDK to 2.5.2
