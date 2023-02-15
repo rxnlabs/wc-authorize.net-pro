@@ -23,7 +23,7 @@ class WC_Authnet_API {
 	const SANDBOX_URL = 'https://apitest.authorize.net/xml/v1/request.api';
 
 	/**
-	 * Set secret API Key.
+	 * Set API Login ID.
 	 *
 	 * @param string $login_id
 	 */
@@ -32,7 +32,7 @@ class WC_Authnet_API {
 	}
 
 	/**
-	 * Set secret API Key.
+	 * Set Transaction Key.
 	 *
 	 * @param string $transaction_key
 	 */
@@ -66,7 +66,7 @@ class WC_Authnet_API {
 	}
 
 	/**
-	 * Get secret key.
+	 * Get API Login ID
 	 * @return string
 	 */
 	public static function get_login_id() {
@@ -82,7 +82,7 @@ class WC_Authnet_API {
 	}
 
 	/**
-	 * Get secret key.
+	 * Get Transaction Key.
 	 * @return string
 	 */
 	public static function get_transaction_key() {
@@ -181,9 +181,9 @@ class WC_Authnet_API {
 		// Setting custom timeout for the HTTP request
 		add_filter( 'http_request_timeout', array( 'WC_Authnet_API', 'http_request_timeout' ), 9999 );
 
-		$args     = array(
-			'headers' => array( 'Content-Type' => 'application/json' ),
-			'body'    => json_encode( $request_args ),
+		$args = array(
+			'headers' => array(	'Content-Type' => 'application/json' ),
+			'body' 	  => json_encode( $request_args ),
 		);
 		$response = wp_remote_post( $request_url, $args );
 
@@ -205,19 +205,15 @@ class WC_Authnet_API {
 		}
 
 		if ( $result['messages']['resultCode'] == "Ok" ) {
+			if( ! empty( $result['transactionResponse']['errors'] ) ) {
+				$error_messages = $result['transactionResponse']['errors'];
+				return new WP_Error( $error_messages[0]['errorCode'], $error_messages[0]['errorText'], $result['transactionResponse'] );
+			}
 			self::log( 'Request was successful.' );
 		} else {
 			$error_messages = $result['messages']['message'];
 			self::log( 'Error: Request Failed. ' . $error_messages[0]['code'] . ' - ' . $error_messages[0]['text'] );
-
 			return new WP_Error( $error_messages[0]['code'], $error_messages[0]['text'] );
-		}
-
-		if ( isset( $result['transactionResponse']['responseCode'] ) && $result['transactionResponse']['responseCode'] != 1 ) {
-			$error_messages = $result['transactionResponse']['errors'];
-			self::log( 'Error: Request Failed. ' . $error_messages[0]['errorCode'] . ' - ' . $error_messages[0]['errorText'] );
-
-			return new WP_Error( $error_messages[0]['errorCode'], $error_messages[0]['errorText'] );
 		}
 
 		return $result;
@@ -227,11 +223,10 @@ class WC_Authnet_API {
 	/**
 	 * Logs
 	 *
+	 * @since 6.0.0
+	 * @version 6.0.0
+	 *
 	 * @param string $message
-	 *
-	 * @version 3.1.0
-	 *
-	 * @since 3.1.0
 	 */
 	public static function log( $message ) {
 		if ( self::is_logging() ) {

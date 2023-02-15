@@ -53,9 +53,9 @@ class WC_Authnet_Privacy extends WC_Abstract_Privacy
     protected function get_authnet_orders( $email_address, $page )
     {
         $user = get_user_by( 'email', $email_address );
-        // Check if user has an ID in the DB to load stored personal data.
+        $payment_method = array( 'authnet' );
         $order_query = array(
-            'payment_method' => array( 'authnet', 'authnet-echeck' ),
+            'payment_method' => $payment_method,
             'limit'          => 10,
             'page'           => $page,
         );

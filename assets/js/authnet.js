@@ -97,7 +97,7 @@ jQuery( function( $ ) {
 
 			$( '.wc-authnet-error, .authnet_nonce' ).remove();
 			$( '.wc-authnet-error, .authnet_data_descriptor' ).remove();
-			if( wc_authnet_form.isAuthneteCheckChosen() ) {
+			if ( wc_authnet_form.isAuthneteCheckChosen() ) {
 				$( '#authnet-echeck-account-name' ).closest( 'p' ).before( '<ul class="woocommerce_error woocommerce-error wc-authnet-error"><li>' + message + '</li></ul>' );
 			} else {
 				$( '#authnet-card-number' ).closest( 'p' ).before( '<ul class="woocommerce_error woocommerce-error wc-authnet-error"><li>' + message + '</li></ul>' );
@@ -114,7 +114,7 @@ jQuery( function( $ ) {
 				wc_authnet_form.block();
 
 				var card_allowed = false,
-                    card       = $( '#authnet-card-number' ).val(),
+                    card	   = $( '#authnet-card-number' ).val(),
 					cvc        = $( '#authnet-card-cvc' ).val(),
 					expires    = $( '#authnet-card-expiry' ).payment( 'cardExpiryVal' ),
 					first_name = $( '#billing_first_name' ).length ? $( '#billing_first_name' ).val() : wc_authnet_params.billing_first_name,
@@ -144,7 +144,6 @@ jQuery( function( $ ) {
 					return false;
 				}
 
-
 				authData.clientKey = wc_authnet_params.client_key;
 				authData.apiLoginID = wc_authnet_params.login_id;
 
@@ -168,12 +167,13 @@ jQuery( function( $ ) {
 				e.preventDefault();
 				wc_authnet_form.block();
 
-				var routing_number       = $( '#authnet-echeck-routing-number' ).val(),
-					account_number        = $( '#authnet-echeck-account-number' ).val(),
-					account_name        = $( '#authnet-echeck-account-name' ).val(),
-					account_type        = $( '[name="authnet-echeck-account-type"]' ).val(),
-					first_name = $( '#billing_first_name' ).length ? $( '#billing_first_name' ).val() : wc_authnet_echeck_params.billing_first_name,
-					last_name  = $( '#billing_last_name' ).length ? $( '#billing_last_name' ).val() : wc_authnet_echeck_params.billing_last_name;
+				var routing_number  = $( '#authnet-echeck-routing-number' ).val(),
+					account_number	= $( '#authnet-echeck-account-number' ).val(),
+					account_name    = $( '#authnet-echeck-account-name' ).val(),
+					holder_type     = $( '[name="authnet-echeck-holder-type"]' ).val(),
+					account_type    = holder_type == 'business' ? 'businessChecking' : $( '[name="authnet-echeck-account-type"]' ).val(),
+					first_name		= $( '#billing_first_name' ).length ? $( '#billing_first_name' ).val() : wc_authnet_echeck_params.billing_first_name,
+					last_name  		= $( '#billing_last_name' ).length ? $( '#billing_last_name' ).val() : wc_authnet_echeck_params.billing_last_name;
 
                 if ( routing_number === '' ) {
 					$( '.wc-authnet-error, .authnet_nonce' ).remove();
@@ -200,7 +200,7 @@ jQuery( function( $ ) {
 				bankData.nameOnAccount = account_name;
 				bankData.accountType = account_type;
 
-				console.log( bankData );
+				//console.log( bankData );
 
 				if ( bankData.nameOnAccount === '' && first_name && last_name ) {
 					bankData.nameOnAccount = first_name + ' ' + last_name;

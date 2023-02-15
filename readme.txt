@@ -78,8 +78,11 @@ A valid SSL certificate is required to ensure your customer credit card details 
 
 == Changelog ==
 
-= 6.0.0 =
+= 6.0.0 - MAJOR UPDATE =
 * Implemented Payments API and added an option to use it
+* Fixed captured payments being voided on cancelling orders
+* Complete overhaul of the plugin
+* Updated "WC tested up to" header to 7.4
 * Updated Freemius SDK to 2.5.3
 
 = 5.2.4 =
@@ -235,7 +238,6 @@ A valid SSL certificate is required to ensure your customer credit card details 
 = 5.0.1 =
 * Updated "WC tested up to" header to 3.6
 * Replaced deprecated function "reduce_order_stock" with "wc_reduce_stock_levels"
-
 
 = 5.0.0 - MAJOR UPDATE =
 * Updated transaction methods to Payment Transactions API and implemented Authorize.Net SDK

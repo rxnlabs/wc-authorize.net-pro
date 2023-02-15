@@ -200,6 +200,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				'title'       => __( 'Public Client Key', 'wc-authnet' ),
 				'type'        => 'text',
 				'description' => esc_html__( 'Get it from Account → Security Settings → Manage Public Client Key page in your Authorize.Net account.', 'wc-authnet' ),
+				'default'     => '',
 			),
 			'statement_descriptor' => array(
 				'title'       => __( 'Statement Descriptor', 'wc-authnet' ),
@@ -296,10 +297,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		}
 		$js_url = ( $this->testmode ? self::ACCEPT_JS_URL_TEST : self::ACCEPT_JS_URL_LIVE );
 		wp_enqueue_script( 'authnet-accept', $js_url, '', null, true );
-		wp_enqueue_script( 'woocommerce_authnet', plugins_url( 'assets/js/authnet.js', WC_AUTHNET_MAIN_FILE ), array(
-			'jquery-payment',
-			'authnet-accept'
-		), WC_AUTHNET_VERSION, true );
+		wp_enqueue_script( 'woocommerce_authnet', plugins_url( 'assets/js/authnet.js', WC_AUTHNET_MAIN_FILE ), array( 'jquery-payment', 'authnet-accept' ), WC_AUTHNET_VERSION, true );
 		$authnet_params = array(
 			'login_id'              => $this->login_id,
 			'client_key'            => $this->client_key,
@@ -522,14 +520,13 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				'expiry'      => wc_clean( $_POST['authnet-card-expiry'] ),
 				'cvc'         => wc_clean( $_POST['authnet-card-cvc'] ),
 			);
-			// Check for card type supported or not
 
+			// Check for card type supported or not
 			if ( ! in_array( $this->get_card_type( $authnet_source_args['card_number'], 'pattern', 'name' ), $this->allowed_card_types ) ) {
 				WC_Authnet_API::log( sprintf( __( 'Card type being used is not one of supported types in plugin settings: %s', 'wc-authnet' ), $this->get_card_type( $authnet_source_args['card_number'], 'pattern', 'name' ) ) );
 				WC_Authnet_API::log( "Error: Card Type Not Accepted." );
 				throw new Exception( __( 'Card Type Not Accepted.', 'wc-authnet' ) );
 			}
-
 
 			if ( empty( $authnet_source_args['cvc'] ) ) {
 				WC_Authnet_API::log( "Error: CVC code is empty." );
@@ -563,43 +560,30 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 	 *
 	 */
 	public function process_payment( $order_id, $retry = true, $force_customer = false ) {
-		$order = wc_get_order( $order_id );
-		WC_Authnet_API::log( "Info: Begin processing payment for order {$order_id} for the amount of {$order->get_total()}" );
+		$order    = wc_get_order( $order_id );
+		$response = false;
 		try {
+			WC_Authnet_API::log( "Info: Begin processing payment for order {$order_id} for the amount of {$order->get_total()}" );
 			$source = $this->get_source( get_current_user_id(), $force_customer );
 
 			if ( empty( $source->source ) && empty( $source->customer ) ) {
 				WC_Authnet_API::log( "Error: Payment source could not be found." );
 				$error_msg = __( 'Please enter your card details to make a payment.', 'wc-authnet' );
-				$error_msg .= ' ' . __( 'Developers: Please make sure that you are including jQuery and there are no JavaScript errors on the page.', 'wc-authnet' );
+				//$error_msg .= ' ' . __( 'Developers: Please make sure that you are including jQuery and there are no JavaScript errors on the page.', 'wc-authnet' );
 				throw new Exception( $error_msg );
 			}
 
-			// Result from Authorize.Net API request.
-			$response = null;
 			// Handle payment.
 
 			if ( $order->get_total() > 0 ) {
 				// Make the request.
 				$payment_args = $this->generate_payment_request_args( $order, $source );
 				$response     = WC_Authnet_API::execute( 'createTransactionRequest', $payment_args );
-
 				if ( is_wp_error( $response ) ) {
-					$message = sprintf( __( 'Authorize.Net failure reason: %s', 'wc-authnet' ), $response->get_error_code() . ' - ' . $response->get_error_message() );
-					$order->add_order_note( $message );
-					throw new Exception( $message );
+					throw new Exception( $response->get_error_message() );
 				}
-
-				$trx_response = $response['transactionResponse'];
-
-				if ( $trx_response['messages']['resultCode'] == 'Error' ) {
-					WC_Authnet_API::log( 'Error in Transaction Response: ' . $trx_response['messages']['message'][0]['code'] . ' - ' . $trx_response['messages']['message'][0]['text'] . ' AVS Response: ' . self::get_avs_message( $trx_response['avsResultCode'] ) . ' CVV2 Response: ' . self::get_cvv_message( $trx_response['cvvResultCode'] ) );
-					$order->add_order_note( sprintf( __( "Authorize.Net failure reason: %s \n\nAVS Response: %s \n\nCVV2 Response: %s", 'wc-authnet' ), $trx_response['messages']['message'][0]['code'] . ' - ' . $trx_response['messages']['message'][0]['text'], self::get_avs_message( $trx_response['avsResultCode'] ), self::get_cvv_message( $trx_response['cvvResultCode'] ) ) );
-					throw new Exception( $trx_response['messages']['message'][0]['text'] );
-				}
-
 				// Process valid response.
-				$this->process_response( $trx_response, $order );
+				$this->process_response( $response['transactionResponse'], $order );
 			} else {
 				$order->payment_complete();
 			}
@@ -616,6 +600,15 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		} catch ( Exception $e ) {
 			wc_add_notice( $e->getMessage(), 'error' );
 			WC_Authnet_API::log( sprintf( __( 'Error: %s', 'wc-authnet' ), $e->getMessage() ) );
+
+			if ( is_wp_error( $response ) ) {
+				$message = sprintf( __( 'Authorize.Net failure reason: %s', 'wc-authnet' ), $response->get_error_code() . ' - ' . $response->get_error_message() );
+				if ( $trx_response = $response->get_error_data() ) {
+					$message = sprintf( __( "Authorize.Net failure reason: %s \n\nAVS Response: %s \n\nCVV2 Response: %s", 'wc-authnet' ), $response->get_error_code() . ' - ' . $response->get_error_message(), self::get_avs_message( $trx_response['avsResultCode'] ), self::get_cvv_message( $trx_response['cvvResultCode'] ) );
+				}
+				$order->add_order_note( $message );
+			}
+
 			do_action( 'wc_gateway_authnet_process_payment_error', $e, $order );
 
 			if ( ! isset( $_GET['change_payment_method'] ) ) {
@@ -672,15 +665,6 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 	}
 
 	/**
-	 * Add payment method via account screen.
-	 * We don't store the token locally, but to the Authorize.Net API.
-	 * @since 3.3
-	 */
-	public function add_payment_method() {
-		return parent::add_payment_method();
-	}
-
-	/**
 	 * Refund a charge
 	 *
 	 * @param int $order_id
@@ -694,8 +678,11 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		if ( ! $order || ! $order->get_transaction_id() || $amount <= 0 ) {
 			return false;
 		}
+		$charge_captured = $order->get_meta( '_authnet_charge_captured' );
 
 		if ( $amount == $order->get_total() ) {
+			$order->update_meta_data( '_authnet_charge_captured', 'no' );
+			$order->save();
 			$instance = new WC_Authnet();
 			$instance->cancel_payment( $order_id );
 			$order       = wc_get_order( $order_id );
@@ -705,10 +692,17 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		}
 
 
+		if ( $order->get_meta( '_authnet_charge_captured' ) != $charge_captured ) {
+			$order->update_meta_data( '_authnet_charge_captured', $charge_captured );
+			$order->save();
+		}
+
+
 		if ( $void_status == 'failed' ) {
 			WC_Authnet_API::log( "Info: Beginning refund for order {$order_id} for the amount of {$amount}" );
 			// Create complete request args
-			$args          = array(
+			$args     = array(
+				'refId'              => $order->get_id(),
 				'transactionRequest' => array(
 					'transactionType' => 'refundTransaction',
 					'amount'          => $amount,
@@ -722,32 +716,21 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 					'refTransId'      => $order->get_transaction_id(),
 				),
 			);
-			$args          = apply_filters( 'wc_authnet_refund_request_args', $args, $order );
-			$response      = WC_Authnet_API::execute( 'createTransactionRequest', $args );
-			$error_message = false;
+			$args     = apply_filters( 'wc_authnet_refund_request_args', $args, $order );
+			$response = WC_Authnet_API::execute( 'createTransactionRequest', $args );
 
 			if ( is_wp_error( $response ) ) {
-				$error_message = $response->get_error_message();
+				$order->add_order_note( __( 'Gateway Error: ', 'wc-authnet' ) . $response->get_error_message() );
+
+				return false;
 			} else {
-				$trx_response = $response['transactionResponse'];
-
-				if ( $trx_response['messages']['resultCode'] == 'Error' ) {
-					WC_Authnet_API::log( 'Gateway Error: ' . $trx_response['messages']['message'][0]['code'] . ' - ' . $trx_response['messages']['message'][0]['text'] );
-					$error_message = $trx_response['messages']['message'][0]['text'];
-				}
-
+				$trx_response   = $response['transactionResponse'];
+				$refund_message = sprintf( __( 'Refunded %s - Refund ID: %s - Reason: %s', 'wc-authnet' ), $amount, $trx_response['transId'], $reason );
+				$order->add_order_note( $refund_message );
+				$order->save();
+				WC_Authnet_API::log( "Success: " . html_entity_decode( strip_tags( $refund_message ) ) );
 			}
 
-
-			if ( $error_message ) {
-				$order->add_order_note( __( 'Gateway Error: ', 'wc-authnet' ) . $error_message );
-				throw new Exception( $error_message );
-			}
-
-			$refund_message = sprintf( __( 'Refunded %s - Refund ID: %s - Reason: %s', 'wc-authnet' ), $amount, $trx_response['transId'], $reason );
-			$order->add_order_note( $refund_message );
-			$order->save();
-			WC_Authnet_API::log( "Success: " . html_entity_decode( strip_tags( $refund_message ) ) );
 		}
 
 		return true;
@@ -863,10 +846,6 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		global $wp;
 
 		return ( isset( $wp->query_vars['order-pay'] ) ? absint( $wp->query_vars['order-pay'] ) : 0 );
-	}
-
-	public function get_tokens() {
-		return parent::get_tokens();
 	}
 
 	function get_payment_currency( $order_id = false ) {

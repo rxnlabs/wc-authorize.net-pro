@@ -16,7 +16,6 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
 	public $capture;
     public $statement_descriptor;
-    public $saved_cards;
     public $login_id;
     public $transaction_key;
     public $client_key;
@@ -56,7 +55,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		$this->debugging   		  	= $this->get_option( 'debugging' ) === 'yes';
 		$this->allowed_card_types 	= $this->get_option( 'allowed_card_types', array() );
 		$this->customer_receipt   	= $this->get_option( 'customer_receipt' ) === 'yes';
-		$this->free_api_method	= $this->get_option( 'free_api_method' );
+		$this->free_api_method		= $this->get_option( 'free_api_method' );
 
 		if ( $this->testmode ) {
 			$this->description .= ' ' . sprintf( __( '<br /><br /><strong>TEST MODE ENABLED</strong><br /> In test mode, you can use the card number 4111111111111111 with any CVC and a valid expiration date or check the documentation "<a href="%s">%s API</a>" for more card numbers.', 'wc-authnet' ), 'https://developer.authorize.net/hello_world/testing_guide/', $this->method_title );
@@ -217,12 +216,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				'class'       => 'wc-enhanced-select',
 				'type'        => 'multiselect',
 				'description' => __( 'Select the card types you want to allow payments from.', 'wc-authnet' ),
-				'default'     => array(
-					'visa',
-					'mastercard',
-					'discover',
-					'amex'
-				),
+				'default'     => array( 'visa', 'mastercard', 'discover', 'amex' ),
 				'options'     => array(
 					'visa'        => __( 'Visa', 'wc-authnet' ),
 					'mastercard'  => __( 'MasterCard', 'wc-authnet' ),
@@ -443,14 +437,22 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 			return false;
 		}
 
+		$charge_captured = $order->get_meta( '_authnet_charge_captured' );
 		if( $amount == $order->get_total() ) {
+			$order->update_meta_data( '_authnet_charge_captured', 'no' );
+			$order->save();
 			$instance = new WC_Authnet();
-			$instance->cancel_payment( $order_id );
+			$instance->cancel_payment_aim( $order_id );
 
 			$order = wc_get_order( $order_id );
 			$void_status = $order->get_meta( '_authnet_void' );
 		} else {
 			$void_status = 'failed';
+		}
+
+		if( $order->get_meta( '_authnet_charge_captured' ) != $charge_captured ) {
+	        $order->update_meta_data( '_authnet_charge_captured', $charge_captured );
+	        $order->save();
 		}
 
 		if( $void_status == 'failed' ) {
@@ -464,7 +466,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
 			$this->log( "Info: Beginning refund for order $order_id for the amount of {$amount}" );
 
-			$args = apply_filters( 'wc_authnet_request_args', $args, $order );
+			$args = apply_filters( 'wc_authnet_refund_request_args', $args, $order );
 
 			$response = $this->authnet_request( $args );
 
