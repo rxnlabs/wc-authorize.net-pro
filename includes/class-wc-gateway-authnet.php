@@ -336,7 +336,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		if ( $source->source['source_type'] == 'card' ) {
 			// Create the payment data for a credit card
 			$expiry      = explode( '/', wc_clean( $source->source['expiry'] ) );
-			$expiry[1]   = '20' . substr( trim( $expiry[1] ), - 2 );
+			$expiry[1]   = '20' . substr( trim( $expiry[1] ), -2 );
 			$source_args = array(
 				'creditCard' => array(
 					'cardNumber'     => wc_clean( $source->source['card_number'] ),
@@ -615,7 +615,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
 		// Store charge data
 		$order->update_meta_data( '_authnet_charge_id', $response['transId'] );
-		$order->update_meta_data( '_authnet_cc_last4', substr( $response['accountNumber'], - 4 ) );
+		$order->update_meta_data( '_authnet_cc_last4', substr( $response['accountNumber'], -4 ) );
 		$order->update_meta_data( '_authnet_authorization_code', $response['authCode'] );
 
 		$order->set_transaction_id( $response['transId'] );
