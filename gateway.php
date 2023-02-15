@@ -191,14 +191,18 @@ class WC_Authnet {
 		if ( self::get_environment_warning() ) {
 			return;
 		}
+
 		if ( ! class_exists( 'WC_Authnet_API' ) ) {
-			include_once dirname( __FILE__ ) . '/includes/class-wc-authnet-api.php';
+			include_once( dirname( __FILE__ ) . '/includes/class-wc-authnet-api.php' );
 		}
+
 		// Init the gateway itself
 		$this->init_gateways();
+
 		// required files
-		require_once dirname( __FILE__ ) . '/includes/class-wc-gateway-authnet-logger.php';
-		require_once dirname( __FILE__ ) . '/includes/class-wc-authnet-api.php';
+		require_once( dirname( __FILE__ ) . '/includes/class-wc-gateway-authnet-logger.php' );
+		require_once( dirname( __FILE__ ) . '/includes/class-wc-authnet-api.php' );
+
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_action_links' ), 11 );
 		add_action( 'admin_menu', array( $this, 'submenu_setup' ), 80 );
 		$free_api_method = WC_Authnet_API::get_free_api_method();
@@ -246,7 +250,7 @@ class WC_Authnet {
 			return;
 		}
 		if ( ! class_exists( 'WC_Authnet_API' ) ) {
-			include_once dirname( __FILE__ ) . '/includes/class-wc-authnet-api.php';
+			include_once( dirname( __FILE__ ) . '/includes/class-wc-authnet-api.php' );
 		}
 		// Check if secret key present. Otherwise prompt, via notice, to go to setting.
 		$secret = WC_Authnet_API::get_transaction_key();
@@ -365,16 +369,18 @@ class WC_Authnet {
 		if ( ! class_exists( 'WC_Payment_Gateway' ) ) {
 			return;
 		}
+
 		// Includes
 		if ( is_admin() ) {
-			require_once dirname( __FILE__ ) . '/includes/class-wc-authnet-privacy.php';
+			require_once( dirname( __FILE__ ) . '/includes/class-wc-authnet-privacy.php' );
 		}
+
 		$free_api_method = WC_Authnet_API::get_free_api_method();
 
-		if ( $free_api_method == 'aim' ) {
-			include_once dirname( __FILE__ ) . '/includes/aim/class-wc-gateway-authnet.php';
+		if( $free_api_method == 'aim' ) {
+			include_once( dirname( __FILE__ ) . '/includes/aim/class-wc-gateway-authnet.php' );
 		} else {
-			include_once dirname( __FILE__ ) . '/includes/class-wc-gateway-authnet.php';
+			include_once( dirname( __FILE__ ) . '/includes/class-wc-gateway-authnet.php' );
 		}
 
 		load_plugin_textdomain( 'wc-authnet', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
