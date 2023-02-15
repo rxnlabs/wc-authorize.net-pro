@@ -543,7 +543,7 @@ class WC_Authnet {
 
 				$gateway = new WC_Gateway_Authnet();
 
-				$gateway->log( "Info: Begining capture payment for order {$order_id} for the amount of {$order->get_total()}" );
+				$gateway->log( "Info: Beginning capture payment for order {$order_id} for the amount of {$order->get_total()}" );
 
 				$order_total = $order->get_total();
 				if ( 0 < $order->get_total_refunded() ) {
@@ -601,7 +601,7 @@ class WC_Authnet {
 
 				$gateway = new WC_Gateway_Authnet();
 
-				$gateway->log( "Info: Begining cancel payment for order {$order_id} for the amount of {$order->get_total()}" );
+				$gateway->log( "Info: Beginning cancel payment for order {$order_id} for the amount of {$order->get_total()}" );
 
 				$args = array(
 					'x_amount'   => $order->get_total(),
