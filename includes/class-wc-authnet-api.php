@@ -106,6 +106,8 @@ class WC_Authnet_API {
 
 		if ( isset( $options['free_api_method'] ) ) {
 			self::set_free_api_method( $options['free_api_method'] );
+		} else {
+			self::set_free_api_method( 'aim' );
 		}
 
 		return self::$free_api_method;
