@@ -205,7 +205,7 @@ class WC_Authnet_API {
 		}
 
 		if ( $result['messages']['resultCode'] == "Ok" ) {
-			if( ! empty( $result['transactionResponse']['errors'] ) ) {
+			if ( ! empty( $result['transactionResponse']['errors'] ) ) {
 				$error_messages = $result['transactionResponse']['errors'];
 				return new WP_Error( $error_messages[0]['errorCode'], $error_messages[0]['errorText'], $result['transactionResponse'] );
 			}

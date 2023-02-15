@@ -10,13 +10,16 @@ Text Domain: wc-authnet
 Domain Path: /languages
 WC requires at least: 3.3
 WC tested up to: 7.4
+
 	Copyright: © Pledged Plugins.
 	License: GNU General Public License v3.0
 	License URI: http://www.gnu.org/licenses/gpl-3.0.html
 */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
 define( 'WC_AUTHNET_VERSION', '6.0.0' );
 define( 'WC_AUTHNET_MIN_PHP_VER', '5.6.0' );
 define( 'WC_AUTHNET_MIN_WC_VER', '3.3' );
@@ -29,8 +32,8 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 	return;
 }
 
-
 if ( ! function_exists( 'wc_authnet_fs' ) ) {
+
 	// Create a helper function for easy SDK access.
 	function wc_authnet_fs() {
 		global $wc_authnet_fs;
@@ -38,6 +41,7 @@ if ( ! function_exists( 'wc_authnet_fs' ) ) {
 		if ( ! isset( $wc_authnet_fs ) ) {
 			// Include Freemius SDK.
 			require_once dirname( __FILE__ ) . '/freemius/start.php';
+
 			$wc_authnet_fs = fs_dynamic_init( array(
 				'id'             => '3348',
 				'slug'           => 'woo-authorize-net-gateway-aim',
@@ -63,6 +67,7 @@ if ( ! function_exists( 'wc_authnet_fs' ) ) {
 
 	// Init Freemius.
 	wc_authnet_fs();
+
 	// Signal that SDK was initiated.
 	do_action( 'wc_authnet_fs_loaded' );
 }
@@ -71,6 +76,7 @@ if ( ! function_exists( 'wc_authnet_fs' ) ) {
  * Main Authorize.Net class which sets the gateway up for us
  */
 class WC_Authnet {
+
 	/**
 	 * @var WC_Authnet Singleton The reference the *Singleton* instance of this class
 	 */
@@ -95,6 +101,7 @@ class WC_Authnet {
 	 * @var bool
 	 */
 	private $subscription_support_enabled = false;
+
 	/**
 	 * Flag to indicate whether or not we need to load support for pre-orders.
 	 *
@@ -103,6 +110,7 @@ class WC_Authnet {
 	 * @var bool
 	 */
 	private $pre_order_enabled = false;
+
 	/**
 	 * Notices (array)
 	 * @var array
@@ -156,7 +164,10 @@ class WC_Authnet {
                 </li>
             </ol>
 			<?php $upgrade_label = __( 'Upgrade to Enterprise!', 'wc-authnet' ); ?>
-            <p><a class="button button-primary" href="<?php echo wc_authnet_fs()->get_upgrade_url(); ?>"><strong><?php echo $upgrade_label;	?></strong></a>
+            <p>
+				<a class="button button-primary" href="<?php echo wc_authnet_fs()->get_upgrade_url(); ?>">
+					<strong><?php echo $upgrade_label; ?></strong>
+				</a>
             </p>
         </div>
 		<?php
@@ -187,6 +198,7 @@ class WC_Authnet {
 	 * Init localisations and files
 	 */
 	public function init() {
+
 		// Don't hook anything else in the plugin if we're in an incompatible environment
 		if ( self::get_environment_warning() ) {
 			return;
@@ -205,6 +217,7 @@ class WC_Authnet {
 
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_action_links' ), 11 );
 		add_action( 'admin_menu', array( $this, 'submenu_setup' ), 80 );
+
 		$free_api_method = WC_Authnet_API::get_free_api_method();
 
 		if ( $free_api_method == 'aim' ) {
@@ -246,15 +259,16 @@ class WC_Authnet {
 		if ( $environment_warning && is_plugin_active( plugin_basename( __FILE__ ) ) ) {
 			$this->add_admin_notice( 'bad_environment', 'error', $environment_warning );
 		}
+
 		if ( ! class_exists( 'WC_Gateway_Authnet' ) ) {
 			return;
 		}
 		if ( ! class_exists( 'WC_Authnet_API' ) ) {
 			include_once( dirname( __FILE__ ) . '/includes/class-wc-authnet-api.php' );
 		}
+
 		// Check if secret key present. Otherwise prompt, via notice, to go to setting.
 		$secret = WC_Authnet_API::get_transaction_key();
-
 		if ( empty( $secret ) && ! ( isset( $_GET['page'], $_GET['section'] ) && 'wc-settings' === $_GET['page'] && 'authnet' === $_GET['section'] ) ) {
 			$setting_link = $this->settings_url();
 			$this->add_admin_notice( 'prompt_connect', 'notice notice-warning', sprintf( __( 'Authorize.Net is almost ready. To get started, <a href="%s">set your Authorize.Net account keys</a>.', 'wc-authnet' ), $setting_link ) );
@@ -292,6 +306,7 @@ class WC_Authnet {
 		if ( ! defined( 'WC_AUTHNET_INSTALLING' ) ) {
 			define( 'WC_AUTHNET_INSTALLING', true );
 		}
+
 		$this->_update_plugin_version();
 	}
 
@@ -328,13 +343,10 @@ class WC_Authnet {
 	 * Display any notices we've collected thus far (e.g. for connection, disconnection)
 	 */
 	public function admin_notices() {
+
 		foreach ( $this->notices as $notice ) {
 			echo "<div class='" . esc_attr( $notice['class'] ) . "'><p>";
-			echo wp_kses( $notice['message'], array(
-				'a' => array(
-					'href' => array(),
-				),
-			) );
+			echo wp_kses( $notice['message'], array( 'a' => array( 'href' => array() ) ) );
 			echo '</p></div>';
 		}
 	}
@@ -342,6 +354,7 @@ class WC_Authnet {
 	public function checkout_notice( $html ) {
 		$notices     = array();
 		$notice_html = '';
+
 		if ( ! $this->subscription_support_enabled ) {
 			$notices[] = __( 'To process subscription payments using Authorize.Net you will need the <a target="_blank" href="https://woocommerce.com/products/woocommerce-subscriptions/">WooCommerce Subscriptions</a> extension installed and running. Please continue with your purchase if you are not setting up subscriptions or will install WooCommerce Subscriptions later.', 'wc-authnet' );
 		}
@@ -377,7 +390,7 @@ class WC_Authnet {
 
 		$free_api_method = WC_Authnet_API::get_free_api_method();
 
-		if( $free_api_method == 'aim' ) {
+		if ( $free_api_method == 'aim' ) {
 			include_once( dirname( __FILE__ ) . '/includes/aim/class-wc-gateway-authnet.php' );
 		} else {
 			include_once( dirname( __FILE__ ) . '/includes/class-wc-gateway-authnet.php' );
@@ -404,6 +417,7 @@ class WC_Authnet {
 	 * @param int $order_id
 	 */
 	public function capture_payment( $order_id ) {
+
 		$order = wc_get_order( $order_id );
 
 		if ( $order->get_payment_method() == 'authnet' ) {
@@ -411,13 +425,18 @@ class WC_Authnet {
 			$captured = $order->get_meta( '_authnet_charge_captured' );
 
 			if ( $charge && $captured == 'no' ) {
-				WC_Authnet_API::log( "Info: Begin capturing payment for order {$order_id} for the amount of {$order->get_total()}" );
-				$gateway     = new WC_Gateway_Authnet();
+
+				WC_Authnet_API::log( "Info: Beginning capture payment for order {$order_id} for the amount of {$order->get_total()}" );
+
+				$gateway = new WC_Gateway_Authnet();
+
 				$order_total = $order->get_total();
+
 				if ( 0 < $order->get_total_refunded() ) {
 					$order_total = $order_total - $order->get_total_refunded();
 				}
-				$args     = array(
+
+				$args = array(
 					'refId'              => $order->get_id(),
 					'transactionRequest' => array(
 						'transactionType' => 'priorAuthCaptureTransaction',
@@ -426,7 +445,8 @@ class WC_Authnet {
 						'refTransId'      => $order->get_transaction_id(),
 					),
 				);
-				$args     = apply_filters( 'wc_authnet_capture_payment_request_args', $args, $order );
+				$args = apply_filters( 'wc_authnet_capture_payment_request_args', $args, $order );
+
 				$response = WC_Authnet_API::execute( 'createTransactionRequest', $args );
 
 				if ( is_wp_error( $response ) ) {
@@ -446,16 +466,16 @@ class WC_Authnet {
 					$complete_message = sprintf( __( 'Authorize.Net charge complete (Charge ID: %s)', 'wc-authnet' ), $trx_response['transId'] );
 					$order->add_order_note( $complete_message );
 					WC_Authnet_API::log( 'Success: ' . $complete_message );
+
 					$order->update_meta_data( '_authnet_charge_captured', 'yes' );
 					$order->update_meta_data( 'Authorize.Net Payment ID', $trx_response['transId'] );
+
 					$order->set_transaction_id( $trx_response['transId'] );
 					$order->save();
 				}
 
 			}
-
 		}
-
 	}
 
 	/**
@@ -464,6 +484,7 @@ class WC_Authnet {
 	 * @param int $order_id
 	 */
 	public function cancel_payment( $order_id ) {
+
 		$order = wc_get_order( $order_id );
 
 		if ( $order->get_payment_method() == 'authnet' ) {
@@ -471,15 +492,18 @@ class WC_Authnet {
 			$charge_captured = $order->get_meta( '_authnet_charge_captured' );
 
 			if ( $charge && $charge_captured == 'no' ) {
-				WC_Authnet_API::log( "Info: Begin refunding payment for order {$order_id} for the amount of {$order->get_total()}" );
-				$args     = array(
+
+				WC_Authnet_API::log( "Info: Beginning cancel payment for order {$order_id} for the amount of {$order->get_total()}" );
+
+				$args = array(
 					'refId'              => $order->get_id(),
 					'transactionRequest' => array(
 						'transactionType' => 'voidTransaction',
 						'refTransId'      => $order->get_transaction_id(),
 					),
 				);
-				$args     = apply_filters( 'wc_authnet_cancel_payment_request_args', $args, $order );
+				$args = apply_filters( 'wc_authnet_cancel_payment_request_args', $args, $order );
+
 				$response = WC_Authnet_API::execute( 'createTransactionRequest', $args );
 
 				if ( is_wp_error( $response ) ) {
@@ -487,18 +511,19 @@ class WC_Authnet {
 					$order->add_order_note( __( 'Unable to refund charge!', 'wc-authnet' ) . ' ' . $response->get_error_message() );
 				} else {
 					$trx_response   = $response['transactionResponse'];
+
 					$cancel_message = sprintf( __( 'Authorize.Net charge refunded (Charge ID: %s)', 'wc-authnet' ), $trx_response['transId'] );
 					$order->add_order_note( $cancel_message );
 					WC_Authnet_API::log( 'Success: ' . $cancel_message );
+
 					$order->delete_meta_data( '_authnet_charge_captured' );
 					$order->delete_meta_data( '_authnet_charge_id' );
 				}
 
 				$order->save();
+
 			}
-
 		}
-
 	}
 
 	/**
@@ -507,6 +532,7 @@ class WC_Authnet {
 	 * @param int $order_id
 	 */
 	public function capture_payment_aim( $order_id ) {
+
 		$order = wc_get_order( $order_id );
 
 		if ( $order->get_payment_method() == 'authnet' ) {
@@ -514,45 +540,48 @@ class WC_Authnet {
 			$captured = $order->get_meta( '_authnet_charge_captured' );
 
 			if ( $charge && $captured == 'no' ) {
+
 				$gateway = new WC_Gateway_Authnet();
-				$gateway->log( "Info: Beginning capture payment for order {$order_id} for the amount of {$order->get_total()}" );
+
+				$gateway->log( "Info: Begining capture payment for order {$order_id} for the amount of {$order->get_total()}" );
+
 				$order_total = $order->get_total();
 				if ( 0 < $order->get_total_refunded() ) {
 					$order_total = $order_total - $order->get_total_refunded();
 				}
-				$args     = array(
+
+				$args = array(
 					'x_amount'   => $order_total,
 					'x_trans_id' => $order->get_transaction_id(),
 					'x_type'     => 'PRIOR_AUTH_CAPTURE',
 				);
-				$args     = apply_filters( 'wc_authnet_capture_payment_request_args', $args, $order );
+				$args = apply_filters( 'wc_authnet_capture_payment_request_args', $args, $order );
+
 				$response = $gateway->authnet_request( $args );
 
 				if ( is_wp_error( $response ) ) {
 					$order->add_order_note( __( 'Unable to capture charge!', 'wc-authnet' ) . ' ' . $response->get_error_message() );
 				} else {
-
 					if ( ! $gateway->capture && $order->get_meta( '_authnet_fds_hold' ) == 'yes' ) {
 						$order->update_meta_data( '_authnet_fds_hold', 'no' );
 						$order->save();
 						self::capture_payment_aim( $order_id );
-
 						return;
 					}
 
 					$complete_message = sprintf( __( "Authorize.Net charge complete (Charge ID: %s)", 'wc-authnet' ), $response['transaction_id'] );
 					$order->add_order_note( $complete_message );
 					$gateway->log( "Success: {$complete_message}" );
+
 					$order->update_meta_data( '_authnet_charge_captured', 'yes' );
 					$order->update_meta_data( 'Authorize.Net Payment ID', $response['transaction_id'] );
+
 					$order->set_transaction_id( $response['transaction_id'] );
 					$order->save();
 				}
 
 			}
-
 		}
-
 	}
 
 	/**
@@ -561,6 +590,7 @@ class WC_Authnet {
 	 * @param int $order_id
 	 */
 	public function cancel_payment_aim( $order_id ) {
+
 		$order = wc_get_order( $order_id );
 
 		if ( $order->get_payment_method() == 'authnet' ) {
@@ -568,14 +598,18 @@ class WC_Authnet {
 			$charge_captured = $order->get_meta( '_authnet_charge_captured' );
 
 			if ( $charge && $charge_captured == 'no' ) {
+
 				$gateway = new WC_Gateway_Authnet();
-				$gateway->log( "Info: Beginning cancel payment for order {$order_id} for the amount of {$order->get_total()}" );
-				$args     = array(
+
+				$gateway->log( "Info: Begining cancel payment for order {$order_id} for the amount of {$order->get_total()}" );
+
+				$args = array(
 					'x_amount'   => $order->get_total(),
 					'x_trans_id' => $order->get_transaction_id(),
 					'x_type'     => 'VOID',
 				);
-				$args     = apply_filters( 'wc_authnet_cancel_payment_request_args', $args, $order );
+				$args = apply_filters( 'wc_authnet_cancel_payment_request_args', $args, $order );
+
 				$response = $gateway->authnet_request( $args );
 
 				if ( is_wp_error( $response ) ) {
@@ -585,15 +619,15 @@ class WC_Authnet {
 					$cancel_message = sprintf( __( "Authorize.Net charge refunded (Charge ID: %s)", 'wc-authnet' ), $response['transaction_id'] );
 					$order->add_order_note( $cancel_message );
 					$gateway->log( "Success: {$cancel_message}" );
+
 					$order->delete_meta_data( '_authnet_charge_captured' );
 					$order->delete_meta_data( '_authnet_charge_id' );
 				}
 
 				$order->save();
+
 			}
-
 		}
-
 	}
 
 }

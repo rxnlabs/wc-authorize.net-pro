@@ -10,9 +10,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @extends WC_Payment_Gateway_CC
  */
 class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
+
 	public $capture;
 	public $statement_descriptor;
-
 	public $login_id;
 	public $transaction_key;
 	public $client_key;
@@ -23,6 +23,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 	public $allowed_card_types;
 	public $customer_receipt;
 	public $free_api_method;
+
 	const  ACCEPT_JS_URL_LIVE = 'https://js.authorize.net/v1/Accept.js';
 	const  ACCEPT_JS_URL_TEST = 'https://jstest.authorize.net/v1/Accept.js';
 
@@ -40,8 +41,10 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
 		// Load the form fields
 		$this->init_form_fields();
+
 		// Load the settings.
 		$this->init_settings();
+
 		// Get setting values.
 		$this->title                = $this->get_option( 'title' );
 		$this->description          = $this->get_option( 'description' );
@@ -66,19 +69,19 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		if ( $this->client_key ) {
 			$this->supports[] = 'tokenization';
 		}
+
 		WC_Authnet_API::set_login_id( $this->login_id );
 		WC_Authnet_API::set_transaction_key( $this->transaction_key );
 		WC_Authnet_API::set_testmode( $this->testmode );
 		WC_Authnet_API::set_logging( $this->logging );
 		WC_Authnet_API::set_debugging( $this->debugging );
 		WC_Authnet_API::set_statement_descriptor( $this->statement_descriptor );
+
 		// Hooks
 		add_action( 'wp_enqueue_scripts', array( $this, 'payment_scripts' ) );
 		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
-		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array(
-			$this,
-			'process_admin_options'
-		) );
+		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
+
 	}
 
 	/**
@@ -118,12 +121,13 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		if ( $this->enabled == 'no' ) {
 			return;
 		}
-		// Check required fields
 
+		// Check required fields
 		if ( ! $this->login_id ) {
 			echo '<div class="error"><p>' . sprintf( __( 'Gateway error: Please enter your API Login ID <a href="%s">here</a>', 'wc-authnet' ), admin_url( 'admin.php?page=wc-settings&tab=checkout&section=authnet' ) ) . '</p></div>';
 
 			return;
+
 		} elseif ( ! $this->transaction_key ) {
 			echo '<div class="error"><p>' . sprintf( __( 'Gateway error: Please enter your Transaction Key <a href="%s">here</a>', 'wc-authnet' ), admin_url( 'admin.php?page=wc-settings&tab=checkout&section=authnet' ) ) . '</p></div>';
 
@@ -157,6 +161,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 	 * Initialise Gateway Settings Form Fields
 	 */
 	public function init_form_fields() {
+
 		$this->form_fields = apply_filters( 'wc_authnet_settings', array(
 			'enabled'              => array(
 				'title'       => __( 'Enable/Disable', 'wc-authnet' ),
@@ -235,12 +240,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				'class'       => 'wc-enhanced-select',
 				'type'        => 'multiselect',
 				'description' => __( 'Select the card types you want to allow payments from.', 'wc-authnet' ),
-				'default'     => array(
-					'visa',
-					'mastercard',
-					'discover',
-					'amex'
-				),
+				'default'     => array( 'visa', 'mastercard', 'discover', 'amex' ),
 				'options'     => array(
 					'visa'        => __( 'Visa', 'wc-authnet' ),
 					'mastercard'  => __( 'MasterCard', 'wc-authnet' ),
@@ -295,9 +295,11 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		if ( ! $this->client_key || ! is_cart() && ! is_checkout() && ! isset( $_GET['pay_for_order'] ) && ! is_add_payment_method_page() ) {
 			return;
 		}
+
 		$js_url = ( $this->testmode ? self::ACCEPT_JS_URL_TEST : self::ACCEPT_JS_URL_LIVE );
 		wp_enqueue_script( 'authnet-accept', $js_url, '', null, true );
 		wp_enqueue_script( 'woocommerce_authnet', plugins_url( 'assets/js/authnet.js', WC_AUTHNET_MAIN_FILE ), array( 'jquery-payment', 'authnet-accept' ), WC_AUTHNET_VERSION, true );
+
 		$authnet_params = array(
 			'login_id'              => $this->login_id,
 			'client_key'            => $this->client_key,
@@ -307,8 +309,8 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 			'no_cvv_error'          => __( 'CVC code is required.', 'wc-authnet' ),
 			'card_disallowed_error' => __( 'Card Type Not Accepted.', 'wc-authnet' ),
 		);
-		// If we're on the pay page we need to pass authnet.js the address of the order.
 
+		// If we're on the pay page we need to pass authnet.js the address of the order.
 		if ( isset( $_GET['pay_for_order'] ) && 'true' === $_GET['pay_for_order'] ) {
 			$order_id                             = wc_get_order_id_by_order_key( urldecode( $_GET['key'] ) );
 			$order                                = wc_get_order( $order_id );
@@ -328,6 +330,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 	 * @return array()
 	 */
 	protected function generate_payment_request_args( $order, $source, $recurring_description = '' ) {
+
 		$source_args = array();
 
 		if ( $source->source['source_type'] == 'card' ) {
@@ -364,7 +367,6 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 			'phoneNumber' => substr( $order->get_billing_phone(), 0, 25 ),
 		);
 
-
 		// Set the customer's Ship To address
 		$shipping_address = array(
 			'firstName' => substr( $order->get_shipping_first_name(), 0, 50 ),
@@ -376,6 +378,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 			'zip'       => substr( $order->get_shipping_postcode(), 0, 20 ),
 			'country'   => substr( $order->get_shipping_country(), 0, 60 ),
 		);
+
 		// Add values for transaction settings
 		$transaction_settings = array(
 			array(
@@ -387,6 +390,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				'settingValue' => $this->customer_receipt,
 			)
 		);
+
 		// Add basic custom fields
 		$custom_fields = array(
 			array(
@@ -398,6 +402,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				'value' => sanitize_email( $order->get_billing_email() ),
 			)
 		);
+
 		// Add values for line items
 		$line_items = array();
 		foreach ( $order->get_items() as $id => $item ) {
@@ -415,78 +420,45 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				break;
 			}
 		}
+
 		$customer_id = ( is_user_logged_in() ? get_current_user_id() : 'guest_' . time() );
 		$description = trim( sprintf( __( '%1$s - Order %2$s %3$s', 'wc-authnet' ), $this->statement_descriptor, $order->get_order_number(), $recurring_description ) );
+
 		// Create complete request args (strictly follow ordering of request arguments)
 
-		if ( ! ( is_array( $source->source ) && isset( $source->source['source_type'] ) ) ) {
-			$request_args = array(
-				'refId'              => $order->get_id(),
-				'transactionRequest' => array(
-					'transactionType'     => ( $this->capture ? 'authCaptureTransaction' : 'authOnlyTransaction' ),
-					'amount'              => wc_clean( $order->get_total() ),
-					'currencyCode'        => $this->get_payment_currency( $order->get_id() ),
-					'profile'             => $source_args,
-					'order'               => array(
-						'invoiceNumber' => $order->get_order_number(),
-						'description'   => substr( $description, 0, 255 ),
-					),
-					'lineItems'           => $line_items,
-					'tax'                 => array(
-						'amount' => $order->get_total_tax(),
-					),
-					'shipping'            => array(
-						'amount' => $order->get_shipping_total(),
-					),
-					'customer'            => array(
-						'id'    => $customer_id,
-						'email' => substr( $order->get_billing_email(), 0, 255 ),
-					),
-					'shipTo'              => $shipping_address,
-					'customerIP'          => WC_Geolocation::get_ip_address(),
-					'transactionSettings' => array(
-						'setting' => $transaction_settings,
-					),
-					'userFields'          => array(
-						'userField' => $custom_fields,
-					),
+		$request_args = array(
+			'refId'              => $order->get_id(),
+			'transactionRequest' => array(
+				'transactionType'     => ( $this->capture ? 'authCaptureTransaction' : 'authOnlyTransaction' ),
+				'amount'              => wc_clean( $order->get_total() ),
+				'currencyCode'        => $this->get_payment_currency( $order->get_id() ),
+				'payment'             => $source_args,
+				'order'               => array(
+					'invoiceNumber' => $order->get_order_number(),
+					'description'   => substr( $description, 0, 255 ),
 				),
-			);
-		} else {
-			$request_args = array(
-				'refId'              => $order->get_id(),
-				'transactionRequest' => array(
-					'transactionType'     => ( $this->capture ? 'authCaptureTransaction' : 'authOnlyTransaction' ),
-					'amount'              => wc_clean( $order->get_total() ),
-					'currencyCode'        => $this->get_payment_currency( $order->get_id() ),
-					'payment'             => $source_args,
-					'order'               => array(
-						'invoiceNumber' => $order->get_order_number(),
-						'description'   => substr( $description, 0, 255 ),
-					),
-					'lineItems'           => $line_items,
-					'tax'                 => array(
-						'amount' => $order->get_total_tax(),
-					),
-					'shipping'            => array(
-						'amount' => $order->get_shipping_total(),
-					),
-					'customer'            => array(
-						'id'    => $customer_id,
-						'email' => substr( $order->get_billing_email(), 0, 255 ),
-					),
-					'billTo'              => $billing_address,
-					'shipTo'              => $shipping_address,
-					'customerIP'          => WC_Geolocation::get_ip_address(),
-					'transactionSettings' => array(
-						'setting' => $transaction_settings,
-					),
-					'userFields'          => array(
-						'userField' => $custom_fields,
-					),
+				'lineItems'           => $line_items,
+				'tax'                 => array(
+					'amount' => $order->get_total_tax(),
 				),
-			);
-		}
+				'shipping'            => array(
+					'amount' => $order->get_shipping_total(),
+				),
+				'customer'            => array(
+					'id'    => $customer_id,
+					'email' => substr( $order->get_billing_email(), 0, 255 ),
+				),
+				'billTo'              => $billing_address,
+				'shipTo'              => $shipping_address,
+				'customerIP'          => WC_Geolocation::get_ip_address(),
+				'transactionSettings' => array(
+					'setting' => $transaction_settings,
+				),
+				'userFields'          => array(
+					'userField' => $custom_fields,
+				),
+			),
+		);
 
 		return apply_filters( 'wc_authnet_generate_payment_request_args', $request_args, $order, $source );
 	}
@@ -505,9 +477,10 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		$authnet_source   = false;
 		$token_id         = false;
 		$authnet_customer = false;
-		WC_Authnet_API::log( "Info: Getting payment source with new card details." );
-		// New CC info was entered and we have a new token to process
 
+		WC_Authnet_API::log( "Info: Getting payment source with new card details." );
+
+		// New CC info was entered and we have a new token to process
 		if ( isset( $_POST['authnet_nonce'] ) && isset( $_POST['authnet_data_descriptor'] ) ) {
 			$authnet_source_args = array(
 				'nonce'      => wc_clean( $_POST['authnet_nonce'] ),
@@ -527,7 +500,6 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				WC_Authnet_API::log( "Error: Card Type Not Accepted." );
 				throw new Exception( __( 'Card Type Not Accepted.', 'wc-authnet' ) );
 			}
-
 			if ( empty( $authnet_source_args['cvc'] ) ) {
 				WC_Authnet_API::log( "Error: CVC code is empty." );
 				throw new Exception( __( 'CVC code is required.', 'wc-authnet' ) );
@@ -560,10 +532,14 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 	 *
 	 */
 	public function process_payment( $order_id, $retry = true, $force_customer = false ) {
+
 		$order    = wc_get_order( $order_id );
 		$response = false;
+
 		try {
+
 			WC_Authnet_API::log( "Info: Begin processing payment for order {$order_id} for the amount of {$order->get_total()}" );
+
 			$source = $this->get_source( get_current_user_id(), $force_customer );
 
 			if ( empty( $source->source ) && empty( $source->customer ) ) {
@@ -574,16 +550,19 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 			}
 
 			// Handle payment.
-
 			if ( $order->get_total() > 0 ) {
+
 				// Make the request.
 				$payment_args = $this->generate_payment_request_args( $order, $source );
-				$response     = WC_Authnet_API::execute( 'createTransactionRequest', $payment_args );
+
+				$response = WC_Authnet_API::execute( 'createTransactionRequest', $payment_args );
+
 				if ( is_wp_error( $response ) ) {
 					throw new Exception( $response->get_error_message() );
 				}
 				// Process valid response.
 				$this->process_response( $response['transactionResponse'], $order );
+
 			} else {
 				$order->payment_complete();
 			}
@@ -597,6 +576,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				'result'   => 'success',
 				'redirect' => $this->get_return_url( $order ),
 			);
+
 		} catch ( Exception $e ) {
 			wc_add_notice( $e->getMessage(), 'error' );
 			WC_Authnet_API::log( sprintf( __( 'Error: %s', 'wc-authnet' ), $e->getMessage() ) );
@@ -632,33 +612,41 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 	 */
 	public function process_response( $response, $order ) {
 		$order_id = $order->get_id();
+
 		// Store charge data
 		$order->update_meta_data( '_authnet_charge_id', $response['transId'] );
 		$order->update_meta_data( '_authnet_cc_last4', substr( $response['accountNumber'], - 4 ) );
 		$order->update_meta_data( '_authnet_authorization_code', $response['authCode'] );
+
 		$order->set_transaction_id( $response['transId'] );
 
 		if ( $this->capture && $response['responseCode'] != 4 ) {
 			$order->update_meta_data( '_authnet_charge_captured', 'yes' );
 			$order->update_meta_data( 'Authorize.Net Payment ID', $response['transId'] );
 			$order->payment_complete( $response['transId'] );
+
 			$complete_message = sprintf( __( "Authorize.Net charge complete (Charge ID: %s) \n\nAVS Response: %s \n\nCVV2 Response: %s", 'wc-authnet' ), $response['transId'], self::get_avs_message( $response['avsResultCode'] ), self::get_cvv_message( $response['cvvResultCode'] ) );
 			$order->add_order_note( $complete_message );
 			WC_Authnet_API::log( 'Success: ' . $complete_message );
+
 		} else {
 			$order->update_meta_data( '_authnet_charge_captured', 'no' );
+
 			if ( $response['responseCode'] == 4 ) {
 				$order->update_meta_data( '_authnet_fds_hold', 'yes' );
 			}
+
 			if ( $order->has_status( array( 'pending', 'failed' ) ) ) {
 				wc_reduce_stock_levels( $order_id );
 			}
+
 			$authorized_message = sprintf( __( "Authorize.Net charge authorized (Charge ID: %s). Process order to take payment, or cancel to remove the pre-authorization.\n\nAVS Response: %s \n\nCVV2 Response: %s \n\n", 'wc-authnet' ), $response['transId'], self::get_avs_message( $response['avsResultCode'] ), self::get_cvv_message( $response['cvvResultCode'] ) );
 			$order->update_status( 'on-hold', $authorized_message . "\n" );
 			WC_Authnet_API::log( "Success: " . $authorized_message );
 		}
 
 		$order->save();
+
 		do_action( 'wc_gateway_authnet_process_response', $response, $order );
 
 		return $response;
@@ -674,34 +662,39 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 	 * @throws Exception
 	 */
 	public function process_refund( $order_id, $amount = null, $reason = '' ) {
+
 		$order = wc_get_order( $order_id );
+
 		if ( ! $order || ! $order->get_transaction_id() || $amount <= 0 ) {
 			return false;
 		}
+
 		$charge_captured = $order->get_meta( '_authnet_charge_captured' );
 
 		if ( $amount == $order->get_total() ) {
 			$order->update_meta_data( '_authnet_charge_captured', 'no' );
 			$order->save();
+
 			$instance = new WC_Authnet();
 			$instance->cancel_payment( $order_id );
+
 			$order       = wc_get_order( $order_id );
 			$void_status = $order->get_meta( '_authnet_void' );
 		} else {
 			$void_status = 'failed';
 		}
 
-
 		if ( $order->get_meta( '_authnet_charge_captured' ) != $charge_captured ) {
 			$order->update_meta_data( '_authnet_charge_captured', $charge_captured );
 			$order->save();
 		}
 
-
 		if ( $void_status == 'failed' ) {
+
 			WC_Authnet_API::log( "Info: Beginning refund for order {$order_id} for the amount of {$amount}" );
+
 			// Create complete request args
-			$args     = array(
+			$args = array(
 				'refId'              => $order->get_id(),
 				'transactionRequest' => array(
 					'transactionType' => 'refundTransaction',
@@ -716,7 +709,8 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 					'refTransId'      => $order->get_transaction_id(),
 				),
 			);
-			$args     = apply_filters( 'wc_authnet_refund_request_args', $args, $order );
+			$args = apply_filters( 'wc_authnet_refund_request_args', $args, $order );
+
 			$response = WC_Authnet_API::execute( 'createTransactionRequest', $args );
 
 			if ( is_wp_error( $response ) ) {
@@ -725,9 +719,11 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				return false;
 			} else {
 				$trx_response   = $response['transactionResponse'];
+
 				$refund_message = sprintf( __( 'Refunded %s - Refund ID: %s - Reason: %s', 'wc-authnet' ), $amount, $trx_response['transId'], $reason );
 				$order->add_order_note( $refund_message );
 				$order->save();
+
 				WC_Authnet_API::log( "Success: " . html_entity_decode( strip_tags( $refund_message ) ) );
 			}
 
@@ -744,41 +740,52 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 	 * @return string
 	 */
 	protected function format_line_item( $string ) {
+
 		// Replace Single Curly Quotes
 		$search[]  = chr( 226 ) . chr( 128 ) . chr( 152 );
 		$replace[] = "'";
 		$search[]  = chr( 226 ) . chr( 128 ) . chr( 153 );
 		$replace[] = "'";
+
 		// Replace Smart Double Curly Quotes
 		$search[]  = chr( 226 ) . chr( 128 ) . chr( 156 );
 		$replace[] = '"';
 		$search[]  = chr( 226 ) . chr( 128 ) . chr( 157 );
 		$replace[] = '"';
+
 		// Replace En Dash
 		$search[]  = chr( 226 ) . chr( 128 ) . chr( 147 );
 		$replace[] = '--';
+
 		// Replace Em Dash
 		$search[]  = chr( 226 ) . chr( 128 ) . chr( 148 );
 		$replace[] = '---';
+
 		// Replace Bullet
 		$search[]  = chr( 226 ) . chr( 128 ) . chr( 162 );
 		$replace[] = '*';
+
 		// Replace Middle Dot
 		$search[]  = chr( 194 ) . chr( 183 );
 		$replace[] = '*';
+
 		// Replace Ellipsis with three consecutive dots
 		$search[]  = chr( 226 ) . chr( 128 ) . chr( 166 );
 		$replace[] = '...';
+
 		// Replace Ampersand with dash
 		$search[]  = '&';
 		$replace[] = '-';
+
 		// Replace Percentage with pc char
 		$search[]  = '%';
 		$replace[] = 'pc';
+
 		// Apply Replacements
 		$string = str_replace( $search, $replace, $string );
+
 		// Remove any non-ASCII Characters
-		$string = preg_replace( "/[^\1-]/", "", $string );
+		$string = preg_replace( "/[^\x01-\x7F]/", "", $string );
 
 		return $string;
 	}
@@ -828,12 +835,14 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				'valid_length' => '[14]',
 			)
 		);
+
 		foreach ( $card_types as $type ) {
 			$compare = $type[ $field ];
 			if ( $field == 'pattern' && preg_match( $compare, $value, $match ) || $compare == $value ) {
 				return $type[ $return ];
 			}
 		}
+
 	}
 
 	/**
@@ -851,8 +860,8 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 	function get_payment_currency( $order_id = false ) {
 		$currency = get_woocommerce_currency();
 		$order_id = ( ! $order_id ? $this->get_checkout_pay_page_order_id() : $order_id );
-		// Gets currency for the current order, that is about to be paid for
 
+		// Gets currency for the current order, that is about to be paid for
 		if ( $order_id ) {
 			$order    = wc_get_order( $order_id );
 			$currency = $order->get_currency();
@@ -892,7 +901,6 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		} else {
 			return $code;
 		}
-
 	}
 
 	/**
@@ -918,7 +926,6 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		} else {
 			return $code;
 		}
-
 	}
 
 }

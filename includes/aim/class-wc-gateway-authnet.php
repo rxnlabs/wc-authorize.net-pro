@@ -94,6 +94,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
         if ( in_array( 'diners-club', $this->allowed_card_types ) ) {
             $icon .= '<img style="margin-left: 0.3em" src="' . WC_HTTPS::force_https_url( WC()->plugin_url() . '/assets/images/icons/credit-cards/diners.svg' ) . '" alt="Diners Club" width="32" />';
         }
+
         return apply_filters( 'woocommerce_gateway_icon', $icon, $this->id );
 	}
 
@@ -106,10 +107,10 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
         }
 
 		// Check required fields
-        if ( !$this->login_id ) {
+        if ( ! $this->login_id ) {
             echo  '<div class="error"><p>' . sprintf( __( 'Authorize.Net error: Please enter your API Login ID <a href="%s">here</a>', 'wc-authnet' ), admin_url( 'admin.php?page=wc-settings&tab=checkout&section=authnet' ) ) . '</p></div>';
             return;
-        } elseif ( !$this->transaction_key ) {
+        } elseif ( ! $this->transaction_key ) {
             echo  '<div class="error"><p>' . sprintf( __( 'Authorize.Net error: Please enter your Transaction Key <a href="%s">here</a>', 'wc-authnet' ), admin_url( 'admin.php?page=wc-settings&tab=checkout&section=authnet' ) ) . '</p></div>';
             return;
         }
@@ -126,7 +127,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 	public function is_available() {
 		if ( $this->enabled == "yes" ) {
             // Required fields check
-            if ( !$this->login_id || !$this->transaction_key ) {
+            if ( ! $this->login_id || ! $this->transaction_key ) {
                 return false;
             }
             return true;
@@ -273,12 +274,12 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		try {
 
 			// Check for CC details filled or not
-			if( empty( $_POST['authnet-card-number'] ) || empty( $_POST['authnet-card-expiry'] ) || empty( $_POST['authnet-card-cvc'] ) ) {
+			if ( empty( $_POST['authnet-card-number'] ) || empty( $_POST['authnet-card-expiry'] ) || empty( $_POST['authnet-card-cvc'] ) ) {
 				throw new Exception( __( 'Credit card details cannot be left incomplete.', 'wc-authnet' ) );
 			}
 
 			// Check for card type supported or not
-			if( ! in_array( $this->get_card_type( wc_clean( $_POST['authnet-card-number'] ), 'pattern', 'name' ), $this->allowed_card_types ) ) {
+			if ( ! in_array( $this->get_card_type( wc_clean( $_POST['authnet-card-number'] ), 'pattern', 'name' ), $this->allowed_card_types ) ) {
 				$this->log( sprintf( __( 'Card type being used is not one of supported types in plugin settings: %s', 'wc-authnet' ), $this->get_card_type( wc_clean( $_POST['authnet-card-number'] ) ) ) );
 				throw new Exception( __( 'Card Type Not Accepted', 'wc-authnet' ) );
 			}
@@ -324,7 +325,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
             $line_items = array();
 			foreach ( $order->get_items() as $item ) {
 				$product = $item->get_product();
-                if( !is_object( $product ) ) {
+                if ( ! is_object( $product ) ) {
                     continue;
                 }
 				$line_item['id'] = $product->get_sku() ? substr( $this->format_line_item( $product->get_sku() ), 0, 31 ) : substr( $this->format_line_item( $product->get_id() ), 0, 31 );
@@ -336,7 +337,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
 				$line_items[] = $line_item;
 
-				if( count( $line_items ) >= 30 ) {
+				if ( count( $line_items ) >= 30 ) {
 					break;
 				}
 			}
@@ -408,7 +409,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 			wc_add_notice( sprintf( __( 'Gateway Error: %s', 'wc-authnet' ), $e->getMessage() ), 'error' );
             $this->log( sprintf( __( 'Gateway Error: %s', 'wc-authnet' ), $e->getMessage() ) );
 
-			if( is_wp_error( $response ) && $response = $response->get_error_data() ) {
+			if ( is_wp_error( $response ) && $response = $response->get_error_data() ) {
                 $order->add_order_note( sprintf( __( "Authorize.Net failure reason: %s \n\nAVS Response: %s \n\nCVV2 Response: %s", 'wc-authnet' ), $response['response_reason_code'] . ' - ' . $response['response_reason_text'], self::get_avs_message( $response['avs_response'] ), self::get_cvv_message( $response['card_code_response'] ) ) );
             }
 
@@ -438,9 +439,10 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		}
 
 		$charge_captured = $order->get_meta( '_authnet_charge_captured' );
-		if( $amount == $order->get_total() ) {
+		if ( $amount == $order->get_total() ) {
 			$order->update_meta_data( '_authnet_charge_captured', 'no' );
 			$order->save();
+
 			$instance = new WC_Authnet();
 			$instance->cancel_payment_aim( $order_id );
 
@@ -450,12 +452,12 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 			$void_status = 'failed';
 		}
 
-		if( $order->get_meta( '_authnet_charge_captured' ) != $charge_captured ) {
+		if ( $order->get_meta( '_authnet_charge_captured' ) != $charge_captured ) {
 	        $order->update_meta_data( '_authnet_charge_captured', $charge_captured );
 	        $order->save();
 		}
 
-		if( $void_status == 'failed' ) {
+		if ( $void_status == 'failed' ) {
 			$cc_last4 = $order->get_meta( '_authnet_cc_last4' );
 			$args = array(
 				'x_amount'      => $amount,
@@ -500,7 +502,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
         $_x_post_fields = array_merge( $_x_post_fields, $args );
 
         $line_items = '';
-        if( isset( $args['line_items'] ) ) {
+        if ( isset( $args['line_items'] ) ) {
             unset( $_x_post_fields['line_items'] );
 			foreach ( $args['line_items'] as $line_item ) {
 				$line_items .= '&x_line_item=' . implode( '<|>', $line_item );
@@ -509,7 +511,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 			$args['line_items'] = false;
 		}
 
-        if( isset( $_x_post_fields['x_state'] ) && empty( $_x_post_fields['x_state'] ) ) {
+        if ( isset( $_x_post_fields['x_state'] ) && empty( $_x_post_fields['x_state'] ) ) {
             $_x_post_fields['x_state'] = 'NA';
         }
 
@@ -526,7 +528,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		$result = is_wp_error( $response ) ? $response : explode( '|', wp_remote_retrieve_body( $response ) );
 
         // Saving to Log here
-		if( $this->logging && $this->debugging ) {
+		if ( $this->logging && $this->debugging ) {
 			$message = sprintf( "\nPosting to: \n%s\nRequest: \n%s\nLine Items: \n%s\nResponse: \n%s", $endpoint_url, print_r( $_x_post_fields, 1 ), print_r( $args['line_items'], 1 ), print_r( $result, 1 ) );
 			WC_Authnet_Logger::log( $message );
 		}
@@ -535,7 +537,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
         if ( is_wp_error( $result ) ) {
 			return $result;
-		} elseif( count( $result ) < 10 ) {
+		} elseif ( count( $result ) < 10 ) {
 			$error_message = __( 'There was an error with the gateway response.', 'wc-authnet' );
 			return new WP_Error( 'invalid_response', apply_filters( 'woocommerce_authnet_error_message', $error_message, $result ) );
 		}
@@ -554,12 +556,12 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
             'card_type'            => $result[51],
         );
 
-        if( $authnet_response['response_code'] == 2 ) {
+        if ( $authnet_response['response_code'] == 2 ) {
             $decline_message = __( 'Your card has been declined.', 'wc-authnet' );
             return new WP_Error( 'card_declined', $this->get_error_message( $authnet_response['response_reason_code'], $decline_message, $authnet_response ), $authnet_response );
         }
 
-        if( $authnet_response['response_code'] == 3 || $authnet_response['response_subcode'] == 3 ) {
+        if ( $authnet_response['response_code'] == 3 || $authnet_response['response_subcode'] == 3 ) {
             return new WP_Error( 'card_error', $this->get_error_message( $authnet_response['response_reason_code'], $authnet_response['response_reason_text'], $authnet_response ), $authnet_response );
         }
 
@@ -785,6 +787,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 			'Y' => __( 'Street Address: Match - First 5 Digits of ZIP: Match', 'wc-authnet' ),
 			'Z' => __( 'Street Address: No Match - First 5 Digits of ZIP: Match', 'wc-authnet' ),
 		);
+
 		if ( array_key_exists( $code, $avs_messages ) ) {
 			return $code . ' - ' . $avs_messages[$code];
 		} else {
@@ -807,6 +810,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 			'S' => __( 'Merchant Has Indicated that CVV2 / CVC2 is not present on card', 'wc-authnet' ),
 			'U' => __( 'Issuer is not certified and/or has not provided visa encryption keys', 'wc-authnet' ),
 		);
+
 		if ( array_key_exists( $code, $cvv_messages ) ) {
 			return $code . ' - ' . $cvv_messages[$code];
 		} else {
