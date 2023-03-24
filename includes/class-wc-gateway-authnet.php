@@ -707,6 +707,17 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 						),
 					),
 					'refTransId'      => $order->get_transaction_id(),
+					'billTo'          => array(
+						'firstName'   => substr( $order->get_billing_first_name(), 0, 50 ),
+						'lastName' 	  => substr( $order->get_billing_last_name(), 0, 50 ),
+						'company' 	  => substr( $order->get_billing_company(), 0, 50 ),
+						'address' 	  => substr( trim( $order->get_billing_address_1() . ' ' . $order->get_billing_address_2() ), 0, 60 ),
+						'city' 	      => substr( $order->get_billing_city(), 0, 40 ),
+						'state' 	  => substr( $order->get_billing_state(), 0, 40 ),
+						'zip' 		  => substr( $order->get_billing_postcode(), 0, 20 ),
+						'country' 	  => substr( $order->get_billing_country(), 0, 60 ),
+						'phoneNumber' => substr( $order->get_billing_phone(), 0, 25 ),
+					),
 				),
 			);
 			$args = apply_filters( 'wc_authnet_refund_request_args', $args, $order );
