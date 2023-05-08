@@ -7,7 +7,7 @@ Author URI: https://pledgedplugins.com
 Requires at least: 4.4
 Tested up to: 6.2
 Requires PHP: 5.6
-Stable tag: 6.0.2
+Stable tag: 6.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -80,7 +80,7 @@ A valid SSL certificate is required to ensure your customer credit card details 
 
 = 6.0.3 =
 * Added billTo fields to refund payment request
-* Updated "WC tested up to" header to 7.6
+* Updated "WC tested up to" header to 7.7
 
 = 6.0.2 =
 * Updated Freemius SDK to 2.5.5
