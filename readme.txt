@@ -81,6 +81,7 @@ A valid SSL certificate is required to ensure your customer credit card details 
 = 6.0.3 =
 * Added billTo fields to refund payment request
 * Updated "WC tested up to" header to 7.7
+* Updated Freemius SDK to 2.5.7
 
 = 6.0.2 =
 * Updated Freemius SDK to 2.5.5
