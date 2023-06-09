@@ -354,6 +354,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 			// Store charge ID
 			$order->update_meta_data( '_authnet_charge_id', $response['transaction_id'] );
 			$order->update_meta_data( '_authnet_cc_last4', substr( wc_clean( $_POST['authnet-card-number'] ), -4 ) );
+			$order->update_meta_data( '_authnet_cc_type', $this->get_card_type( wc_clean( $_POST['authnet-card-number'] ) ) );
 			$order->update_meta_data( '_authnet_authorization_code', $response['authorization_code'] );
 
             $order->set_transaction_id( $response['transaction_id'] );

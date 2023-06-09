@@ -616,6 +616,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		// Store charge data
 		$order->update_meta_data( '_authnet_charge_id', $response['transId'] );
 		$order->update_meta_data( '_authnet_cc_last4', substr( $response['accountNumber'], -4 ) );
+		$order->update_meta_data( '_authnet_cc_type', $response['accountType'] );
 		$order->update_meta_data( '_authnet_authorization_code', $response['authCode'] );
 
 		$order->set_transaction_id( $response['transId'] );
