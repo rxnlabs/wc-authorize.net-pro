@@ -3,13 +3,13 @@
 Plugin Name: WooCommerce Authorize.Net Gateway
 Plugin URI: https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
 Description: A payment gateway for Authorize.Net. An Authorize.Net account and a server with cURL, SSL support, and a valid SSL certificate is required (for security reasons) for this gateway to function. Requires WC 3.3+
-Version: 6.0.6
+Version: 6.0.7
 Author: Pledged Plugins
 Author URI: https://pledgedplugins.com
 Text Domain: wc-authnet
 Domain Path: /languages
 WC requires at least: 3.3
-WC tested up to: 8.2
+WC tested up to: 8.3
 
 	Copyright: © Pledged Plugins.
 	License: GNU General Public License v3.0
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'WC_AUTHNET_VERSION', '6.0.6' );
+define( 'WC_AUTHNET_VERSION', '6.0.7' );
 define( 'WC_AUTHNET_MIN_PHP_VER', '5.6.0' );
 define( 'WC_AUTHNET_MIN_WC_VER', '3.3' );
 define( 'WC_AUTHNET_PLUGIN_URL', untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) ) );
@@ -122,10 +122,14 @@ class WC_Authnet {
 	 */
 	public function __construct() {
 
-		// Declaring HPOS feature compatibility
 		add_action( 'before_woocommerce_init', function() {
+			// Declaring HPOS feature compatibility
 			if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
 				\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+			}
+			// Declaring cart and checkout blocks incompatibility
+			if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
+				\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'cart_checkout_blocks', __FILE__, false );
 			}
 		} );
 

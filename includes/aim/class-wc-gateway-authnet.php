@@ -22,6 +22,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
     public $testmode;
     public $logging;
     public $debugging;
+	public $line_items;
     public $allowed_card_types;
     public $customer_receipt;
 	public $free_api_method;
@@ -53,6 +54,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		$this->transaction_key	  	= $this->get_option( 'transaction_key' );
 		$this->logging     		  	= $this->get_option( 'logging' ) === 'yes';
 		$this->debugging   		  	= $this->get_option( 'debugging' ) === 'yes';
+		$this->line_items          	= $this->get_option( 'line_items' ) === 'yes';
 		$this->allowed_card_types 	= $this->get_option( 'allowed_card_types', array() );
 		$this->customer_receipt   	= $this->get_option( 'customer_receipt' ) === 'yes';
 		$this->free_api_method		= $this->get_option( 'free_api_method' );
@@ -212,6 +214,13 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				'description' => __( '<strong>CAUTION! Enabling this option will write gateway requests possibly including card numbers and CVV to the logs.</strong> Do not turn this on unless you have a problem processing credit cards. You must only ever enable it temporarily for troubleshooting or to send requested information to the plugin author. It must be disabled straight away after the issues are resolved and the plugin logs should be deleted.', 'wc-authnet' ) . ' ' . sprintf( __( '<a href="%s">Click here</a> to check and delete the full log file.', 'wc-authnet' ), admin_url( 'admin.php?page=wc-status&tab=logs&log_file=' . WC_Log_Handler_File::get_log_file_name( 'woocommerce-gateway-authnet' ) ) ),
 				'default'     => 'no',
 			),
+			'line_items' => array(
+				'title'       => __( 'Line Items', 'wc-authnet' ),
+				'label'       => __( 'Enable Line Items', 'wc-authnet' ),
+				'type'        => 'checkbox',
+				'description' => __( 'Add line item data sent to the gateway.', 'wc-authnet' ),
+				'default'     => 'yes'
+			),
 			'allowed_card_types' => array(
 				'title'       => __( 'Allowed Card types', 'wc-authnet' ),
 				'class'       => 'wc-enhanced-select',
@@ -322,26 +331,29 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				'x_email_customer'		=> $this->customer_receipt,
 			);
 
-            $line_items = array();
-			foreach ( $order->get_items() as $item ) {
-				$product = $item->get_product();
-                if ( ! is_object( $product ) ) {
-                    continue;
-                }
-				$line_item['id'] = $product->get_sku() ? substr( $this->format_line_item( $product->get_sku() ), 0, 31 ) : substr( $this->format_line_item( $product->get_id() ), 0, 31 );
-				$line_item['name'] = substr( $this->format_line_item( $item->get_name() ), 0, 31 );
-				$line_item['description'] = '';
-				$line_item['quantity'] = $item->get_quantity();
-				$line_item['unit_price'] = $order->get_item_total( $item );
-				$line_item['taxable'] = $product->is_taxable();
+            $line_items_values = array();
 
-				$line_items[] = $line_item;
+			if ( $this->line_items ) {
+				foreach ( $order->get_items() as $item ) {
+					$product = $item->get_product();
+					if ( ! is_object( $product ) ) {
+						continue;
+					}
+					$line_item['id'] = $product->get_sku() ? substr( $this->format_line_item( $product->get_sku() ), 0, 31 ) : substr( $this->format_line_item( $product->get_id() ), 0, 31 );
+					$line_item['name'] = substr( $this->format_line_item( $item->get_name() ), 0, 31 );
+					$line_item['description'] = '';
+					$line_item['quantity'] = $item->get_quantity();
+					$line_item['unit_price'] = $order->get_item_total( $item );
+					$line_item['taxable'] = $product->is_taxable();
 
-				if ( count( $line_items ) >= 30 ) {
-					break;
+					$line_items_values[] = $line_item;
+
+					if ( count( $line_items_values ) >= 30 ) {
+						break;
+					}
 				}
 			}
-			$payment_args['line_items'] = $line_items;
+			$payment_args['line_items'] = $line_items_values;
 
 			$payment_args = apply_filters( 'wc_authnet_request_args', $payment_args, $order );
 
