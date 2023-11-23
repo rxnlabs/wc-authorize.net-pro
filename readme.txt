@@ -81,9 +81,10 @@ A valid SSL certificate is required to ensure your customer credit card details 
 = 6.0.7 =
 * Updated "WC tested up to" header to 8.3
 * Updated compatibility info to WordPress 6.4
-* Declared incompatibility with cart and checkout blocks
-* Added "Line Items" option
 * Updated Freemius SDK to 2.6.0
+* Declared incompatibility with cart and checkout blocks
+* Added email to refund request
+* Added "Line Items" option
 
 = 6.0.6 =
 * Updated "WC tested up to" header to 8.2

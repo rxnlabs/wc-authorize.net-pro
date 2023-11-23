@@ -719,6 +719,9 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 						),
 					),
 					'refTransId'      => $order->get_transaction_id(),
+					'customer'        => array(
+						'email' 	  => substr( $order->get_billing_email(), 0, 255 ),
+					),
 					'billTo'          => array(
 						'firstName'   => substr( $order->get_billing_first_name(), 0, 50 ),
 						'lastName' 	  => substr( $order->get_billing_last_name(), 0, 50 ),
