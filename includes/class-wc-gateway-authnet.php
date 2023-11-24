@@ -57,6 +57,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		$this->client_key           = $this->get_option( 'client_key' );
 		$this->logging              = $this->get_option( 'logging' ) === 'yes';
 		$this->debugging            = $this->get_option( 'debugging' ) === 'yes';
+		$this->line_items   		= $this->get_option( 'line_items' ) === 'yes';
 		$this->allowed_card_types   = $this->get_option( 'allowed_card_types', array() );
 		$this->customer_receipt     = $this->get_option( 'customer_receipt' ) === 'yes';
 		$this->free_api_method      = $this->get_option( 'free_api_method' );
@@ -235,6 +236,13 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				'description' => __( '<strong>CAUTION! Enabling this option will write gateway requests possibly including card numbers and CVV to the logs.</strong> Do not turn this on unless you have a problem processing credit cards. You must only ever enable it temporarily for troubleshooting or to send requested information to the plugin author. It must be disabled straight away after the issues are resolved and the plugin logs should be deleted.', 'wc-authnet' ) . ' ' . sprintf( __( '<a href="%s">Click here</a> to check and delete the full log file.', 'wc-authnet' ), admin_url( 'admin.php?page=wc-status&tab=logs&log_file=' . WC_Log_Handler_File::get_log_file_name( 'woocommerce-gateway-authnet' ) ) ),
 				'default'     => 'no',
 			),
+			'line_items' 		   => array(
+				'title'       => __( 'Line Items', 'wc-authnet' ),
+				'label'       => __( 'Enable Line Items', 'wc-authnet' ),
+				'type'        => 'checkbox',
+				'description' => __( 'Add line item data sent to the gateway.', 'wc-authnet' ),
+				'default'     => 'yes'
+			),
 			'allowed_card_types'   => array(
 				'title'       => __( 'Allowed Card types', 'wc-authnet' ),
 				'class'       => 'wc-enhanced-select',
@@ -404,20 +412,23 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		);
 
 		// Add values for line items
-		$line_items = array();
-		foreach ( $order->get_items() as $id => $item ) {
-			$product = $item->get_product();
-			if ( ! is_object( $product ) ) {
-				continue;
-			}
-			$line_item['itemId']      = ( $product->get_sku() ? substr( $product->get_sku(), 0, 31 ) : substr( $product->get_id(), 0, 31 ) );
-			$line_item['name']        = substr( $this->format_line_item( $item->get_name() ), 0, 31 );
-			$line_item['quantity']    = $item->get_quantity();
-			$line_item['unitPrice']   = ( isset( $item['recurring_line_total'] ) ? $item['recurring_line_total'] : $order->get_item_total( $item ) );
-			$line_item['taxable']     = $product->is_taxable();
-			$line_items['lineItem'][] = $line_item;
-			if ( count( $line_items ) >= 30 ) {
-				break;
+		$line_items_values = array();
+
+		if ( $this->line_items ) {
+			foreach ( $order->get_items() as $id => $item ) {
+				$product = $item->get_product();
+				if ( ! is_object( $product ) ) {
+					continue;
+				}
+				$line_item['itemId']      = ( $product->get_sku() ? substr( $product->get_sku(), 0, 31 ) : substr( $product->get_id(), 0, 31 ) );
+				$line_item['name']        = substr( $this->format_line_item( $item->get_name() ), 0, 31 );
+				$line_item['quantity']    = $item->get_quantity();
+				$line_item['unitPrice']   = ( isset( $item['recurring_line_total'] ) ? $item['recurring_line_total'] : $order->get_item_total( $item ) );
+				$line_item['taxable']     = $product->is_taxable();
+				$line_items_values['lineItem'][] = $line_item;
+				if ( count( $line_items_values ) >= 30 ) {
+					break;
+				}
 			}
 		}
 
@@ -437,7 +448,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 					'invoiceNumber' => $order->get_order_number(),
 					'description'   => substr( $description, 0, 255 ),
 				),
-				'lineItems'           => $line_items,
+				'lineItems'           => $line_items_values,
 				'tax'                 => array(
 					'amount' => $order->get_total_tax(),
 				),
@@ -708,6 +719,9 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 						),
 					),
 					'refTransId'      => $order->get_transaction_id(),
+					'customer'        => array(
+						'email' 	  => substr( $order->get_billing_email(), 0, 255 ),
+					),
 					'billTo'          => array(
 						'firstName'   => substr( $order->get_billing_first_name(), 0, 50 ),
 						'lastName' 	  => substr( $order->get_billing_last_name(), 0, 50 ),
