@@ -308,14 +308,26 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		wp_enqueue_script( 'authnet-accept', $js_url, '', null, true );
 		wp_enqueue_script( 'woocommerce_authnet', plugins_url( 'assets/js/authnet.js', WC_AUTHNET_MAIN_FILE ), array( 'jquery-payment', 'authnet-accept' ), WC_AUTHNET_VERSION, true );
 
+		wp_localize_script( 'woocommerce_authnet', 'wc_authnet_params', apply_filters( 'wc_authnet_params', $this->javascript_params() ) );
+	}
+
+	public function javascript_params() {
 		$authnet_params = array(
 			'login_id'              => $this->login_id,
 			'client_key'            => $this->client_key,
 			'allowed_card_types'    => $this->allowed_card_types,
 			'i18n_terms'            => __( 'Please accept the terms and conditions first', 'wc-authnet' ),
 			'i18n_required_fields'  => __( 'Please fill in required checkout fields first', 'wc-authnet' ),
+			'no_card_number_error'  => __( 'Enter a card number.', 'wc-authnet' ),
+			'no_card_expiry_error'  => __( 'Enter an expiry date.', 'wc-authnet' ),
 			'no_cvv_error'          => __( 'CVC code is required.', 'wc-authnet' ),
+			'card_number_error' 	=> __( 'Invalid card number.', 'wc-nmi' ),
+			'card_expiry_error' 	=> __( 'Invalid card expiry date.', 'wc-nmi' ),
+			'card_cvc_error' 		=> __( 'Invalid card CVC.', 'wc-nmi' ),
+			'placeholder_cvc'	 	=> __( 'CVC', 'woocommerce' ),
+			'placeholder_expiry' 	=> __( 'MM / YY', 'woocommerce' ),
 			'card_disallowed_error' => __( 'Card Type Not Accepted.', 'wc-authnet' ),
+			'accept_js_url'         => ( $this->testmode ? self::ACCEPT_JS_URL_TEST : self::ACCEPT_JS_URL_LIVE )
 		);
 
 		// If we're on the pay page we need to pass authnet.js the address of the order.
@@ -325,8 +337,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 			$authnet_params['billing_first_name'] = $order->get_billing_first_name();
 			$authnet_params['billing_last_name']  = $order->get_billing_last_name();
 		}
-
-		wp_localize_script( 'woocommerce_authnet', 'wc_authnet_params', apply_filters( 'wc_authnet_params', $authnet_params ) );
+		return $authnet_params;
 	}
 
 	/**
