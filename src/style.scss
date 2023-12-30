@@ -1,0 +1,19 @@
+.wc-block-authnet-gateway-container input[type=text],
+.wc-block-authnet-gateway-container input[type=number],
+.wc-block-authnet-gateway-container input[type=tel],
+.wc-block-authnet-gateway-container input[type=text]:focus,
+.wc-block-authnet-gateway-container input[type=number]:focus,
+.wc-block-authnet-gateway-container input[type=tel]:focus {
+	box-shadow: none;
+	background-color: #ffffff;
+}
+
+.wc-block-authnet-gateway-container input#cardNumber {
+	width:calc(52% - 2.1px) !important;
+}
+.wc-block-authnet-gateway-container input#expiryDate {
+	width:32% !important;
+}
+.wc-block-authnet-gateway-container input#cvc {
+	width:16% !important;
+}
