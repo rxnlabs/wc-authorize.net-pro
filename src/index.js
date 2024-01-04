@@ -38,7 +38,7 @@ const CreditCardComponent = ( {
 								  emitResponse,
 								  components
 							  } ) => {
-	const { onPaymentSetup, onCheckoutAfterProcessingWithError } = eventRegistration;
+	const { onPaymentSetup, onCheckoutFail } = eventRegistration;
 	const [ ccError, setCCError ] = useState(null);
 	const [cardNumber, setCardNumber] = useState("");
 	const [expiryDate, setExpiryDate] = useState("");
@@ -53,7 +53,7 @@ const CreditCardComponent = ( {
 		PAYMENT_METHOD_NAME,
 		emitResponse,
 		onPaymentSetup,
-		onCheckoutAfterProcessingWithError
+		onCheckoutFail
 	);
 
 

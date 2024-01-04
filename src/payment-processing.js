@@ -9,7 +9,7 @@ export const usePaymentProcessing = (
 	PAYMENT_METHOD_NAME,
 	emitResponse,
 	onPaymentSetup,
-	onCheckoutAfterProcessingWithError
+	onCheckoutFail
 ) => {
 
 	const [ error, setError ] = useState( '' );
@@ -186,14 +186,14 @@ export const usePaymentProcessing = (
 			// so we don't break the observers.
 			return true;
 		};
-		const unsubscribeAfterProcessing = onCheckoutAfterProcessingWithError(
+		const unsubscribeAfterProcessing = onCheckoutFail(
 			onError
 		);
 		return () => {
 			unsubscribeAfterProcessing();
 		};
 	}, [
-		onCheckoutAfterProcessingWithError,
+		onCheckoutFail,
 		emitResponse.noticeContexts.PAYMENTS,
 		emitResponse.responseTypes.ERROR,
 	] );
