@@ -268,6 +268,33 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		$this->form();
 	}
 
+	public function javascript_params() {
+		$authnet_params = array(
+			'login_id'              => $this->login_id,
+			'allowed_card_types'    => $this->allowed_card_types,
+			'i18n_terms'            => __( 'Please accept the terms and conditions first', 'wc-authnet' ),
+			'i18n_required_fields'  => __( 'Please fill in required checkout fields first', 'wc-authnet' ),
+			'no_card_number_error'  => __( 'Enter a card number.', 'wc-authnet' ),
+			'no_card_expiry_error'  => __( 'Enter an expiry date.', 'wc-authnet' ),
+			'no_cvv_error'          => __( 'CVC code is required.', 'wc-authnet' ),
+			'card_number_error' 	=> __( 'Invalid card number.', 'wc-authnet' ),
+			'card_expiry_error' 	=> __( 'Invalid card expiry date.', 'wc-authnet' ),
+			'card_cvc_error' 		=> __( 'Invalid card CVC.', 'wc-authnet' ),
+			'placeholder_cvc'	 	=> __( 'CVC', 'woocommerce' ),
+			'placeholder_expiry' 	=> __( 'MM / YY', 'woocommerce' ),
+			'card_disallowed_error' => __( 'Card Type Not Accepted.', 'wc-authnet' ),
+		);
+
+		// If we're on the pay page we need to pass authnet.js the address of the order.
+		if ( isset( $_GET['pay_for_order'] ) && 'true' === $_GET['pay_for_order'] ) {
+			$order_id                             = wc_get_order_id_by_order_key( urldecode( $_GET['key'] ) );
+			$order                                = wc_get_order( $order_id );
+			$authnet_params['billing_first_name'] = $order->get_billing_first_name();
+			$authnet_params['billing_last_name']  = $order->get_billing_last_name();
+		}
+		return $authnet_params;
+	}
+
 	/**
 	 * Process the payment
 	 */
