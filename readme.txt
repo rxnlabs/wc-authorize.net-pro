@@ -29,8 +29,8 @@ WooCommerce is one of the oldest and most powerful e-commerce solutions for Word
 * **Logging**: Enable logging so you can debug issues that arise if any.
 
 > #### Enterprise Version Features
-> * **Process Subscriptions:**  Use with  [WooCommerce Subscriptions](https://woocommerce.com/products/woocommerce-subscriptions/)  extension to **create and manage products with recurring payments**  — payments that will give you residual revenue you can track and count on.
-> * **Setup Pre-Orders:**  Use with  [WooCommerce Pre-Orders](https://woocommerce.com/products/woocommerce-pre-orders/)  extension so customers can order products before they’re available by submitting their card details. The card is then automatically charged when the pre-order is available.
+> * **Process Subscriptions:**  Use with  [WooCommerce Subscriptions](https://woo.com/products/woocommerce-subscriptions/)  extension to **create and manage products with recurring payments**  — payments that will give you residual revenue you can track and count on.
+> * **Setup Pre-Orders:**  Use with  [WooCommerce Pre-Orders](https://woo.com/products/woocommerce-pre-orders/)  extension so customers can order products before they’re available by submitting their card details. The card is then automatically charged when the pre-order is available.
 > * **Pay via Saved Cards:** Enable option to use saved card details on the gateway servers for quicker checkout. No sensitive card data is stored on the website!
 > * **ACH Payments:** Fully supports eCheck payments via ACH network.
 >
