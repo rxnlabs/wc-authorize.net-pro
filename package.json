@@ -34,8 +34,11 @@
 		"/includes",
 		"/languages",
 		"/woo-includes",
+		"/updates",
 		"gateway.php",
 		"block.json",
-		"readme.txt"
+		"readme.txt",
+		"readme.md",
+		"README.md"
 	]
 }
