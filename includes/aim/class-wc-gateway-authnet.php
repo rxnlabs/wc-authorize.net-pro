@@ -251,7 +251,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 					'api'	=> __( 'Authorize.Net API', 'wc-authnet' ),
 					'aim'	=> __( 'Legacy AIM', 'wc-authnet' ),
 				),
-				'default'	  => 'aim',
+				'default'	  => 'api',
 				'css'    	  => 'min-width:100px;',
 				'desc_tip'    => true,
 			),
