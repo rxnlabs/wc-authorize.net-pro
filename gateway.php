@@ -3,13 +3,13 @@
 Plugin Name: WooCommerce Authorize.Net Gateway
 Plugin URI: https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
 Description: A payment gateway for Authorize.Net. An Authorize.Net account and a server with cURL, SSL support, and a valid SSL certificate is required (for security reasons) for this gateway to function. Requires WC 3.3+
-Version: 6.0.7
+Version: 6.1.0
 Author: Pledged Plugins
 Author URI: https://pledgedplugins.com
 Text Domain: wc-authnet
 Domain Path: /languages
 WC requires at least: 3.3
-WC tested up to: 8.3
+WC tested up to: 8.5
 
 	Copyright: © Pledged Plugins.
 	License: GNU General Public License v3.0
@@ -20,9 +20,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'WC_AUTHNET_VERSION', '6.0.7' );
+define( 'WC_AUTHNET_VERSION', '6.1.0' );
 define( 'WC_AUTHNET_MIN_PHP_VER', '5.6.0' );
 define( 'WC_AUTHNET_MIN_WC_VER', '3.3' );
+define( 'WC_AUTHNET_PLUGIN_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 define( 'WC_AUTHNET_PLUGIN_URL', untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) ) );
 define( 'WC_AUTHNET_MAIN_FILE', __FILE__ );
 
@@ -166,10 +167,10 @@ class WC_Authnet {
             <p><?php printf( __( 'You are using our %1$sFREE PRO%2$s version of the extension. Here are the features you will get access to if you upgrade to the %1$sENTERPRISE%2$s version:', 'wc-authnet' ), '<strong>', '</strong>' ); ?></p>
             <ol>
                 <li><strong><?php _e( 'Process Subscriptions:', 'wc-authnet' );	?></strong>
-					<?php printf( __( 'Use with %1$sWooCommerce Subscriptions%2$s extension to %3$screate and manage products with recurring payments%4$s — payments that will give you residual revenue you can track and count on.', 'wc-authnet' ), '<a href="https://woocommerce.com/products/woocommerce-subscriptions/" target="_blank">', '</a>', '<strong>', '</strong>' ); ?>
+					<?php printf( __( 'Use with %1$sWooCommerce Subscriptions%2$s extension to %3$screate and manage products with recurring payments%4$s — payments that will give you residual revenue you can track and count on.', 'wc-authnet' ), '<a href="https://woo.com/products/woocommerce-subscriptions/" target="_blank">', '</a>', '<strong>', '</strong>' ); ?>
                 </li>
                 <li><strong><?php _e( 'Setup Pre-Orders:', 'wc-authnet' ); ?></strong>
-					<?php printf( __( 'Use with %1$sWooCommerce Pre-Orders%2$s extension&nbsp;so customers can order products before they’re available by submitting their card details. The&nbsp;card is then&nbsp;automatically charged when the pre-order is available.', 'wc-authnet' ), '<a href="https://woocommerce.com/products/woocommerce-pre-orders/" target="_blank">', '</a>' ); ?>
+					<?php printf( __( 'Use with %1$sWooCommerce Pre-Orders%2$s extension&nbsp;so customers can order products before they’re available by submitting their card details. The&nbsp;card is then&nbsp;automatically charged when the pre-order is available.', 'wc-authnet' ), '<a href="https://woo.com/products/woocommerce-pre-orders/" target="_blank">', '</a>' ); ?>
                 </li>
                 <li><strong><?php _e( 'Pay via Saved Cards:', 'wc-authnet' ); ?></strong>
 					<?php _e( 'Enable option to use saved card details on the gateway servers for quicker checkout. No sensitive card data is stored on the website!', 'wc-authnet' ); ?>
@@ -645,3 +646,35 @@ class WC_Authnet {
 }
 
 $GLOBALS['wc_authnet'] = WC_Authnet::get_instance();
+
+// Hook in Blocks integration. This action is called in a callback on plugins loaded, so current Authnet plugin class
+// implementation is too late.
+add_action( 'woocommerce_blocks_loaded', 'woocommerce_gateway_authnet_woocommerce_block_support' );
+
+function woocommerce_gateway_authnet_woocommerce_block_support() {
+	if ( class_exists( 'Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType' ) ) {
+		require_once dirname( __FILE__ ) . '/includes/class-wc-authnet-blocks-support.php';
+		// priority is important here because this ensures this integration is
+		// registered before the WooCommerce Blocks built-in Authnet registration.
+		// Blocks code has a check in place to only register if 'authnet' is not
+		// already registered.
+		add_action(
+			'woocommerce_blocks_payment_method_type_registration',
+			function( Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry $payment_method_registry ) {
+
+				$container = Automattic\WooCommerce\Blocks\Package::container();
+				// registers as shared instance.
+				$container->register(
+					WC_Authnet_Blocks_Support::class,
+					function() {
+						return new WC_Authnet_Blocks_Support();
+					}
+				);
+				$payment_method_registry->register(
+					$container->get( WC_Authnet_Blocks_Support::class )
+				);
+			},
+			5
+		);
+	}
+}

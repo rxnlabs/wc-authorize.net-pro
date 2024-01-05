@@ -7,7 +7,7 @@ Author URI: https://pledgedplugins.com
 Requires at least: 4.4
 Tested up to: 6.4
 Requires PHP: 5.6
-Stable tag: 6.0.7
+Stable tag: 6.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,8 +29,8 @@ WooCommerce is one of the oldest and most powerful e-commerce solutions for Word
 * **Logging**: Enable logging so you can debug issues that arise if any.
 
 > #### Enterprise Version Features
-> * **Process Subscriptions:**  Use with  [WooCommerce Subscriptions](https://woocommerce.com/products/woocommerce-subscriptions/)  extension to **create and manage products with recurring payments**  — payments that will give you residual revenue you can track and count on.
-> * **Setup Pre-Orders:**  Use with  [WooCommerce Pre-Orders](https://woocommerce.com/products/woocommerce-pre-orders/)  extension so customers can order products before they’re available by submitting their card details. The card is then automatically charged when the pre-order is available.
+> * **Process Subscriptions:**  Use with  [WooCommerce Subscriptions](https://woo.com/products/woocommerce-subscriptions/)  extension to **create and manage products with recurring payments**  — payments that will give you residual revenue you can track and count on.
+> * **Setup Pre-Orders:**  Use with  [WooCommerce Pre-Orders](https://woo.com/products/woocommerce-pre-orders/)  extension so customers can order products before they’re available by submitting their card details. The card is then automatically charged when the pre-order is available.
 > * **Pay via Saved Cards:** Enable option to use saved card details on the gateway servers for quicker checkout. No sensitive card data is stored on the website!
 > * **ACH Payments:** Fully supports eCheck payments via ACH network.
 >
@@ -77,6 +77,11 @@ You are in luck! The free version of the plugin has an option to use the AIM int
 A valid SSL certificate is required to ensure your customer credit card details are safe and make your site PCI DSS compliant. This plugin does not store the customer credit card numbers or sensitive information on your website.
 
 == Changelog ==
+
+= 6.1.0 =
+* Added checkout block payments support
+* Updated "WC tested up to" header to 8.5
+* Updated Freemius SDK to 2.6.2
 
 = 6.0.7 =
 * Updated "WC tested up to" header to 8.3
