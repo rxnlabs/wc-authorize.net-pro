@@ -4,7 +4,7 @@ export const getBlocksConfiguration = () => {
 	const authnetServerData = getSetting( 'authnet_data', null );
 
 	if ( ! authnetServerData ) {
-		throw new Error( 'nMI initialization data is not available' );
+		throw new Error( 'Authorize.Net initialization data is not available' );
 	}
 
 	return authnetServerData;
