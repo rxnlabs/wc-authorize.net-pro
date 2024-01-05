@@ -369,7 +369,7 @@ class WC_Authnet {
 		$notice_html = '';
 
 		if ( ! $this->subscription_support_enabled ) {
-			$notices[] = __( 'To process subscription payments using Authorize.Net you will need the <a target="_blank" href="https://woocommerce.com/products/woocommerce-subscriptions/">WooCommerce Subscriptions</a> extension installed and running. Please continue with your purchase if you are not setting up subscriptions or will install WooCommerce Subscriptions later.', 'wc-authnet' );
+			$notices[] = __( 'To process subscription payments using Authorize.Net you will need the <a target="_blank" href="https://woo.com/products/woocommerce-subscriptions/">WooCommerce Subscriptions</a> extension installed and running. Please continue with your purchase if you are not setting up subscriptions or will install WooCommerce Subscriptions later.', 'wc-authnet' );
 		}
 
 		if ( ! empty( $notices ) ) {

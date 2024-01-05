@@ -15,7 +15,7 @@ Authorize.Net payment gateway integration for WooCommerce to accept credit cards
 
 == Description ==
 
-[Authorize.Net](https://www.authorize.net/) Payment Gateway for [WooCommerce](https://woocommerce.com/) allows you to accept credit cards payments into your Authorize.Net merchant account from all over the world on your websites.
+[Authorize.Net](https://www.authorize.net/) Payment Gateway for [WooCommerce](https://woo.com/) allows you to accept credit cards payments into your Authorize.Net merchant account from all over the world on your websites.
 
 WooCommerce is one of the oldest and most powerful e-commerce solutions for WordPress. This platform is very widely supported in the WordPress community which makes it easy for even an entry level e-commerce entrepreneur to learn to use and modify.
 
@@ -38,7 +38,7 @@ WooCommerce is one of the oldest and most powerful e-commerce solutions for Word
 
 #### Requirements
 * Active  [Authorize.Net](https://www.authorize.net/)  account – Sign up for a sandbox account  [here](https://developer.authorize.net/hello_world/sandbox.html)  if you need to test.
-* [**WooCommerce**](https://woocommerce.com/)  version 3.3 or later.
+* [**WooCommerce**](https://woo.com/)  version 3.3 or later.
 * A valid SSL certificate is required to ensure your customer credit card details are safe and make your site PCI DSS compliant. This plugin does not store the customer credit card numbers or sensitive information on your website.
 #### Extend, Contribute, Integrate
 Visit the [plugin page](https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/) for more details. Contributors are welcome to send pull requests via [Bitbucket repository](https://bitbucket.org/pledged/wc-authorize.net-pro/).
@@ -46,7 +46,7 @@ Visit the [plugin page](https://pledgedplugins.com/products/authorize-net-paymen
 For custom payment gateway integration with your WordPress website, please [contact us here](https://wpgateways.com/support/custom-payment-gateway-integration/).
 
 #### Disclaimer
-This plugin is not affiliated with or supported by Authorize.Net, WooCommerce.com or Automattic. All logos and trademarks are the property of their respective owners.
+This plugin is not affiliated with or supported by Authorize.Net, Woo.com or Automattic. All logos and trademarks are the property of their respective owners.
 
 == Installation ==
 
