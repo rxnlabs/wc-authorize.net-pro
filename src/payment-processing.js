@@ -34,7 +34,7 @@ export const usePaymentProcessing = (
 				const billingAddress = billing.billingAddress;
 				// if there's an error return that.
 				if ( error ) {
-					console.log('returning');
+					console.log('returning', error);
 					return {
 						type: emitResponse.responseTypes.ERROR,
 						message: error,
@@ -110,7 +110,7 @@ export const usePaymentProcessing = (
 							//console.log( response.messages.message[i].code + ": " + response.messages.message[i].text );
 							return {
 								type: emitResponse.responseTypes.ERROR,
-								message: onAuthnetError( response.messages.message[i] ),
+								message: response.messages.message[i].text,
 							};
 							i = i + 1;
 						}
@@ -153,10 +153,24 @@ export const usePaymentProcessing = (
 				};
 			} catch ( e ) {
 				console.log('catch', e);
-				return {
-					type: emitResponse.responseTypes.ERROR,
-					message: e,
-				};
+				if ( e?.messages?.resultCode === "Error" ) {
+					var i = 0;
+					while ( i < e.messages.message.length ) {
+						console.log( e.messages.message[i].code + ": " + e.messages.message[i].text );
+						return {
+							type: emitResponse.responseTypes.ERROR,
+							message: e.messages.message[i].text,
+						};
+						i = i + 1;
+					}
+
+				} else {
+					return {
+						type: emitResponse.responseTypes.ERROR,
+						message: e,
+					};
+				}
+
 			}
 		};
 		const unsubscribeProcessing = onPaymentSetup( onSubmit );
