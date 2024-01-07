@@ -22,7 +22,7 @@ export const usePaymentProcessing = (
 	const [effectTrigger, setEffectTrigger] = useState(0);
 	// hook into and register callbacks for events
 	useEffect( () => {
-	console.log("🚀 ~ file: payment-processing.js:22 ~ useEffect ~ useEffect:", effectTrigger)
+	//console.log("🚀 ~ file: payment-processing.js:22 ~ useEffect ~ useEffect:", effectTrigger)
 
 	setEffectTrigger(effectTrigger+1);
 
