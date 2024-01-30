@@ -66,7 +66,7 @@ final class WC_Authnet_Blocks_Support extends AbstractPaymentMethodType {
 		$js_params = $this->get_gateway_javascript_params();
 
 		if( ! empty( $js_params['client_key'] ) ) {
-			wp_enqueue_script( 'authnet-accept', $js_params['accept_js_url'], '', null, true );
+			wp_enqueue_script( 'authnet-accept', $js_params['accept_js_url'], $dependencies, null, true );
 			$dependencies = array_merge( [ 'authnet-accept' ], $dependencies );
 		}
 
