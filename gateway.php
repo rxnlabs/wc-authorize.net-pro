@@ -9,7 +9,7 @@ Author URI: https://pledgedplugins.com
 Text Domain: wc-authnet
 Domain Path: /languages
 WC requires at least: 3.3
-WC tested up to: 8.5
+WC tested up to: 8.7
 
 	Copyright: © Pledged Plugins.
 	License: GNU General Public License v3.0
