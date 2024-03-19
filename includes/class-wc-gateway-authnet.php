@@ -331,7 +331,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		);
 
 		// If we're on the pay page we need to pass authnet.js the address of the order.
-		if ( isset( $_GET['pay_for_order'] ) && 'true' === $_GET['pay_for_order'] ) {
+		if ( isset( $_GET['pay_for_order'] ) && 'true' === $_GET['pay_for_order'] && ! empty( $_GET['key'] ) ) {
 			$order_id                             = wc_get_order_id_by_order_key( urldecode( $_GET['key'] ) );
 			$order                                = wc_get_order( $order_id );
 			$authnet_params['billing_first_name'] = $order->get_billing_first_name();
