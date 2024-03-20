@@ -18,7 +18,6 @@ final class WC_Authnet_Blocks_Support extends AbstractPaymentMethodType {
 	 */
 	protected $name = 'authnet';
 
-
 	/**
 	 * Constructor
 	 *
@@ -91,7 +90,6 @@ final class WC_Authnet_Blocks_Support extends AbstractPaymentMethodType {
 
 		return [ 'wc-authnet-blocks-integration' ];
 	}
-
 
 	/**
 	 * Returns an array of key=>value pairs of data made available to the payment methods script.
@@ -169,7 +167,7 @@ final class WC_Authnet_Blocks_Support extends AbstractPaymentMethodType {
 	 * @return array Arrays of icons metadata.
 	 */
 	private function get_icons() {
-		$allowed_card_types = $this->settings['allowed_card_types'];
+		$allowed_card_types = (array) $this->settings['allowed_card_types'];
 		if( in_array( 'visa', $allowed_card_types ) ) {
 			$icons_src['visa'] = [
 				'src' => WC_HTTPS::force_https_url( WC()->plugin_url() . '/assets/images/icons/credit-cards/visa.svg' ),
