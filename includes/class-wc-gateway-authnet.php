@@ -300,7 +300,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 	 * @version 4.0.0
 	 */
 	public function payment_scripts() {
-		if ( ! $this->client_key || ! is_cart() && ! is_checkout() && ! isset( $_GET['pay_for_order'] ) && ! is_add_payment_method_page() ) {
+		if ( ! $this->client_key || ! is_cart() && ! is_checkout() && ! self::is_valid_pay_for_order_endpoint() && ! is_add_payment_method_page() ) {
 			return;
 		}
 
@@ -331,8 +331,8 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		);
 
 		// If we're on the pay page we need to pass authnet.js the address of the order.
-		if ( isset( $_GET['pay_for_order'] ) && 'true' === $_GET['pay_for_order'] ) {
-			$order_id                             = wc_get_order_id_by_order_key( urldecode( $_GET['key'] ) );
+		if( self::is_valid_pay_for_order_endpoint() ) {
+			$order_id                             = absint( get_query_var( 'order-pay' ) );
 			$order                                = wc_get_order( $order_id );
 			$authnet_params['billing_first_name'] = $order->get_billing_first_name();
 			$authnet_params['billing_last_name']  = $order->get_billing_last_name();
@@ -963,6 +963,29 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		} else {
 			return $code;
 		}
+	}
+
+	public function is_valid_pay_for_order_endpoint() {
+
+		// If not on the pay for order page, return false.
+		if ( ! is_wc_endpoint_url( 'order-pay' ) || ! isset( $_GET['key'] ) ) {
+			return false;
+		}
+
+		$order_id = absint( get_query_var( 'order-pay' ) );
+		$order    = wc_get_order( $order_id );
+
+		// If the order is not found or the param `key` is not set or the order key does not match the order key in the URL param, return false.
+		if ( ! $order || ! isset( $_GET['key'] ) || wc_clean( wp_unslash( $_GET['key'] ) ) !== $order->get_order_key() ) {
+			return false;
+		}
+
+		// If the order doesn't need payment, we don't need to prepare the payment page.
+		if ( ! $order->needs_payment() ) {
+			return false;
+		}
+
+		return current_user_can( 'pay_for_order', $order->get_id() );
 	}
 
 }
