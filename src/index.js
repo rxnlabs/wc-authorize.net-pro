@@ -56,7 +56,6 @@ const CreditCardComponent = ( {
 		onCheckoutFail
 	);
 
-
 	const onCCError = ( error, erroredInputs ) => {
 		//console.log(error);
 		//console.log(erroredInputs);

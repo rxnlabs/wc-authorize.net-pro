@@ -32,6 +32,7 @@ export const usePaymentProcessing = (
 		const onSubmit = async () => {
 			try {
 				const billingAddress = billing.billingAddress;
+
 				// if there's an error return that.
 				if ( error ) {
 					console.log('returning', error);
@@ -40,20 +41,7 @@ export const usePaymentProcessing = (
 						message: error,
 					};
 				}
-				// use token if it's set.
-				/*if ( sourceId !== '' ) {
-					return {
-						type: emitResponse.responseTypes.SUCCESS,
-						meta: {
-							paymentMethodData: {
-								paymentMethod: PAYMENT_METHOD_NAME,
-								paymentRequestType: 'cc',
-								stripe_source: sourceId,
-							},
-							billingAddress,
-						},
-					};
-				}*/
+
 				const ownerInfo = {
 					address: {
 						line1: billingAddress.address_1,
@@ -64,6 +52,7 @@ export const usePaymentProcessing = (
 						country: billingAddress.country,
 					},
 				};
+
 				if ( billingAddress.phone ) {
 					ownerInfo.phone = billingAddress.phone;
 				}
@@ -129,14 +118,6 @@ export const usePaymentProcessing = (
 					};
 				}
 
-				/*const newPaymentMethodId =
-					response?.paymentMethod?.id ?? response?.source?.id;
-				if ( ! newPaymentMethodId ) {
-					throw new Error(
-						getErrorMessageForTypeAndCode( errorTypes.API_ERROR )
-					);
-				}
-				setSourceId( newPaymentMethodId );*/
 				return {
 					type: emitResponse.responseTypes.SUCCESS,
 					meta: {
