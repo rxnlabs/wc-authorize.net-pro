@@ -3,24 +3,25 @@
 Plugin Name: WooCommerce Authorize.Net Gateway
 Plugin URI: https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
 Description: A payment gateway for Authorize.Net. An Authorize.Net account and a server with cURL, SSL support, and a valid SSL certificate is required (for security reasons) for this gateway to function. Requires WC 3.3+
-Version: 6.1.5
+Version: 6.1.6
 Author: Pledged Plugins
 Author URI: https://pledgedplugins.com
 Text Domain: wc-authnet
 Domain Path: /languages
 WC requires at least: 3.3
-WC tested up to: 8.7
+WC tested up to: 9.0
+License: GPLv3
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
+Requires Plugins: woocommerce
 
 	Copyright: © Pledged Plugins.
-	License: GNU General Public License v3.0
-	License URI: http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'WC_AUTHNET_VERSION', '6.1.5' );
+define( 'WC_AUTHNET_VERSION', '6.1.6' );
 define( 'WC_AUTHNET_MIN_PHP_VER', '5.6.0' );
 define( 'WC_AUTHNET_MIN_WC_VER', '3.3' );
 define( 'WC_AUTHNET_PLUGIN_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
@@ -156,7 +157,7 @@ class WC_Authnet {
             <h3><?php _e( 'About this WooCommerce Extension', 'wc-authnet' ); ?></h3>
             <p><?php _e( 'This extension enables you to use the Authorize.Net payment gateway to accept payments via credit cards directly on checkout on your WooCommerce powered WordPress e-commerce website without redirecting customers away to the gateway website.', 'wc-authnet' ); ?></p>
             <p>
-                <a class="button" href="<?php echo $this->settings_url(); ?>">
+                <a class="button" href="<?php echo esc_url( $this->settings_url() ); ?>">
 					<?php _e( 'Settings', 'wc-authnet' ); ?>
                 </a>
                 <a class="button" href="<?php echo wc_authnet_fs()->contact_url(); ?>">
@@ -167,13 +168,16 @@ class WC_Authnet {
             <p><?php printf( __( 'You are using our %1$sFREE PRO%2$s version of the extension. Here are the features you will get access to if you upgrade to the %1$sENTERPRISE%2$s version:', 'wc-authnet' ), '<strong>', '</strong>' ); ?></p>
             <ol>
                 <li><strong><?php _e( 'Process Subscriptions:', 'wc-authnet' );	?></strong>
-					<?php printf( __( 'Use with %1$sWooCommerce Subscriptions%2$s extension to %3$screate and manage products with recurring payments%4$s — payments that will give you residual revenue you can track and count on.', 'wc-authnet' ), '<a href="https://woo.com/products/woocommerce-subscriptions/" target="_blank">', '</a>', '<strong>', '</strong>' ); ?>
+					<?php printf( __( 'Use with %1$sWooCommerce Subscriptions%2$s extension to %3$screate and manage products with recurring payments%4$s — payments that will give you residual revenue you can track and count on.', 'wc-authnet' ), '<a href="https://woocommerce.com/products/woocommerce-subscriptions/" target="_blank">', '</a>', '<strong>', '</strong>' ); ?>
                 </li>
                 <li><strong><?php _e( 'Setup Pre-Orders:', 'wc-authnet' ); ?></strong>
-					<?php printf( __( 'Use with %1$sWooCommerce Pre-Orders%2$s extension&nbsp;so customers can order products before they’re available by submitting their card details. The&nbsp;card is then&nbsp;automatically charged when the pre-order is available.', 'wc-authnet' ), '<a href="https://woo.com/products/woocommerce-pre-orders/" target="_blank">', '</a>' ); ?>
+					<?php printf( __( 'Use with %1$sWooCommerce Pre-Orders%2$s extension&nbsp;so customers can order products before they’re available by submitting their card details. The&nbsp;card is then&nbsp;automatically charged when the pre-order is available.', 'wc-authnet' ), '<a href="https://woocommerce.com/products/woocommerce-pre-orders/" target="_blank">', '</a>' ); ?>
                 </li>
                 <li><strong><?php _e( 'Pay via Saved Cards:', 'wc-authnet' ); ?></strong>
 					<?php _e( 'Enable option to use saved card details on the gateway servers for quicker checkout. No sensitive card data is stored on the website!', 'wc-authnet' ); ?>
+                </li>
+				<li><strong><?php _e( 'ACH Payments:', 'wc-authnet' ); ?></strong>
+					<?php _e( 'Fully supports eCheck payments via ACH network.', 'wc-authnet' ); ?>
                 </li>
             </ol>
 			<?php $upgrade_label = __( 'Upgrade to Enterprise!', 'wc-authnet' ); ?>
@@ -199,7 +203,7 @@ class WC_Authnet {
 	 */
 	public function plugin_action_links( $links ) {
 		$plugin_links = array(
-			'<a href="' . $this->settings_url() . '">' . __( 'Settings', 'wc-authnet' ) . '</a>',
+			'<a href="' . esc_url( $this->settings_url() ) . '">' . __( 'Settings', 'wc-authnet' ) . '</a>',
 			'<a href="' . wc_authnet_fs()->contact_url() . '">' . __( 'Support', 'wc-authnet' ) . '</a>',
 			'<a href="' . admin_url( 'admin.php?page=authnet' ) . '">' . __( 'About', 'wc-authnet' ) . '</a>'
 		);
@@ -283,7 +287,7 @@ class WC_Authnet {
 		// Check if secret key present. Otherwise prompt, via notice, to go to setting.
 		$secret = WC_Authnet_API::get_transaction_key();
 		if ( empty( $secret ) && ! ( isset( $_GET['page'], $_GET['section'] ) && 'wc-settings' === $_GET['page'] && 'authnet' === $_GET['section'] ) ) {
-			$setting_link = $this->settings_url();
+			$setting_link = esc_url( $this->settings_url() );
 			$this->add_admin_notice( 'prompt_connect', 'notice notice-warning', sprintf( __( 'Authorize.Net is almost ready. To get started, <a href="%s">set your Authorize.Net account keys</a>.', 'wc-authnet' ), $setting_link ) );
 		}
 
@@ -369,7 +373,7 @@ class WC_Authnet {
 		$notice_html = '';
 
 		if ( ! $this->subscription_support_enabled ) {
-			$notices[] = __( 'To process subscription payments using Authorize.Net you will need the <a target="_blank" href="https://woo.com/products/woocommerce-subscriptions/">WooCommerce Subscriptions</a> extension installed and running. Please continue with your purchase if you are not setting up subscriptions or will install WooCommerce Subscriptions later.', 'wc-authnet' );
+			$notices[] = __( 'To process subscription payments using Authorize.Net you will need the <a target="_blank" href="https://woocommerce.com/products/woocommerce-subscriptions/">WooCommerce Subscriptions</a> extension installed and running. Please continue with your purchase if you are not setting up subscriptions or will install WooCommerce Subscriptions later.', 'wc-authnet' );
 		}
 
 		if ( ! empty( $notices ) ) {

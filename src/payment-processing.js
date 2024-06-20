@@ -32,6 +32,7 @@ export const usePaymentProcessing = (
 		const onSubmit = async () => {
 			try {
 				const billingAddress = billing.billingAddress;
+
 				// if there's an error return that.
 				if ( error ) {
 					console.log('returning', error);
@@ -39,39 +40,6 @@ export const usePaymentProcessing = (
 						type: emitResponse.responseTypes.ERROR,
 						message: error,
 					};
-				}
-				// use token if it's set.
-				/*if ( sourceId !== '' ) {
-					return {
-						type: emitResponse.responseTypes.SUCCESS,
-						meta: {
-							paymentMethodData: {
-								paymentMethod: PAYMENT_METHOD_NAME,
-								paymentRequestType: 'cc',
-								stripe_source: sourceId,
-							},
-							billingAddress,
-						},
-					};
-				}*/
-				const ownerInfo = {
-					address: {
-						line1: billingAddress.address_1,
-						line2: billingAddress.address_2,
-						city: billingAddress.city,
-						state: billingAddress.state,
-						postal_code: billingAddress.postcode,
-						country: billingAddress.country,
-					},
-				};
-				if ( billingAddress.phone ) {
-					ownerInfo.phone = billingAddress.phone;
-				}
-				if ( billingAddress.email ) {
-					ownerInfo.email = billingAddress.email;
-				}
-				if ( billingAddress.first_name || billingAddress.last_name ) {
-					ownerInfo.name = `${ billingAddress.first_name } ${ billingAddress.last_name }`;
 				}
 
 				let authnetArgs = {};
@@ -99,7 +67,7 @@ export const usePaymentProcessing = (
 						cardCode: cvc,
 						month: expires?.month.toString(),
 						year: expires?.year.toString().slice( -2 ),
-						fullName: ownerInfo.name,
+						fullName: billingAddress?.first_name + ' ' + billingAddress?.last_name,
 					};
 
 					const response = await createToken( paymentData );
@@ -129,20 +97,12 @@ export const usePaymentProcessing = (
 					};
 				}
 
-				/*const newPaymentMethodId =
-					response?.paymentMethod?.id ?? response?.source?.id;
-				if ( ! newPaymentMethodId ) {
-					throw new Error(
-						getErrorMessageForTypeAndCode( errorTypes.API_ERROR )
-					);
-				}
-				setSourceId( newPaymentMethodId );*/
 				return {
 					type: emitResponse.responseTypes.SUCCESS,
 					meta: {
 						paymentMethodData: {
 							...authnetArgs,
-							billing_email: ownerInfo.email,
+							billing_email: billingAddress.email,
 							billing_first_name: billingAddress?.first_name ?? '',
 							billing_last_name: billingAddress?.last_name ?? '',
 							paymentMethod: PAYMENT_METHOD_NAME,
