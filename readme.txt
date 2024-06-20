@@ -7,15 +7,15 @@ Author URI: https://pledgedplugins.com
 Requires at least: 4.4
 Tested up to: 6.5
 Requires PHP: 5.6
-Stable tag: 6.1.5
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Stable tag: 6.1.6
+License: GPLv3
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 Authorize.Net payment gateway integration for WooCommerce to accept credit cards directly on WordPress e-commerce websites.
 
 == Description ==
 
-[Authorize.Net](https://www.authorize.net/) Payment Gateway for [WooCommerce](https://woo.com/) allows you to accept credit cards payments into your Authorize.Net merchant account from all over the world on your websites.
+[Authorize.Net](https://www.authorize.net/) Payment Gateway for [WooCommerce](https://woocommerce.com/) allows you to accept credit cards payments into your Authorize.Net merchant account from all over the world on your websites.
 
 WooCommerce is one of the oldest and most powerful e-commerce solutions for WordPress. This platform is very widely supported in the WordPress community which makes it easy for even an entry level e-commerce entrepreneur to learn to use and modify.
 
@@ -29,8 +29,8 @@ WooCommerce is one of the oldest and most powerful e-commerce solutions for Word
 * **Logging**: Enable logging so you can debug issues that arise if any.
 
 > #### Enterprise Version Features
-> * **Process Subscriptions:**  Use with  [WooCommerce Subscriptions](https://woo.com/products/woocommerce-subscriptions/)  extension to **create and manage products with recurring payments**  — payments that will give you residual revenue you can track and count on.
-> * **Setup Pre-Orders:**  Use with  [WooCommerce Pre-Orders](https://woo.com/products/woocommerce-pre-orders/)  extension so customers can order products before they’re available by submitting their card details. The card is then automatically charged when the pre-order is available.
+> * **Process Subscriptions:**  Use with  [WooCommerce Subscriptions](https://woocommerce.com/products/woocommerce-subscriptions/)  extension to **create and manage products with recurring payments**  — payments that will give you residual revenue you can track and count on.
+> * **Setup Pre-Orders:**  Use with  [WooCommerce Pre-Orders](https://woocommerce.com/products/woocommerce-pre-orders/)  extension so customers can order products before they’re available by submitting their card details. The card is then automatically charged when the pre-order is available.
 > * **Pay via Saved Cards:** Enable option to use saved card details on the gateway servers for quicker checkout. No sensitive card data is stored on the website!
 > * **ACH Payments:** Fully supports eCheck payments via ACH network.
 >
@@ -38,7 +38,7 @@ WooCommerce is one of the oldest and most powerful e-commerce solutions for Word
 
 #### Requirements
 * Active  [Authorize.Net](https://www.authorize.net/)  account – Sign up for a sandbox account  [here](https://developer.authorize.net/hello_world/sandbox.html)  if you need to test.
-* [**WooCommerce**](https://woo.com/)  version 3.3 or later.
+* [**WooCommerce**](https://woocommerce.com/)  version 3.3 or later.
 * A valid SSL certificate is required to ensure your customer credit card details are safe and make your site PCI DSS compliant. This plugin does not store the customer credit card numbers or sensitive information on your website.
 #### Extend, Contribute, Integrate
 Visit the [plugin page](https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/) for more details. Contributors are welcome to send pull requests via [Bitbucket repository](https://bitbucket.org/pledged/wc-authorize.net-pro/).
@@ -46,7 +46,7 @@ Visit the [plugin page](https://pledgedplugins.com/products/authorize-net-paymen
 For custom payment gateway integration with your WordPress website, please [contact us here](https://wpgateways.com/support/custom-payment-gateway-integration/).
 
 #### Disclaimer
-This plugin is not affiliated with or supported by Authorize.Net, Woo.com or Automattic. All logos and trademarks are the property of their respective owners.
+This plugin is not affiliated with or supported by Authorize.Net, WooCommerce.com or Automattic. All logos and trademarks are the property of their respective owners.
 
 == Installation ==
 
@@ -77,6 +77,11 @@ You are in luck! The free version of the plugin has an option to use the AIM int
 A valid SSL certificate is required to ensure your customer credit card details are safe and make your site PCI DSS compliant. This plugin does not store the customer credit card numbers or sensitive information on your website.
 
 == Changelog ==
+
+= 6.1.6 =
+* Added minor improvements in code base
+* Updated “WC tested up to” header to 9.0
+* Updated Freemius SDK to 2.7.2
 
 = 6.1.5 =
 * Added order key check for order payment page

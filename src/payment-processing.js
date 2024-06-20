@@ -42,27 +42,6 @@ export const usePaymentProcessing = (
 					};
 				}
 
-				const ownerInfo = {
-					address: {
-						line1: billingAddress.address_1,
-						line2: billingAddress.address_2,
-						city: billingAddress.city,
-						state: billingAddress.state,
-						postal_code: billingAddress.postcode,
-						country: billingAddress.country,
-					},
-				};
-
-				if ( billingAddress.phone ) {
-					ownerInfo.phone = billingAddress.phone;
-				}
-				if ( billingAddress.email ) {
-					ownerInfo.email = billingAddress.email;
-				}
-				if ( billingAddress.first_name || billingAddress.last_name ) {
-					ownerInfo.name = `${ billingAddress.first_name } ${ billingAddress.last_name }`;
-				}
-
 				let authnetArgs = {};
 
 				if( getClientKey() ) {
@@ -88,7 +67,7 @@ export const usePaymentProcessing = (
 						cardCode: cvc,
 						month: expires?.month.toString(),
 						year: expires?.year.toString().slice( -2 ),
-						fullName: ownerInfo.name,
+						fullName: billingAddress?.first_name + ' ' + billingAddress?.last_name,
 					};
 
 					const response = await createToken( paymentData );
@@ -123,7 +102,7 @@ export const usePaymentProcessing = (
 					meta: {
 						paymentMethodData: {
 							...authnetArgs,
-							billing_email: ownerInfo.email,
+							billing_email: billingAddress.email,
 							billing_first_name: billingAddress?.first_name ?? '',
 							billing_last_name: billingAddress?.last_name ?? '',
 							paymentMethod: PAYMENT_METHOD_NAME,

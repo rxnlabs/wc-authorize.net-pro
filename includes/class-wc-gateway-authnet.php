@@ -36,7 +36,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		$this->method_description = sprintf( esc_html__( 'Live merchant accounts cannot be used in a sandbox environment, so to test the plugin, please make sure you are using a separate sandbox account. If you do not have a sandbox account, you can sign up for one from %shere%s.', 'wc-authnet' ), '<a href="https://developer.authorize.net/hello_world/sandbox.html" target="_blank">', '</a>' );
 		$this->has_fields         = true;
 
-		$this->method_description .= '<h3>' . __( 'Upgrade to Enterprise', 'wc-authnet' ) . '</h3>' . sprintf( esc_html__( 'Enterprise version is a full blown plugin that provides full support for processing subscriptions, pre-orders and payments via saved cards. The credit card information is saved in your Authorize.Net account and is reused to charge future orders, recurring payments or pre-orders at a later time. %sClick here%s to upgrade to Enterprise version or to know more about it.', 'wc-authnet' ), '<a href="' . wc_authnet_fs()->get_upgrade_url() . '" target="_blank">', '</a>' );
+		$this->method_description .= '<h3>' . __( 'Upgrade to Enterprise', 'wc-authnet' ) . '</h3>' . sprintf( __( 'Enterprise version is a full blown plugin that provides full support for processing subscriptions, pre-orders and payments via saved cards or eCheck accounts. The credit card or eCheck account information is saved in your Authorize.Net account and is reused to charge future orders, recurring payments or pre-orders at a later time. <br/><br/><a href="%s" target="_blank">Click here</a> to upgrade to Enterprise version or to know more about it.', 'wc-authnet' ), wc_authnet_fs()->get_upgrade_url() );
 		$this->supports           = array( 'products', 'refunds' );
 
 		// Load the form fields
@@ -233,7 +233,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				'title'       => __( 'Gateway Debug', 'wc-authnet' ),
 				'label'       => __( 'Log gateway requests and response to the WooCommerce System Status log.', 'wc-authnet' ),
 				'type'        => 'checkbox',
-				'description' => __( '<strong>CAUTION! Enabling this option will write gateway requests possibly including card numbers and CVV to the logs.</strong> Do not turn this on unless you have a problem processing credit cards. You must only ever enable it temporarily for troubleshooting or to send requested information to the plugin author. It must be disabled straight away after the issues are resolved and the plugin logs should be deleted.', 'wc-authnet' ) . ' ' . sprintf( __( '<a href="%s">Click here</a> to check and delete the full log file.', 'wc-authnet' ), admin_url( 'admin.php?page=wc-status&tab=logs&log_file=' . WC_Log_Handler_File::get_log_file_name( 'woocommerce-gateway-authnet' ) ) ),
+				'description' => __( '<strong>CAUTION! Enabling this option will write gateway requests including card numbers and CVV to the logs.</strong> Do not turn this on unless you have a problem processing credit cards. You must only ever enable it temporarily for troubleshooting or to send requested information to the plugin author. It must be disabled straight away after the issues are resolved and the plugin logs should be deleted.', 'wc-authnet' ) . ' ' . sprintf( __( '<a href="%s">Click here</a> to check and delete the full log file.', 'wc-authnet' ), esc_url( admin_url( 'admin.php?page=wc-status&tab=logs' ) ) ),
 				'default'     => 'no',
 			),
 			'line_items' 		   => array(
