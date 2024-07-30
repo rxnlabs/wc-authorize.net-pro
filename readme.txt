@@ -5,9 +5,9 @@ Tags: woocommerce Authorize.Net, Authorize.Net, payment gateway, woocommerce, wo
 Plugin URI: https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
 Author URI: https://pledgedplugins.com
 Requires at least: 4.4
-Tested up to: 6.5
+Tested up to: 6.6
 Requires PHP: 5.6
-Stable tag: 6.1.6
+Stable tag: 6.1.7
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -78,9 +78,15 @@ A valid SSL certificate is required to ensure your customer credit card details 
 
 == Changelog ==
 
+= 6.1.7 =
+* Added filters for checkout error messages
+* Updated compatibility info to WordPress 6.6
+* Updated "WC tested up to" header to 9.2
+* Updated Freemius SDK to 2.7.3
+
 = 6.1.6 =
 * Added minor improvements in code base
-* Updated “WC tested up to” header to 9.0
+* Updated "WC tested up to" header to 9.0
 * Updated Freemius SDK to 2.7.2
 
 = 6.1.5 =

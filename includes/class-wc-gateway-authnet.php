@@ -583,7 +583,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 					throw new Exception( $response->get_error_message() );
 				}
 				// Process valid response.
-				$this->process_response( $response['transactionResponse'], $order );
+				$this->process_response( $response['transactionResponse'], $order, $payment_args['transactionRequest']['transactionType'] );
 
 			} else {
 				$order->payment_complete();
@@ -632,7 +632,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 	/**
 	 * Store extra meta data for an order from an Authorize.Net Response.
 	 */
-	public function process_response( $response, $order ) {
+	public function process_response( $response, $order, $transaction_type ) {
 		$order_id = $order->get_id();
 
 		// Store charge data
@@ -643,7 +643,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
 		$order->set_transaction_id( $response['transId'] );
 
-		if ( $this->capture && $response['responseCode'] != 4 ) {
+		if ( $transaction_type == 'authCaptureTransaction' && $response['responseCode'] != 4 ) {
 			$order->update_meta_data( '_authnet_charge_captured', 'yes' );
 			$order->update_meta_data( 'Authorize.Net Payment ID', $response['transId'] );
 			$order->payment_complete( $response['transId'] );

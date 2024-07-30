@@ -209,13 +209,13 @@ class WC_Authnet_API {
 		if ( $result['messages']['resultCode'] == "Ok" ) {
 			if ( ! empty( $result['transactionResponse']['errors'] ) ) {
 				$error_messages = $result['transactionResponse']['errors'];
-				return new WP_Error( $error_messages[0]['errorCode'], $error_messages[0]['errorText'], $result['transactionResponse'] );
+				return new WP_Error( $error_messages[0]['errorCode'], apply_filters( 'wc_authnet_error_message', $error_messages[0]['errorText'], $error_messages ), $result['transactionResponse'] );
 			}
 			self::log( 'Request was successful.' );
 		} else {
 			$error_messages = $result['messages']['message'];
 			self::log( 'Error: Request Failed. ' . $error_messages[0]['code'] . ' - ' . $error_messages[0]['text'] );
-			return new WP_Error( $error_messages[0]['code'], $error_messages[0]['text'] );
+			return new WP_Error( $error_messages[0]['code'], apply_filters( 'wc_authnet_error_message', $error_messages[0]['text'], $error_messages ) );
 		}
 
 		return $result;
