@@ -79,7 +79,7 @@ A valid SSL certificate is required to ensure your customer credit card details 
 == Changelog ==
 
 = 6.1.8 =
-* Fixed wrong order status logging issue with 6.1.7 update rollout
+* Fixed orders going to on hold with 6.1.7 update rollout
 
 = 6.1.7 =
 * Added filters for checkout error messages
