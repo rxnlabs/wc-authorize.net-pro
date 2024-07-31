@@ -645,7 +645,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
 		$order->set_transaction_id( $response['transId'] );
 
-		if ( $transaction_type == 'authCaptureTransaction' && $response['responseCode'] != 4 ) {
+		if ( $this->capture && $response['responseCode'] != 4 ) {
 			$order->update_meta_data( '_authnet_charge_captured', 'yes' );
 			$order->update_meta_data( 'Authorize.Net Payment ID', $response['transId'] );
 			$order->payment_complete( $response['transId'] );
