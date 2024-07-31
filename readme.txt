@@ -80,6 +80,7 @@ A valid SSL certificate is required to ensure your customer credit card details 
 
 = 6.1.7 =
 * Added filters for checkout error messages
+* Added a check for allowing double quotes in the API response
 * Updated compatibility info to WordPress 6.6
 * Updated "WC tested up to" header to 9.2
 * Updated Freemius SDK to 2.7.3

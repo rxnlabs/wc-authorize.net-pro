@@ -191,6 +191,10 @@ class WC_Authnet_API {
 
 		$response = preg_replace( '/[\x00-\x1F\x80-\xFF]/', '', wp_remote_retrieve_body( $response ) );
 		$result   = is_wp_error( $response ) ? $response : json_decode( wc_clean( wp_unslash( $response ) ), true );
+		if( empty( $result ) ) {
+			self::log( "Empty Response. Trying without the wp_unslash." );
+			$result   = json_decode( wc_clean( $response ), true );
+		}
 
 		$gateway_debug = ( self::is_logging() && self::is_debugging() );
 
