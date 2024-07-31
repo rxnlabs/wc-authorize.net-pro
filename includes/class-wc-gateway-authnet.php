@@ -482,7 +482,9 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 			),
 		);
 
-		return apply_filters( 'wc_authnet_generate_payment_request_args', $request_args, $order, $source );
+		$request_args = apply_filters( 'wc_authnet_generate_payment_request_args', $request_args, $order, $source );
+		$this->capture = ( $request_args['transactionRequest']['transactionType'] == 'authCaptureTransaction' );
+		return $request_args;
 	}
 
 	/**
@@ -643,7 +645,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
 		$order->set_transaction_id( $response['transId'] );
 
-		if ( $this->capture && $response['responseCode'] != 4 ) {
+		if ( $transaction_type == 'authCaptureTransaction' && $response['responseCode'] != 4 ) {
 			$order->update_meta_data( '_authnet_charge_captured', 'yes' );
 			$order->update_meta_data( 'Authorize.Net Payment ID', $response['transId'] );
 			$order->payment_complete( $response['transId'] );
