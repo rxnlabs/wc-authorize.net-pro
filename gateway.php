@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce Authorize.Net Gateway
 Plugin URI: https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
 Description: A payment gateway for Authorize.Net. An Authorize.Net account and a server with cURL, SSL support, and a valid SSL certificate is required (for security reasons) for this gateway to function. Requires WC 3.3+
-Version: 6.1.7
+Version: 6.1.8
 Author: Pledged Plugins
 Author URI: https://pledgedplugins.com
 Text Domain: wc-authnet
@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'WC_AUTHNET_VERSION', '6.1.7' );
+define( 'WC_AUTHNET_VERSION', '6.1.8' );
 define( 'WC_AUTHNET_MIN_PHP_VER', '5.6.0' );
 define( 'WC_AUTHNET_MIN_WC_VER', '3.3' );
 define( 'WC_AUTHNET_PLUGIN_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
