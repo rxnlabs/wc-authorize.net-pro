@@ -179,6 +179,9 @@ class WC_Authnet {
 				<li><strong><?php _e( 'ACH Payments:', 'wc-authnet' ); ?></strong>
 					<?php _e( 'Fully supports eCheck payments via ACH network.', 'wc-authnet' ); ?>
                 </li>
+				<li><strong><?php _e( 'Compatible with One Click Upsells for WooCommerce:', 'wc-authnet' ); ?></strong>
+					<?php _e( 'Supports FunnelKit (formerly WooFunnels) One Click Upsells feature.', 'wc-authnet' ); ?>
+                </li>
             </ol>
 			<?php $upgrade_label = __( 'Upgrade to Enterprise!', 'wc-authnet' ); ?>
             <p>

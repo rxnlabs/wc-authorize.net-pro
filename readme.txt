@@ -33,6 +33,7 @@ WooCommerce is one of the oldest and most powerful e-commerce solutions for Word
 > * **Setup Pre-Orders:**  Use with  [WooCommerce Pre-Orders](https://woocommerce.com/products/woocommerce-pre-orders/)  extension so customers can order products before they’re available by submitting their card details. The card is then automatically charged when the pre-order is available.
 > * **Pay via Saved Cards:** Enable option to use saved card details on the gateway servers for quicker checkout. No sensitive card data is stored on the website!
 > * **ACH Payments:** Fully supports eCheck payments via ACH network.
+> * **One Click Upsells for WooCommerce:** Supports FunnelKit (formerly WooFunnels) One Click Upsells feature.
 >
 > [Click here](https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/) for Pricing details.
 
