@@ -7,7 +7,7 @@ Author URI: https://pledgedplugins.com
 Requires at least: 4.4
 Tested up to: 6.6
 Requires PHP: 5.6
-Stable tag: 6.1.8
+Stable tag: 6.1.9
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -77,6 +77,10 @@ You are in luck! The free version of the plugin has an option to use the AIM int
 A valid SSL certificate is required to ensure your customer credit card details are safe and make your site PCI DSS compliant. This plugin does not store the customer credit card numbers or sensitive information on your website.
 
 == Changelog ==
+
+= 6.1.9 =
+* Set order status to Failed if the capture from Edit Order screen fails
+* Updated Freemius SDK to 2.7.4
 
 = 6.1.8 =
 * Fixed orders going to on hold with 6.1.7 update rollout
