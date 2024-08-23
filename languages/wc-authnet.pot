@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce Authorize.Net Gateway\n"
-"POT-Creation-Date: 2024-08-22 20:22+0530\n"
-"PO-Revision-Date: 2024-08-22 20:22+0530\n"
+"POT-Creation-Date: 2024-08-23 20:22+0530\n"
+"PO-Revision-Date: 2024-08-23 20:22+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -88,10 +88,9 @@ msgstr ""
 #: gateway.php:174
 #, php-format
 msgid ""
-"Use with %1$sWooCommerce Pre-Orders%2$s extension&nbsp;so customers can "
-"order products before they’re available by submitting their card details. "
-"The&nbsp;card is then&nbsp;automatically charged when the pre-order is "
-"available."
+"Use with %1$sWooCommerce Pre-Orders%2$s extension so customers can order "
+"products before they’re available by submitting their card details. The card "
+"is then automatically charged when the pre-order is available."
 msgstr ""
 
 #: gateway.php:176
@@ -113,11 +112,13 @@ msgid "Fully supports eCheck payments via ACH network."
 msgstr ""
 
 #: gateway.php:182
-msgid "Compatible with One Click Upsells for WooCommerce:"
+msgid "One Click Upsells:"
 msgstr ""
 
 #: gateway.php:183
-msgid "Supports FunnelKit (formerly WooFunnels) One Click Upsells feature."
+#, php-format
+msgid ""
+"Compatible with %1$sFunnelKit (formerly WooFunnels) One Click Upsells%2$s."
 msgstr ""
 
 #: gateway.php:186
@@ -212,14 +213,13 @@ msgstr ""
 #: includes/class-wc-gateway-authnet.php:39
 #, php-format
 msgid ""
-"Enterprise version is a full blown plugin that provides full support for "
-"processing subscriptions, pre-orders, payments via saved cards or eCheck "
-"accounts and also compatible with FunnelKit (formerly WooFunnels) One Click "
-"Upsells for WooCommerce plugin. The credit card or eCheck account "
-"information is saved in your Authorize.Net account and is reused to charge "
-"future orders, recurring payments or pre-orders at a later time. <br/><br/"
-"><a href=\"%s\" target=\"_blank\">Click here</a> to upgrade to Enterprise "
-"version or to know more about it."
+"Enterprise version is a full blown plugin that provides support for "
+"<strong>processing subscriptions, pre-orders, one click upsells and payment "
+"via saved cards or bank accounts</strong>. Some of these functionalities "
+"require <strong>other premium plugins</strong> that are mentioned on the "
+"page linked below. No card details or other sensitive data is stored on your "
+"site.<br/><br/><a href=\"%s\" target=\"_blank\">Click here</a> to upgrade to "
+"Enterprise version or to know more about it."
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:65

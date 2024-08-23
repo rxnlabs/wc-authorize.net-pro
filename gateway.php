@@ -171,7 +171,7 @@ class WC_Authnet {
 					<?php printf( __( 'Use with %1$sWooCommerce Subscriptions%2$s extension to %3$screate and manage products with recurring payments%4$s — payments that will give you residual revenue you can track and count on.', 'wc-authnet' ), '<a href="https://woocommerce.com/products/woocommerce-subscriptions/" target="_blank">', '</a>', '<strong>', '</strong>' ); ?>
                 </li>
                 <li><strong><?php _e( 'Setup Pre-Orders:', 'wc-authnet' ); ?></strong>
-					<?php printf( __( 'Use with %1$sWooCommerce Pre-Orders%2$s extension so customers can order products before they’re available by submitting their card details. The&nbsp;card is then&nbsp;automatically charged when the pre-order is available.', 'wc-authnet' ), '<a href="https://woocommerce.com/products/woocommerce-pre-orders/" target="_blank">', '</a>' ); ?>
+					<?php printf( __( 'Use with %1$sWooCommerce Pre-Orders%2$s extension so customers can order products before they’re available by submitting their card details. The card is then automatically charged when the pre-order is available.', 'wc-authnet' ), '<a href="https://woocommerce.com/products/woocommerce-pre-orders/" target="_blank">', '</a>' ); ?>
                 </li>
                 <li><strong><?php _e( 'Pay via Saved Cards:', 'wc-authnet' ); ?></strong>
 					<?php _e( 'Enable option to use saved card details on the gateway servers for quicker checkout. No sensitive card data is stored on the website!', 'wc-authnet' ); ?>
