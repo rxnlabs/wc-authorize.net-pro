@@ -80,7 +80,8 @@ A valid SSL certificate is required to ensure your customer credit card details 
 == Changelog ==
 
 = 6.1.9 =
-* Set order status to Failed if the capture from Edit Order screen fails
+* Set order status to Failed only once on unsuccessful capture
+* Updated "WC tested up to" header to 9.3
 * Updated Freemius SDK to 2.7.4
 
 = 6.1.8 =
