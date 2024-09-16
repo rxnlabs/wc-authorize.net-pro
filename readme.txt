@@ -33,7 +33,7 @@ WooCommerce is one of the oldest and most powerful e-commerce solutions for Word
 > * **Setup Pre-Orders:**  Use with  [WooCommerce Pre-Orders](https://woocommerce.com/products/woocommerce-pre-orders/)  extension so customers can order products before they’re available by submitting their card details. The card is then automatically charged when the pre-order is available.
 > * **Pay via Saved Cards:** Enable option to use saved card details on the gateway servers for quicker checkout. No sensitive card data is stored on the website!
 > * **ACH Payments:** Fully supports eCheck payments via ACH network.
-> * **One Click Upsells:** Compatible with  [FunnelKit (formerly WooFunnels) One Click Upsells](https://funnelkit.com/woocommerce-one-click-upsells-upstroke/).
+> * **One Click Upsells:** Compatible with [FunnelKit (formerly WooFunnels) One Click Upsells](https://funnelkit.com/woocommerce-one-click-upsells-upstroke/).
 >
 > [Click here](https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/) for Pricing details.
 
@@ -82,7 +82,7 @@ A valid SSL certificate is required to ensure your customer credit card details 
 = 6.1.9 =
 * Set order status to Failed only once on unsuccessful capture
 * Updated "WC tested up to" header to 9.3
-* Updated Freemius SDK to 2.7.4
+* Updated Freemius SDK to 2.8.0
 
 = 6.1.8 =
 * Fixed orders going to on hold with 6.1.7 update rollout
