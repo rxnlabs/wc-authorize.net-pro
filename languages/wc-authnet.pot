@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce Authorize.Net Gateway\n"
-"POT-Creation-Date: 2024-07-31 20:20+0530\n"
-"PO-Revision-Date: 2024-07-31 20:20+0530\n"
+"POT-Creation-Date: 2024-08-31 19:56+0530\n"
+"PO-Revision-Date: 2024-08-31 19:55+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -49,11 +49,11 @@ msgid ""
 "the gateway website."
 msgstr ""
 
-#: gateway.php:161 gateway.php:206
+#: gateway.php:161 gateway.php:209
 msgid "Settings"
 msgstr ""
 
-#: gateway.php:164 gateway.php:207
+#: gateway.php:164 gateway.php:210
 msgid "Support"
 msgstr ""
 
@@ -88,10 +88,9 @@ msgstr ""
 #: gateway.php:174
 #, php-format
 msgid ""
-"Use with %1$sWooCommerce Pre-Orders%2$s extension&nbsp;so customers can "
-"order products before they’re available by submitting their card details. "
-"The&nbsp;card is then&nbsp;automatically charged when the pre-order is "
-"available."
+"Use with %1$sWooCommerce Pre-Orders%2$s extension so customers can order "
+"products before they’re available by submitting their card details. The card "
+"is then automatically charged when the pre-order is available."
 msgstr ""
 
 #: gateway.php:176
@@ -112,44 +111,54 @@ msgstr ""
 msgid "Fully supports eCheck payments via ACH network."
 msgstr ""
 
+#: gateway.php:182
+msgid "One Click Upsells:"
+msgstr ""
+
 #: gateway.php:183
+#, php-format
+msgid ""
+"Compatible with %1$sFunnelKit (formerly WooFunnels) One Click Upsells%2$s."
+msgstr ""
+
+#: gateway.php:186
 msgid "Upgrade to Enterprise!"
 msgstr ""
 
-#: gateway.php:208
+#: gateway.php:211
 msgid "About"
 msgstr ""
 
-#: gateway.php:291
+#: gateway.php:294
 #, php-format
 msgid ""
 "Authorize.Net is almost ready. To get started, <a href=\"%s\">set your "
 "Authorize.Net account keys</a>."
 msgstr ""
 
-#: gateway.php:337
+#: gateway.php:340
 #, php-format
 msgid ""
 "WooCommerce Authorize.Net - The minimum PHP version required for this plugin "
 "is %1$s. You are running %2$s."
 msgstr ""
 
-#: gateway.php:343
+#: gateway.php:346
 msgid "WooCommerce Authorize.Net requires WooCommerce to be activated to work."
 msgstr ""
 
-#: gateway.php:347
+#: gateway.php:350
 #, php-format
 msgid ""
 "WooCommerce Authorize.Net - The minimum WooCommerce version required for "
 "this plugin is %1$s. You are running %2$s."
 msgstr ""
 
-#: gateway.php:353
+#: gateway.php:356
 msgid "WooCommerce Authorize.Net - cURL is not installed."
 msgstr ""
 
-#: gateway.php:376
+#: gateway.php:379
 msgid ""
 "To process subscription payments using Authorize.Net you will need the <a "
 "target=\"_blank\" href=\"https://woocommerce.com/products/woocommerce-"
@@ -158,24 +167,24 @@ msgid ""
 "subscriptions or will install WooCommerce Subscriptions later."
 msgstr ""
 
-#: gateway.php:382
+#: gateway.php:385
 msgid "<h3>WooCommerce Subscriptions Not Detected!</h3>"
 msgstr ""
 
-#: gateway.php:470 gateway.php:580
+#: gateway.php:473 gateway.php:583
 msgid "Unable to capture charge!"
 msgstr ""
 
-#: gateway.php:483 gateway.php:589
+#: gateway.php:486 gateway.php:592
 #, php-format
 msgid "Authorize.Net charge complete (Charge ID: %s)"
 msgstr ""
 
-#: gateway.php:528 gateway.php:634
+#: gateway.php:531 gateway.php:637
 msgid "Unable to refund charge!"
 msgstr ""
 
-#: gateway.php:532 gateway.php:636
+#: gateway.php:535 gateway.php:639
 #, php-format
 msgid "Authorize.Net charge refunded (Charge ID: %s)"
 msgstr ""
@@ -204,13 +213,13 @@ msgstr ""
 #: includes/class-wc-gateway-authnet.php:39
 #, php-format
 msgid ""
-"Enterprise version is a full blown plugin that provides full support for "
-"processing subscriptions, pre-orders and payments via saved cards or eCheck "
-"accounts. The credit card or eCheck account information is saved in your "
-"Authorize.Net account and is reused to charge future orders, recurring "
-"payments or pre-orders at a later time. <br/><br/><a href=\"%s\" "
-"target=\"_blank\">Click here</a> to upgrade to Enterprise version or to know "
-"more about it."
+"Enterprise version is a full blown plugin that provides support for "
+"<strong>processing subscriptions, pre-orders, one click upsells and payment "
+"via saved cards or bank accounts</strong>. Some of these functionalities "
+"require <strong>other premium plugins</strong> that are mentioned on the "
+"page linked below. No card details or other sensitive data is stored on your "
+"site.<br/><br/><a href=\"%s\" target=\"_blank\">Click here</a> to upgrade to "
+"Enterprise version or to know more about it."
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:65
