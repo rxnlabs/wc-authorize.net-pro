@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce Authorize.Net Gateway
 Plugin URI: https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
 Description: A payment gateway for Authorize.Net. An Authorize.Net account and a server with cURL, SSL support, and a valid SSL certificate is required (for security reasons) for this gateway to function. Requires WC 3.3+
-Version: 6.1.9
+Version: 6.1.10
 Author: Pledged Plugins
 Author URI: https://pledgedplugins.com
 Text Domain: wc-authnet
@@ -64,7 +64,7 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 		do_action( 'wc_authnet_fs_loaded' );
 	}
 
-	define( 'WC_AUTHNET_VERSION', '6.1.9' );
+	define( 'WC_AUTHNET_VERSION', '6.1.10' );
 	define( 'WC_AUTHNET_MIN_PHP_VER', '5.6.0' );
 	define( 'WC_AUTHNET_MIN_WC_VER', '3.3' );
 	define( 'WC_AUTHNET_PLUGIN_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
@@ -467,7 +467,13 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 					$response = WC_Authnet_API::execute( 'createTransactionRequest', $args );
 
 					if ( is_wp_error( $response ) ) {
-						$order->update_status( 'failed', __( 'Unable to capture charge!', 'wc-authnet' ) . ' ' . $response->get_error_message() );
+						if( $order->get_meta( '_authnet_capture_failed' ) == 'yes' ) {
+							$order->add_order_note( sprintf( __( "<strong>Unable to capture charge!</strong> Please <strong>DO NOT FULFIL THE ORDER</strong> if the amount cannot be captured in the gateway account manually or by changing the status. In that case, set status to Failed manually and do not fulfil. \n\nAuthorize.Net failure reason: %s \n\n", 'wc-authnet' ), $response->get_error_code()  . ' - ' . $response->get_error_message() ) );
+						} else {
+							$order->update_status( 'failed', sprintf( __( "<strong>Unable to capture charge!</strong> The order status is set to <strong>Failed</strong> the first time to draw your attention. If the next attempt fails, your intended order status will still take place. \n\nPlease double-check that the amount is captured in the gateway account before fulfilling the order. \n\nAuthorize.Net failure reason: %s \n\n", 'wc-authnet' ), $response->get_error_code()  . ' - ' . $response->get_error_message() ) );
+							$order->update_meta_data( '_authnet_capture_failed', 'yes' );
+							$order->save();
+						}
 					} else {
 						$trx_response = $response['transactionResponse'];
 
@@ -577,7 +583,13 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 					$response = $gateway->authnet_request( $args );
 
 					if ( is_wp_error( $response ) ) {
-						$order->update_status( 'failed', __( 'Unable to capture charge!', 'wc-authnet' ) . ' ' . $response->get_error_message() );
+						if( $order->get_meta( '_authnet_capture_failed' ) == 'yes' ) {
+							$order->add_order_note( sprintf( __( "<strong>Unable to capture charge!</strong> Please <strong>DO NOT FULFIL THE ORDER</strong> if the amount cannot be captured in the gateway account manually or by changing the status. In that case, set status to Failed manually and do not fulfil. \n\nAuthorize.Net failure reason: %s \n\n", 'wc-authnet' ), $response->get_error_code()  . ' - ' . $response->get_error_message() ) );
+						} else {
+							$order->update_status( 'failed', sprintf( __( "<strong>Unable to capture charge!</strong> The order status is set to <strong>Failed</strong> the first time to draw your attention. If the next attempt fails, your intended order status will still take place. \n\nPlease double-check that the amount is captured in the gateway account before fulfilling the order. \n\nAuthorize.Net failure reason: %s \n\n", 'wc-authnet' ), $response->get_error_code()  . ' - ' . $response->get_error_message() ) );
+							$order->update_meta_data( '_authnet_capture_failed', 'yes' );
+							$order->save();
+						}
 					} else {
 						if ( ! $gateway->capture && $order->get_meta( '_authnet_fds_hold' ) == 'yes' ) {
 							$order->update_meta_data( '_authnet_fds_hold', 'no' );
