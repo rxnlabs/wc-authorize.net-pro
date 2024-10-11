@@ -15,6 +15,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
     const ENDPOINT_URL_LIVE = 'https://secure2.authorize.net/gateway/transact.dll';
 
 	public $capture;
+	public $enable_capture;
     public $statement_descriptor;
     public $login_id;
     public $transaction_key;
@@ -51,6 +52,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		$this->enabled     		  	= $this->get_option( 'enabled' );
 		$this->testmode    		  	= $this->get_option( 'testmode' ) === 'yes';
 		$this->capture     		  	= $this->get_option( 'capture', 'yes' ) === 'yes';
+		$this->enable_capture     	= $this->get_option( 'enable_capture', 'yes' ) === 'yes';
 		$this->statement_descriptor = $this->get_option( 'statement_descriptor', wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ) );
 		$this->login_id	   		  	= $this->get_option( 'login_id' );
 		$this->transaction_key	  	= $this->get_option( 'transaction_key' );
@@ -201,6 +203,13 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				'type'        => 'checkbox',
 				'description' => __( 'Whether or not to immediately capture the charge. When unchecked, the charge issues an authorization and will need to be captured later.', 'wc-authnet' ),
 				'default'     => 'yes',
+			),
+			'enable_capture' => array(
+				'title'       => __( 'Capture authorized transaction on status change', 'wc-authnet' ),
+				'label'       => __( 'Enable Capture authorized transaction on status change', 'wc-authnet' ),
+				'type'        => 'checkbox',
+				'description' => __( 'If enabled, it will avail you to capture authorized transaction on order status change from the edit order screen.', 'wc-authnet' ),
+				'default'     => 'yes'
 			),
 			'logging' => array(
 				'title'       => __( 'Logging', 'wc-authnet' ),
