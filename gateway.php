@@ -443,11 +443,7 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 
 				$gateway = new WC_Gateway_Authnet();
 
-				if ( ! $gateway->enable_capture ) {
-					return;
-				}
-
-				if ( $charge && $captured == 'no' ) {
+				if ( $gateway->capture_on_status_change && $charge && $captured == 'no' ) {
 
 					WC_Authnet_API::log( "Info: Beginning capture payment for order {$order_id} for the amount of {$order->get_total()}" );
 
