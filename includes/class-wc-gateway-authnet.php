@@ -12,6 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
 	public $capture;
+	public $capture_on_status_change;
 	public $statement_descriptor;
 	public $login_id;
 	public $transaction_key;
@@ -46,21 +47,22 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		$this->init_settings();
 
 		// Get setting values.
-		$this->title                = $this->get_option( 'title' );
-		$this->description          = $this->get_option( 'description' );
-		$this->enabled              = $this->get_option( 'enabled' );
-		$this->testmode             = $this->get_option( 'testmode' ) === 'yes';
-		$this->capture              = $this->get_option( 'capture', 'yes' ) === 'yes';
-		$this->statement_descriptor = $this->get_option( 'statement_descriptor', wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ) );
-		$this->login_id             = $this->get_option( 'login_id' );
-		$this->transaction_key      = $this->get_option( 'transaction_key' );
-		$this->client_key           = $this->get_option( 'client_key' );
-		$this->logging              = $this->get_option( 'logging' ) === 'yes';
-		$this->debugging            = $this->get_option( 'debugging' ) === 'yes';
-		$this->line_items   		= $this->get_option( 'line_items' ) === 'yes';
-		$this->allowed_card_types   = $this->get_option( 'allowed_card_types', array() );
-		$this->customer_receipt     = $this->get_option( 'customer_receipt' ) === 'yes';
-		$this->free_api_method      = $this->get_option( 'free_api_method' );
+		$this->title                	= $this->get_option( 'title' );
+		$this->description          	= $this->get_option( 'description' );
+		$this->enabled              	= $this->get_option( 'enabled' );
+		$this->testmode             	= $this->get_option( 'testmode' ) === 'yes';
+		$this->capture              	= $this->get_option( 'capture', 'yes' ) === 'yes';
+		$this->capture_on_status_change	= $this->get_option( 'capture_on_status_change', 'yes' ) === 'yes';
+		$this->statement_descriptor 	= $this->get_option( 'statement_descriptor', wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ) );
+		$this->login_id             	= $this->get_option( 'login_id' );
+		$this->transaction_key      	= $this->get_option( 'transaction_key' );
+		$this->client_key           	= $this->get_option( 'client_key' );
+		$this->logging              	= $this->get_option( 'logging' ) === 'yes';
+		$this->debugging            	= $this->get_option( 'debugging' ) === 'yes';
+		$this->line_items   			= $this->get_option( 'line_items' ) === 'yes';
+		$this->allowed_card_types   	= $this->get_option( 'allowed_card_types', array() );
+		$this->customer_receipt     	= $this->get_option( 'customer_receipt' ) === 'yes';
+		$this->free_api_method      	= $this->get_option( 'free_api_method' );
 
 		if ( $this->testmode ) {
 			$this->description .= "\n\n<strong>" . __( 'TEST MODE ENABLED', 'wc-authnet' ) . "</strong>\n";
@@ -164,86 +166,93 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 	public function init_form_fields() {
 
 		$this->form_fields = apply_filters( 'wc_authnet_settings', array(
-			'enabled'              => array(
+			'enabled'              		=> array(
 				'title'       => __( 'Enable/Disable', 'wc-authnet' ),
 				'label'       => __( 'Enable Authorize.Net', 'wc-authnet' ),
 				'type'        => 'checkbox',
 				'description' => '',
 				'default'     => 'no',
 			),
-			'title'                => array(
+			'title'                		=> array(
 				'title'       => __( 'Title', 'wc-authnet' ),
 				'type'        => 'text',
 				'description' => __( 'This controls the title which the user sees during checkout.', 'wc-authnet' ),
 				'default'     => __( 'Credit card (Authorize.Net)', 'wc-authnet' ),
 			),
-			'description'          => array(
+			'description'          		=> array(
 				'title'       => __( 'Description', 'wc-authnet' ),
 				'type'        => 'textarea',
 				'description' => __( 'This controls the description which the user sees during checkout.', 'wc-authnet' ),
 				'default'     => sprintf( __( 'Pay with your credit card via %s.', 'wc-authnet' ), $this->method_title ),
 			),
-			'testmode'             => array(
+			'testmode'             		=> array(
 				'title'       => __( 'Sandbox mode', 'wc-authnet' ),
 				'label'       => __( 'Enable Sandbox Mode', 'wc-authnet' ),
 				'type'        => 'checkbox',
 				'description' => sprintf( esc_html__( 'Check the Authorize.Net testing guide %shere%s. This will display "sandbox mode" warning on checkout.', 'wc-authnet' ), '<a href="https://developer.authorize.net/hello_world/testing_guide/" target="_blank">', '</a>' ),
 				'default'     => 'yes',
 			),
-			'login_id'             => array(
+			'login_id'             		=> array(
 				'title'       => __( 'API Login ID', 'wc-authnet' ),
 				'type'        => 'text',
 				'description' => esc_html__( 'Get it from Account → Security Settings → API Credentials & Keys page in your Authorize.Net account.', 'wc-authnet' ),
 				'default'     => '',
 			),
-			'transaction_key'      => array(
+			'transaction_key'      		=> array(
 				'title'       => __( 'Transaction Key', 'wc-authnet' ),
 				'type'        => 'password',
 				'description' => esc_html__( 'Get it from Account → Security Settings → API Credentials & Keys page in your Authorize.Net account. For security reasons, you cannot view your Transaction Key, but you will be able to generate a new one.', 'wc-authnet' ),
 				'default'     => '',
 			),
-			'client_key'           => array(
+			'client_key'           		=> array(
 				'title'       => __( 'Public Client Key', 'wc-authnet' ),
 				'type'        => 'text',
 				'description' => esc_html__( 'Get it from Account → Security Settings → Manage Public Client Key page in your Authorize.Net account.', 'wc-authnet' ),
 				'default'     => '',
 			),
-			'statement_descriptor' => array(
+			'statement_descriptor' 		=> array(
 				'title'       => __( 'Statement Descriptor', 'wc-authnet' ),
 				'type'        => 'text',
 				'description' => __( 'Extra information about a charge. This will appear in your order description. Defaults to site name.', 'wc-authnet' ),
 				'default'     => '',
 				'desc_tip'    => true,
 			),
-			'capture'              => array(
+			'capture'              		=> array(
 				'title'       => __( 'Capture', 'wc-authnet' ),
 				'label'       => __( 'Capture charge immediately', 'wc-authnet' ),
 				'type'        => 'checkbox',
 				'description' => __( 'Whether or not to immediately capture the charge. When unchecked, the charge issues an authorization and will need to be captured later.', 'wc-authnet' ),
 				'default'     => 'yes',
 			),
-			'logging'              => array(
+			'capture_on_status_change' 	=> array(
+				'title'       => '',
+				'label'       => __( 'Capture authorized transaction on status change', 'wc-authnet' ),
+				'type'        => 'checkbox',
+				'description' => __( 'Whether or not to capture the authorized transaction when you change the order status from "On Hold" to "Processing" or "Completed". Disable if you prefer to capture transactions in the gateway dashboard.', 'wc-authnet' ),
+				'default'     => 'yes'
+			),
+			'logging'              		=> array(
 				'title'       => __( 'Logging', 'wc-authnet' ),
 				'label'       => __( 'Log debug messages', 'wc-authnet' ),
 				'type'        => 'checkbox',
 				'description' => sprintf( __( 'Save debug messages to the WooCommerce System Status log file <code>%s</code>.', 'wc-authnet' ), WC_Log_Handler_File::get_log_file_path( 'woocommerce-gateway-authnet' ) ),
 				'default'     => 'no',
 			),
-			'debugging'            => array(
+			'debugging'            		=> array(
 				'title'       => __( 'Gateway Debug', 'wc-authnet' ),
 				'label'       => __( 'Log gateway requests and response to the WooCommerce System Status log.', 'wc-authnet' ),
 				'type'        => 'checkbox',
 				'description' => __( '<strong>CAUTION! Enabling this option will write gateway requests possibly including card numbers and CVV to the logs.</strong> Do not turn this on unless you have a problem processing credit cards. You must only ever enable it temporarily for troubleshooting or to send requested information to the plugin author. It must be disabled straight away after the issues are resolved and the plugin logs should be deleted.', 'wc-authnet' ) . ' ' . sprintf( __( '<a href="%s">Click here</a> to check and delete the full log file.', 'wc-authnet' ), esc_url( admin_url( 'admin.php?page=wc-status&tab=logs' ) ) ),
 				'default'     => 'no',
 			),
-			'line_items' 		   => array(
+			'line_items' 		   		=> array(
 				'title'       => __( 'Line Items', 'wc-authnet' ),
 				'label'       => __( 'Enable Line Items', 'wc-authnet' ),
 				'type'        => 'checkbox',
 				'description' => __( 'Add line item data sent to the gateway.', 'wc-authnet' ),
 				'default'     => 'yes'
 			),
-			'allowed_card_types'   => array(
+			'allowed_card_types'   		=> array(
 				'title'       => __( 'Allowed Card types', 'wc-authnet' ),
 				'class'       => 'wc-enhanced-select',
 				'type'        => 'multiselect',
@@ -258,14 +267,14 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 					'diners-club' => __( 'Diners Club', 'wc-authnet' ),
 				),
 			),
-			'customer_receipt'     => array(
+			'customer_receipt'     		=> array(
 				'title'       => __( 'Receipt', 'wc-authnet' ),
 				'label'       => __( 'Send Gateway Receipt', 'wc-authnet' ),
 				'type'        => 'checkbox',
 				'description' => __( 'If enabled, the customer will be sent an email receipt from Authorize.Net.', 'wc-authnet' ),
 				'default'     => 'no',
 			),
-			'free_api_method'      => array(
+			'free_api_method'      		=> array(
 				'title'       => __( 'Processing API', 'wc-authnet' ),
 				'type'        => 'select',
 				'description' => __( 'Always use "Authorize.Net API" unless you are using the AIM emulator.', 'wc-authnet' ),
