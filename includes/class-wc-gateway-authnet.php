@@ -242,7 +242,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				'title'       => __( 'Gateway Debug', 'wc-authnet' ),
 				'label'       => __( 'Log gateway requests and response to the WooCommerce System Status log.', 'wc-authnet' ),
 				'type'        => 'checkbox',
-				'description' => __( '<strong>CAUTION! Enabling this option will write gateway requests possibly including card numbers and CVV to the logs.</strong> Do not turn this on unless you have a problem processing credit cards. You must only ever enable it temporarily for troubleshooting or to send requested information to the plugin author. It must be disabled straight away after the issues are resolved and the plugin logs should be deleted.', 'wc-authnet' ) . ' ' . sprintf( __( '<a href="%s">Click here</a> to check and delete the full log file.', 'wc-authnet' ), esc_url( admin_url( 'admin.php?page=wc-status&tab=logs' ) ) ),
+				'description' => __( '<strong>CAUTION! Enabling this option will write gateway requests possibly including card numbers and CVV to the logs.</strong> Do not turn this on unless you have a problem processing credit cards. You must only ever enable it temporarily for troubleshooting or to send requested information to the plugin author. It must be disabled straight away after the issues are resolved and the plugin logs should be deleted.', 'wc-authnet' ) . ' ' . sprintf( __( '<a target="_blank" href="%s">Click here</a> to check and delete the full log file.', 'wc-authnet' ), esc_url( self::get_log_url() ) ),
 				'default'     => 'no',
 			),
 			'line_items' 		   		=> array(
@@ -997,6 +997,15 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		}
 
 		return current_user_can( 'pay_for_order', $order->get_id() );
+	}
+
+	public function get_log_url() {
+		$log_file_name = WC_Log_Handler_File::get_log_file_name( 'woocommerce-gateway-authnet' );
+		$name_array    = explode( '-', $log_file_name );
+		if ( ! empty( $name_array[6] ) ) {
+			unset( $name_array[6] );
+		}
+		return admin_url( 'admin.php?page=wc-status&tab=logs&view=single_file&file_id=' . implode( '-', $name_array ) );
 	}
 
 }
