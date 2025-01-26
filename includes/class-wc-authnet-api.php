@@ -210,16 +210,15 @@ class WC_Authnet_API {
 			return new WP_Error( 'cannot_connect', __( 'Unable to process request.', 'wc-authnet' ) );
 		}
 
-		if ( $result['messages']['resultCode'] == "Ok" ) {
-			if ( ! empty( $result['transactionResponse']['errors'] ) ) {
-				$error_messages = $result['transactionResponse']['errors'];
-				return new WP_Error( $error_messages[0]['errorCode'], apply_filters( 'wc_authnet_error_message', $error_messages[0]['errorText'], $error_messages ), $result['transactionResponse'] );
-			}
-			self::log( 'Request was successful.' );
-		} else {
+		if ( ! empty( $result['transactionResponse']['errors'] ) ) {
+			$error_messages = $result['transactionResponse']['errors'];
+			return new WP_Error( $error_messages[0]['errorCode'], apply_filters( 'wc_authnet_error_message', $error_messages[0]['errorText'], $error_messages ), $result['transactionResponse'] );
+		} elseif ( $result['messages']['resultCode'] != "Ok" ) {
 			$error_messages = $result['messages']['message'];
 			self::log( 'Error: Request Failed. ' . $error_messages[0]['code'] . ' - ' . $error_messages[0]['text'] );
 			return new WP_Error( $error_messages[0]['code'], apply_filters( 'wc_authnet_error_message', $error_messages[0]['text'], $error_messages ) );
+		} else {
+			self::log( 'Request was successful.' );
 		}
 
 		return $result;

@@ -7,7 +7,7 @@ Author URI: https://pledgedplugins.com
 Requires at least: 4.4
 Tested up to: 6.7
 Requires PHP: 5.6
-Stable tag: 6.1.13
+Stable tag: 6.1.14
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -79,13 +79,18 @@ A valid SSL certificate is required to ensure your customer credit card details 
 
 == Changelog ==
 
+= 6.1.14 =
+* Updated "WC tested up to" header to 9.6
+* Fixed error handling for error code E00027
+* Fixed gateway log URL
+
 = 6.1.13 =
-* Updated Freemius SDK to 2.10.1
 * Updated "WC tested up to" header to 9.5
+* Updated Freemius SDK to 2.10.1
 
 = 6.1.12 =
-* Updated Freemius SDK to 2.9.0
 * Updated compatibility info to WordPress 6.7
+* Updated Freemius SDK to 2.9.0
 
 = 6.1.11 =
 * Added "Capture authorized transaction on status change" option
