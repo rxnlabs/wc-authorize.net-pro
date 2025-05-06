@@ -182,31 +182,31 @@ class WC_Authnet_Privacy extends WC_Abstract_Privacy {
         $is_expired = false;
         $time_span 	= time() - strtotime( $created_date );
 
-        if ( empty( $retention ) || empty( $created_date ) ) {
+        if ( empty( $retention['number'] ) || empty( $created_date ) ) {
             return false;
         }
 
         switch ( $retention['unit'] ) {
             case 'days':
-                $retention = $retention['number'] * DAY_IN_SECONDS;
+                $retention = (int) $retention['number'] * DAY_IN_SECONDS;
                 if ( $time_span > $retention ) {
                     $is_expired = true;
                 }
                 break;
             case 'weeks':
-                $retention = $retention['number'] * WEEK_IN_SECONDS;
+                $retention = (int) $retention['number'] * WEEK_IN_SECONDS;
                 if ( $time_span > $retention ) {
                     $is_expired = true;
                 }
                 break;
             case 'months':
-                $retention = $retention['number'] * MONTH_IN_SECONDS;
+                $retention = (int) $retention['number'] * MONTH_IN_SECONDS;
                 if ( $time_span > $retention ) {
                     $is_expired = true;
                 }
                 break;
             case 'years':
-                $retention = $retention['number'] * YEAR_IN_SECONDS;
+                $retention = (int) $retention['number'] * YEAR_IN_SECONDS;
                 if ( $time_span > $retention ) {
                     $is_expired = true;
                 }

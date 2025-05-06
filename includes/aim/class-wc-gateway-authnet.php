@@ -419,9 +419,9 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
                 $order->payment_complete( $response['transaction_id'] );
 
                 // Add order note
-                $complete_message = sprintf( __( "Authorize.Net charge complete (Charge ID: %s) \n\nAVS Response: %s \n\nCVV2 Response: %s", 'wc-authnet' ), $response['transaction_id'], self::get_avs_message( $response['avs_response'] ), self::get_cvv_message( $response['card_code_response'] ) );
+                $complete_message = trim( sprintf( __( "Authorize.Net charge completed for %s (Charge ID: %s) \n\nAVS Response: %s \n\nCVV2 Response: %s", 'wc-authnet' ), wc_price( $order->get_total(), array( 'currency' => $order->get_currency() ) ), $response['transaction_id'], self::get_avs_message( $response['avs_response'] ), self::get_cvv_message( $response['card_code_response'] ) ) );
                 $order->add_order_note( $complete_message );
-                $this->log( "Success: $complete_message" );
+				$this->log( 'Success: ' . strip_tags( $complete_message ) );
 
             } else {
 
@@ -437,9 +437,9 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
                 }
 
                 // Mark as on-hold
-                $authorized_message = sprintf( __( "Authorize.Net charge authorized (Charge ID: %s). Process order to take payment, or cancel to remove the pre-authorization.\n\nAVS Response: %s \n\nCVV2 Response: %s \n\n", 'wc-authnet' ), $response['transaction_id'], self::get_avs_message( $response['avs_response'] ), self::get_cvv_message( $response['card_code_response'] ) );
+				$authorized_message = trim( sprintf( __( "Authorize.Net charge authorized for %s (Charge ID: %s). Process order to take payment, or cancel to remove the pre-authorization.\n\nAVS Response: %s \n\nCVV2 Response: %s \n\n", 'wc-authnet' ), wc_price( $order->get_total(), array( 'currency' => $order->get_currency() ) ), $response['transaction_id'], self::get_avs_message( $response['avs_response'] ), self::get_cvv_message( $response['card_code_response'] ) ) );
                 $order->update_status( 'on-hold', $authorized_message );
-                $this->log( "Success: $authorized_message" );
+				$this->log( 'Success: ' . strip_tags( $authorized_message ) );
 
             }
 

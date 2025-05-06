@@ -659,9 +659,9 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 			$order->update_meta_data( 'Authorize.Net Payment ID', $response['transId'] );
 			$order->payment_complete( $response['transId'] );
 
-			$complete_message = sprintf( __( "Authorize.Net charge complete (Charge ID: %s) \n\nAVS Response: %s \n\nCVV2 Response: %s", 'wc-authnet' ), $response['transId'], self::get_avs_message( $response['avsResultCode'] ), self::get_cvv_message( $response['cvvResultCode'] ) );
+			$complete_message = trim( sprintf( __( "Authorize.Net charge completed for %s (Charge ID: %s) \n\nAVS Response: %s \n\nCVV2 Response: %s", 'wc-authnet' ), wc_price( $order->get_total(), array( 'currency' => $order->get_currency() ) ), $response['transId'], self::get_avs_message( $response['avsResultCode'] ), self::get_cvv_message( $response['cvvResultCode'] ) ) );
 			$order->add_order_note( $complete_message );
-			WC_Authnet_API::log( 'Success: ' . $complete_message );
+			WC_Authnet_API::log( 'Success: ' . strip_tags( $complete_message ) );
 
 		} else {
 			$order->update_meta_data( '_authnet_charge_captured', 'no' );
@@ -674,9 +674,9 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				wc_reduce_stock_levels( $order_id );
 			}
 
-			$authorized_message = sprintf( __( "Authorize.Net charge authorized (Charge ID: %s). Process order to take payment, or cancel to remove the pre-authorization.\n\nAVS Response: %s \n\nCVV2 Response: %s \n\n", 'wc-authnet' ), $response['transId'], self::get_avs_message( $response['avsResultCode'] ), self::get_cvv_message( $response['cvvResultCode'] ) );
+			$authorized_message = trim( sprintf( __( "Authorize.Net charge authorized for %s (Charge ID: %s). Process order to take payment, or cancel to remove the pre-authorization.\n\nAVS Response: %s \n\nCVV2 Response: %s \n\n", 'wc-authnet' ), wc_price( $order->get_total(), array( 'currency' => $order->get_currency() ) ), $response['transId'], self::get_avs_message( $response['avsResultCode'] ), self::get_cvv_message( $response['cvvResultCode'] ) ) );
 			$order->update_status( 'on-hold', $authorized_message . "\n" );
-			WC_Authnet_API::log( "Success: " . $authorized_message );
+			WC_Authnet_API::log( "Success: " . strip_tags( $authorized_message ) );
 		}
 
 		$order->save();
