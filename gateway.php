@@ -135,7 +135,7 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 			// Actions
 			add_action( 'admin_init', array( $this, 'check_environment' ) );
 			add_action( 'admin_notices', array( $this, 'admin_notices' ), 15 );
-			add_action( 'plugins_loaded', array( $this, 'init' ) );
+			add_action( 'plugins_loaded', array( $this, 'init_environment' ) );
 
 			wc_authnet_fs()->add_filter( 'templates/checkout.php', array( $this, 'checkout_notice' ) );
 			wc_authnet_fs()->add_filter( 'templates/pricing.php', array( $this, 'checkout_notice' ) );
@@ -214,7 +214,7 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 		/**
 		 * Init localisations and files
 		 */
-		public function init() {
+		public function init_environment() {
 
 			// Don't hook anything else in the plugin if we're in an incompatible environment
 			if ( self::get_environment_warning() ) {
@@ -233,6 +233,7 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 			require_once( dirname( __FILE__ ) . '/includes/class-wc-authnet-api.php' );
 
 			add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_action_links' ), 11 );
+			add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
 			add_action( 'admin_menu', array( $this, 'submenu_setup' ), 80 );
 
 			$free_api_method = WC_Authnet_API::get_free_api_method();
@@ -413,7 +414,6 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 				include_once( dirname( __FILE__ ) . '/includes/class-wc-gateway-authnet.php' );
 			}
 
-			load_plugin_textdomain( 'wc-authnet', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
 			add_filter( 'woocommerce_payment_gateways', array( $this, 'add_gateways' ) );
 		}
 
@@ -426,6 +426,10 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 			$methods[] = 'WC_Gateway_Authnet';
 
 			return $methods;
+		}
+
+		public function load_plugin_textdomain() {
+			load_plugin_textdomain( 'wc-authnet', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
 		}
 
 		/**

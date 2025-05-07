@@ -81,6 +81,7 @@ A valid SSL certificate is required to ensure your customer credit card details 
 
 = 6.1.16 =
 * Mentioned payment amount in order note
+* Fixed PHP notice on loading translation
 * Fixed issue with data erasure
 * Updated "WC tested up to" header to 9.8
 * Updated compatibility info to WordPress 6.8

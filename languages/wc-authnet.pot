@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce Authorize.Net Gateway\n"
-"POT-Creation-Date: 2025-05-06 21:25+0530\n"
-"PO-Revision-Date: 2025-05-06 21:25+0530\n"
+"POT-Creation-Date: 2025-05-07 18:39+0530\n"
+"PO-Revision-Date: 2025-05-07 18:39+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -129,36 +129,36 @@ msgstr ""
 msgid "About"
 msgstr ""
 
-#: gateway.php:291
+#: gateway.php:292
 #, php-format
 msgid ""
 "Authorize.Net is almost ready. To get started, <a href=\"%s\">set your "
 "Authorize.Net account keys</a>."
 msgstr ""
 
-#: gateway.php:337
+#: gateway.php:338
 #, php-format
 msgid ""
 "WooCommerce Authorize.Net - The minimum PHP version required for this plugin "
 "is %1$s. You are running %2$s."
 msgstr ""
 
-#: gateway.php:343
+#: gateway.php:344
 msgid "WooCommerce Authorize.Net requires WooCommerce to be activated to work."
 msgstr ""
 
-#: gateway.php:347
+#: gateway.php:348
 #, php-format
 msgid ""
 "WooCommerce Authorize.Net - The minimum WooCommerce version required for "
 "this plugin is %1$s. You are running %2$s."
 msgstr ""
 
-#: gateway.php:353
+#: gateway.php:354
 msgid "WooCommerce Authorize.Net - cURL is not installed."
 msgstr ""
 
-#: gateway.php:376
+#: gateway.php:377
 msgid ""
 "To process subscription payments using Authorize.Net you will need the <a "
 "target=\"_blank\" href=\"https://woocommerce.com/products/woocommerce-"
@@ -167,11 +167,11 @@ msgid ""
 "subscriptions or will install WooCommerce Subscriptions later."
 msgstr ""
 
-#: gateway.php:382
+#: gateway.php:383
 msgid "<h3>WooCommerce Subscriptions Not Detected!</h3>"
 msgstr ""
 
-#: gateway.php:471 gateway.php:587
+#: gateway.php:475 gateway.php:591
 #, php-format
 msgid ""
 "<strong>Unable to capture charge!</strong> Please <strong>DO NOT FULFIL THE "
@@ -183,7 +183,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: gateway.php:473 gateway.php:589
+#: gateway.php:477 gateway.php:593
 #, php-format
 msgid ""
 "<strong>Unable to capture charge!</strong> The order status is set to "
@@ -197,22 +197,22 @@ msgid ""
 "\n"
 msgstr ""
 
-#: gateway.php:489 gateway.php:601
+#: gateway.php:493 gateway.php:605
 #, php-format
 msgid "Authorize.Net charge complete (Charge ID: %s)"
 msgstr ""
 
-#: gateway.php:534 gateway.php:646
+#: gateway.php:538 gateway.php:650
 msgid "Unable to refund charge!"
 msgstr ""
 
-#: gateway.php:538 gateway.php:648
+#: gateway.php:542 gateway.php:652
 #, php-format
 msgid "Authorize.Net charge refunded (Charge ID: %s)"
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:36
-#: includes/class-wc-authnet-privacy.php:13
+#: includes/class-wc-authnet-privacy.php:24
 #: includes/class-wc-gateway-authnet.php:36
 msgid "Authorize.Net"
 msgstr ""
@@ -822,28 +822,28 @@ msgstr ""
 msgid "Diners"
 msgstr ""
 
-#: includes/class-wc-authnet-privacy.php:15
+#: includes/class-wc-authnet-privacy.php:26
 msgid "WooCommerce Authorize.Net Order Data"
 msgstr ""
 
-#: includes/class-wc-authnet-privacy.php:16
+#: includes/class-wc-authnet-privacy.php:27
 msgid "WooCommerce Authorize.Net Data"
 msgstr ""
 
-#: includes/class-wc-authnet-privacy.php:29
+#: includes/class-wc-authnet-privacy.php:38
 msgid "Retain Authorize.Net Data"
 msgstr ""
 
-#: includes/class-wc-authnet-privacy.php:30
+#: includes/class-wc-authnet-privacy.php:39
 msgid ""
 "Retains any Authorize.Net data such as Authorize.Net customer ID, charge ID."
 msgstr ""
 
-#: includes/class-wc-authnet-privacy.php:33
+#: includes/class-wc-authnet-privacy.php:42
 msgid "N/A"
 msgstr ""
 
-#: includes/class-wc-authnet-privacy.php:76
+#: includes/class-wc-authnet-privacy.php:85
 #, php-format
 msgid ""
 "By using this extension, you may be storing personal data or sharing data "
@@ -852,22 +852,22 @@ msgid ""
 "policy.</a>"
 msgstr ""
 
-#: includes/class-wc-authnet-privacy.php:99
+#: includes/class-wc-authnet-privacy.php:108
 msgid "Orders"
 msgstr ""
 
-#: includes/class-wc-authnet-privacy.php:102
+#: includes/class-wc-authnet-privacy.php:111
 msgid "Authorize.Net payment id"
 msgstr ""
 
-#: includes/class-wc-authnet-privacy.php:162
+#: includes/class-wc-authnet-privacy.php:171
 #, php-format
 msgid ""
 "Order ID %d is less than set retention days. Personal data retained. "
 "(Authorize.Net)"
 msgstr ""
 
-#: includes/class-wc-authnet-privacy.php:172
+#: includes/class-wc-authnet-privacy.php:181
 msgid "Authorize.Net personal data erased."
 msgstr ""
 
