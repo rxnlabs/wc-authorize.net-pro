@@ -239,13 +239,13 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 			$free_api_method = WC_Authnet_API::get_free_api_method();
 
 			if ( $free_api_method == 'aim' ) {
-				add_action( 'woocommerce_order_status_processing', array( $this, 'capture_payment_aim' ) );
-				add_action( 'woocommerce_order_status_completed', array( $this, 'capture_payment_aim' ) );
+				add_action( 'woocommerce_order_status_processing', array( $this, 'capture_payment_aim' ), 10, 3 );
+				add_action( 'woocommerce_order_status_completed', array( $this, 'capture_payment_aim' ), 10, 3 );
 				add_action( 'woocommerce_order_status_cancelled', array( $this, 'cancel_payment_aim' ) );
 				add_action( 'woocommerce_order_status_refunded', array( $this, 'cancel_payment_aim' ) );
 			} else {
-				add_action( 'woocommerce_order_status_processing', array( $this, 'capture_payment' ) );
-				add_action( 'woocommerce_order_status_completed', array( $this, 'capture_payment' ) );
+				add_action( 'woocommerce_order_status_processing', array( $this, 'capture_payment' ), 10, 3 );
+				add_action( 'woocommerce_order_status_completed', array( $this, 'capture_payment' ), 10, 3 );
 				add_action( 'woocommerce_order_status_cancelled', array( $this, 'cancel_payment' ) );
 				add_action( 'woocommerce_order_status_refunded', array( $this, 'cancel_payment' ) );
 			}
@@ -436,8 +436,10 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 		 * Capture payment when the order is changed from on-hold to complete or processing
 		 *
 		 * @param int $order_id
+		 * @param $order
+		 * @param $status_transition
 		 */
-		public function capture_payment( $order_id ) {
+		public function capture_payment( $order_id, $order, $status_transition ) {
 
 			$order = wc_get_order( $order_id );
 
@@ -447,7 +449,7 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 
 				$gateway = new WC_Gateway_Authnet();
 
-				if ( $gateway->capture_on_status_change && $charge && $captured == 'no' ) {
+				if ( apply_filters( 'wc_authnet_capture_on_status_change', $gateway->capture_on_status_change, $order, $status_transition ) && $charge && $captured == 'no' ) {
 
 					WC_Authnet_API::log( "Info: Beginning capture payment for order {$order_id} for the amount of {$order->get_total()}" );
 
@@ -484,15 +486,15 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 						if ( ! $gateway->capture && $order->get_meta( '_authnet_fds_hold' ) == 'yes' ) {
 							$order->update_meta_data( '_authnet_fds_hold', 'no' );
 							$order->save();
-							self::capture_payment( $order_id );
+							self::capture_payment( $order_id, $order, $status_transition );
 
 							return;
 						}
 
 						// Process valid response.
-						$complete_message = sprintf( __( 'Authorize.Net charge complete (Charge ID: %s)', 'wc-authnet' ), $trx_response['transId'] );
+						$complete_message = sprintf( __( 'Authorize.Net charge captured for %s (Charge ID: %s).', 'wc-authnet' ), wc_price( $args['transactionRequest']['amount'], array( 'currency' => $args['transactionRequest']['currencyCode'] ) ), $trx_response['transId'] );
 						$order->add_order_note( $complete_message );
-						WC_Authnet_API::log( 'Success: ' . $complete_message );
+						WC_Authnet_API::log( 'Success: ' . wp_strip_all_tags( $complete_message ) );
 
 						$order->update_meta_data( '_authnet_charge_captured', 'yes' );
 						$order->update_meta_data( 'Authorize.Net Payment ID', $trx_response['transId'] );
@@ -539,7 +541,7 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 					} else {
 						$trx_response   = $response['transactionResponse'];
 
-						$cancel_message = sprintf( __( 'Authorize.Net charge refunded (Charge ID: %s)', 'wc-authnet' ), $trx_response['transId'] );
+						$cancel_message = sprintf( __( 'Authorize.Net charge refunded (Charge ID: %s).', 'wc-authnet' ), $trx_response['transId'] );
 						$order->add_order_note( $cancel_message );
 						WC_Authnet_API::log( 'Success: ' . $cancel_message );
 
@@ -557,8 +559,10 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 		 * Capture payment when the order is changed from on-hold to complete or processing for AIM
 		 *
 		 * @param int $order_id
+		 * @param $order
+		 * @param $status_transition
 		 */
-		public function capture_payment_aim( $order_id ) {
+		public function capture_payment_aim( $order_id, $order, $status_transition ) {
 
 			$order = wc_get_order( $order_id );
 
@@ -566,9 +570,9 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 				$charge   = $order->get_meta( '_authnet_charge_id' );
 				$captured = $order->get_meta( '_authnet_charge_captured' );
 
-				if ( $charge && $captured == 'no' ) {
+				$gateway = new WC_Gateway_Authnet();
 
-					$gateway = new WC_Gateway_Authnet();
+				if ( apply_filters( 'wc_authnet_capture_on_status_change', $gateway->capture_on_status_change, $order, $status_transition ) && $charge && $captured == 'no' ) {
 
 					$gateway->log( "Info: Beginning capture payment for order {$order_id} for the amount of {$order->get_total()}" );
 
@@ -578,9 +582,10 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 					}
 
 					$args = array(
-						'x_amount'   => $order_total,
-						'x_trans_id' => $order->get_transaction_id(),
-						'x_type'     => 'PRIOR_AUTH_CAPTURE',
+						'x_amount'	 	  => $order_total,
+						'x_trans_id' 	  => $order->get_transaction_id(),
+						'x_type' 	 	  => 'PRIOR_AUTH_CAPTURE',
+						'x_currency_code' => $gateway->get_payment_currency( $order_id ),
 					);
 					$args = apply_filters( 'wc_authnet_capture_payment_request_args', $args, $order );
 
@@ -598,13 +603,13 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 						if ( ! $gateway->capture && $order->get_meta( '_authnet_fds_hold' ) == 'yes' ) {
 							$order->update_meta_data( '_authnet_fds_hold', 'no' );
 							$order->save();
-							self::capture_payment_aim( $order_id );
+							self::capture_payment_aim( $order_id, $order, $status_transition );
 							return;
 						}
 
-						$complete_message = sprintf( __( "Authorize.Net charge complete (Charge ID: %s)", 'wc-authnet' ), $response['transaction_id'] );
+						$complete_message = sprintf( __( 'Authorize.Net charge captured for %s (Charge ID: %s).', 'wc-authnet' ), wc_price( $args['x_amount'], array( 'currency' => $args['x_currency_code'] ) ), $response['transaction_id'] );
 						$order->add_order_note( $complete_message );
-						$gateway->log( "Success: {$complete_message}" );
+						$gateway->log( 'Success: ' . wp_strip_all_tags( $complete_message ) );
 
 						$order->update_meta_data( '_authnet_charge_captured', 'yes' );
 						$order->update_meta_data( 'Authorize.Net Payment ID', $response['transaction_id'] );
@@ -649,9 +654,9 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 						$order->update_meta_data( '_authnet_void', 'failed' );
 						$order->add_order_note( __( 'Unable to refund charge!', 'wc-authnet' ) . ' ' . $response->get_error_message() );
 					} else {
-						$cancel_message = sprintf( __( "Authorize.Net charge refunded (Charge ID: %s)", 'wc-authnet' ), $response['transaction_id'] );
+						$cancel_message = sprintf( __( "Authorize.Net charge refunded (Charge ID: %s).", 'wc-authnet' ), $response['transaction_id'] );
 						$order->add_order_note( $cancel_message );
-						$gateway->log( "Success: {$cancel_message}" );
+						$gateway->log( "Success: $cancel_message" );
 
 						$order->delete_meta_data( '_authnet_charge_captured' );
 						$order->delete_meta_data( '_authnet_charge_id' );
