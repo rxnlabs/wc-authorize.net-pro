@@ -9,14 +9,23 @@ class WC_Authnet_Privacy extends WC_Abstract_Privacy {
     /**
      * Constructor
      */
-    public function __construct() {
-        parent::__construct( __( 'Authorize.Net', 'wc-authnet' ) );
+	public function __construct() {
+		parent::__construct();
 
-        $this->add_exporter( 'wc-authnet-order-data', __( 'WooCommerce Authorize.Net Order Data', 'wc-authnet' ), array( $this, 'order_data_exporter' ) );
-        $this->add_eraser( 'wc-authnet-order-data', __( 'WooCommerce Authorize.Net Data', 'wc-authnet' ), array( $this, 'order_data_eraser' ) );
-
+		// Initialize data exporters and erasers.
+		add_action( 'init', array( $this, 'register_erasers_exporters' ) );
 		add_filter( 'woocommerce_get_settings_account', array( $this, 'account_settings' ) );
-    }
+	}
+
+	/**
+	 * Initial registration of privacy erasers and exporters.
+	 */
+	public function register_erasers_exporters() {
+		$this->name = __( 'Authorize.Net', 'wc-authnet' );
+
+		$this->add_exporter( 'wc-authnet-order-data', __( 'WooCommerce Authorize.Net Order Data', 'wc-authnet' ), array( $this, 'order_data_exporter' ) );
+		$this->add_eraser( 'wc-authnet-order-data', __( 'WooCommerce Authorize.Net Data', 'wc-authnet' ), array( $this, 'order_data_eraser' ) );
+	}
 
     /**
      * Add retention settings to account tab.
@@ -182,31 +191,31 @@ class WC_Authnet_Privacy extends WC_Abstract_Privacy {
         $is_expired = false;
         $time_span 	= time() - strtotime( $created_date );
 
-        if ( empty( $retention ) || empty( $created_date ) ) {
+        if ( empty( $retention['number'] ) || empty( $created_date ) ) {
             return false;
         }
 
         switch ( $retention['unit'] ) {
             case 'days':
-                $retention = $retention['number'] * DAY_IN_SECONDS;
+                $retention = (int) $retention['number'] * DAY_IN_SECONDS;
                 if ( $time_span > $retention ) {
                     $is_expired = true;
                 }
                 break;
             case 'weeks':
-                $retention = $retention['number'] * WEEK_IN_SECONDS;
+                $retention = (int) $retention['number'] * WEEK_IN_SECONDS;
                 if ( $time_span > $retention ) {
                     $is_expired = true;
                 }
                 break;
             case 'months':
-                $retention = $retention['number'] * MONTH_IN_SECONDS;
+                $retention = (int) $retention['number'] * MONTH_IN_SECONDS;
                 if ( $time_span > $retention ) {
                     $is_expired = true;
                 }
                 break;
             case 'years':
-                $retention = $retention['number'] * YEAR_IN_SECONDS;
+                $retention = (int) $retention['number'] * YEAR_IN_SECONDS;
                 if ( $time_span > $retention ) {
                     $is_expired = true;
                 }

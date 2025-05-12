@@ -594,7 +594,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 					throw new Exception( $response->get_error_message() );
 				}
 				// Process valid response.
-				$this->process_response( $response['transactionResponse'], $order );
+				$this->process_response( $response['transactionResponse'], $order, $payment_args['transactionRequest'] );
 
 			} else {
 				$order->payment_complete();
@@ -643,7 +643,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 	/**
 	 * Store extra meta data for an order from an Authorize.Net Response.
 	 */
-	public function process_response( $response, $order ) {
+	public function process_response( $response, $order, $request_args ) {
 		$order_id = $order->get_id();
 
 		// Store charge data
@@ -659,9 +659,9 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 			$order->update_meta_data( 'Authorize.Net Payment ID', $response['transId'] );
 			$order->payment_complete( $response['transId'] );
 
-			$complete_message = sprintf( __( "Authorize.Net charge complete (Charge ID: %s) \n\nAVS Response: %s \n\nCVV2 Response: %s", 'wc-authnet' ), $response['transId'], self::get_avs_message( $response['avsResultCode'] ), self::get_cvv_message( $response['cvvResultCode'] ) );
+			$complete_message = trim( sprintf( __( "Authorize.Net charge completed for %s (Charge ID: %s). \n\nAVS Response: %s \n\nCVV2 Response: %s", 'wc-authnet' ), wc_price( $request_args['amount'], array( 'currency' => $request_args['currencyCode'] ) ), $response['transId'], self::get_avs_message( $response['avsResultCode'] ), self::get_cvv_message( $response['cvvResultCode'] ) ) );
 			$order->add_order_note( $complete_message );
-			WC_Authnet_API::log( 'Success: ' . $complete_message );
+			WC_Authnet_API::log( 'Success: ' . wp_strip_all_tags( $complete_message ) );
 
 		} else {
 			$order->update_meta_data( '_authnet_charge_captured', 'no' );
@@ -674,9 +674,9 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				wc_reduce_stock_levels( $order_id );
 			}
 
-			$authorized_message = sprintf( __( "Authorize.Net charge authorized (Charge ID: %s). Process order to take payment, or cancel to remove the pre-authorization.\n\nAVS Response: %s \n\nCVV2 Response: %s \n\n", 'wc-authnet' ), $response['transId'], self::get_avs_message( $response['avsResultCode'] ), self::get_cvv_message( $response['cvvResultCode'] ) );
+			$authorized_message = trim( sprintf( __( "Authorize.Net charge authorized for %s (Charge ID: %s). Process order to take payment, or cancel to remove the pre-authorization.\n\nAVS Response: %s \n\nCVV2 Response: %s \n\n", 'wc-authnet' ), wc_price( $request_args['amount'], array( 'currency' => $request_args['currencyCode'] ) ), $response['transId'], self::get_avs_message( $response['avsResultCode'] ), self::get_cvv_message( $response['cvvResultCode'] ) ) );
 			$order->update_status( 'on-hold', $authorized_message . "\n" );
-			WC_Authnet_API::log( "Success: " . $authorized_message );
+			WC_Authnet_API::log( 'Success: ' . wp_strip_all_tags( $authorized_message ) );
 		}
 
 		$order->save();
@@ -766,13 +766,13 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
 				return false;
 			} else {
-				$trx_response   = $response['transactionResponse'];
+				$trx_response = $response['transactionResponse'];
 
-				$refund_message = sprintf( __( 'Refunded %s - Refund ID: %s - Reason: %s', 'wc-authnet' ), $amount, $trx_response['transId'], $reason );
+				$refund_message = sprintf( __( 'Refunded %s - Refund ID: %s - Reason: %s', 'wc-authnet' ), wc_price( $args['transactionRequest']['amount'], array( 'currency' => $args['transactionRequest']['currencyCode'] ) ), $trx_response['transId'], $reason );
 				$order->add_order_note( $refund_message );
 				$order->save();
 
-				WC_Authnet_API::log( "Success: " . html_entity_decode( strip_tags( $refund_message ) ) );
+				WC_Authnet_API::log( 'Success: ' . wp_strip_all_tags( $refund_message ) );
 			}
 
 		}
