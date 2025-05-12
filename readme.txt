@@ -84,6 +84,7 @@ A valid SSL certificate is required to ensure your customer credit card details 
 * Fixed PHP notice on loading translation
 * Fixed issue with data erasure
 * Added filter for capturing on order status change
+* Updated Freemius SDK to 2.12.0
 * Updated "WC tested up to" header to 9.8
 * Updated compatibility info to WordPress 6.8
 
