@@ -239,13 +239,23 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 			$free_api_method = WC_Authnet_API::get_free_api_method();
 
 			if ( $free_api_method == 'aim' ) {
-				add_action( 'woocommerce_order_status_processing', array( $this, 'capture_payment_aim' ), 10, 3 );
-				add_action( 'woocommerce_order_status_completed', array( $this, 'capture_payment_aim' ), 10, 3 );
+				if( version_compare( WC_VERSION, '8.4.0', '<' ) ) {
+					add_action( 'woocommerce_order_status_processing', array( $this, 'capture_payment_aim' ), 10, 2 );
+					add_action( 'woocommerce_order_status_completed', array( $this, 'capture_payment_aim' ), 10, 2 );
+				} else {
+					add_action( 'woocommerce_order_status_processing', array( $this, 'capture_payment_aim' ), 10, 3 );
+					add_action( 'woocommerce_order_status_completed', array( $this, 'capture_payment_aim' ), 10, 3 );
+				}
 				add_action( 'woocommerce_order_status_cancelled', array( $this, 'cancel_payment_aim' ) );
 				add_action( 'woocommerce_order_status_refunded', array( $this, 'cancel_payment_aim' ) );
 			} else {
-				add_action( 'woocommerce_order_status_processing', array( $this, 'capture_payment' ), 10, 3 );
-				add_action( 'woocommerce_order_status_completed', array( $this, 'capture_payment' ), 10, 3 );
+				if( version_compare( WC_VERSION, '8.4.0', '<' ) ) {
+					add_action( 'woocommerce_order_status_processing', array( $this, 'capture_payment' ), 10, 2 );
+					add_action( 'woocommerce_order_status_completed', array( $this, 'capture_payment' ), 10, 2 );
+				} else {
+					add_action( 'woocommerce_order_status_processing', array( $this, 'capture_payment' ), 10, 3 );
+					add_action( 'woocommerce_order_status_completed', array( $this, 'capture_payment' ), 10, 3 );
+				}
 				add_action( 'woocommerce_order_status_cancelled', array( $this, 'cancel_payment' ) );
 				add_action( 'woocommerce_order_status_refunded', array( $this, 'cancel_payment' ) );
 			}
@@ -439,9 +449,7 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 		 * @param $order
 		 * @param $status_transition
 		 */
-		public function capture_payment( $order_id, $order, $status_transition ) {
-
-			$order = wc_get_order( $order_id );
+		public function capture_payment( $order_id, $order, $status_transition = array() ) {
 
 			if ( $order->get_payment_method() == 'authnet' ) {
 				$charge   = $order->get_meta( '_authnet_charge_id' );
@@ -562,9 +570,7 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 		 * @param $order
 		 * @param $status_transition
 		 */
-		public function capture_payment_aim( $order_id, $order, $status_transition ) {
-
-			$order = wc_get_order( $order_id );
+		public function capture_payment_aim( $order_id, $order, $status_transition = array() ) {
 
 			if ( $order->get_payment_method() == 'authnet' ) {
 				$charge   = $order->get_meta( '_authnet_charge_id' );
