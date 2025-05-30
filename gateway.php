@@ -3,13 +3,13 @@
 Plugin Name: WooCommerce Authorize.Net Gateway
 Plugin URI: https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
 Description: A payment gateway for Authorize.Net. An Authorize.Net account and a server with cURL, SSL support, and a valid SSL certificate is required (for security reasons) for this gateway to function. Requires WC 3.3+
-Version: 6.1.16
+Version: 6.1.17
 Author: Pledged Plugins
 Author URI: https://pledgedplugins.com
 Text Domain: wc-authnet
 Domain Path: /languages
 WC requires at least: 3.3
-WC tested up to: 9.8
+WC tested up to: 9.9
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires Plugins: woocommerce
@@ -64,7 +64,7 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 		do_action( 'wc_authnet_fs_loaded' );
 	}
 
-	define( 'WC_AUTHNET_VERSION', '6.1.16' );
+	define( 'WC_AUTHNET_VERSION', '6.1.17' );
 	define( 'WC_AUTHNET_MIN_PHP_VER', '5.6.0' );
 	define( 'WC_AUTHNET_MIN_WC_VER', '3.3' );
 	define( 'WC_AUTHNET_PLUGIN_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
@@ -239,13 +239,23 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 			$free_api_method = WC_Authnet_API::get_free_api_method();
 
 			if ( $free_api_method == 'aim' ) {
-				add_action( 'woocommerce_order_status_processing', array( $this, 'capture_payment_aim' ), 10, 3 );
-				add_action( 'woocommerce_order_status_completed', array( $this, 'capture_payment_aim' ), 10, 3 );
+				if( version_compare( WC_VERSION, '8.4.0', '<' ) ) {
+					add_action( 'woocommerce_order_status_processing', array( $this, 'capture_payment_aim' ), 10, 2 );
+					add_action( 'woocommerce_order_status_completed', array( $this, 'capture_payment_aim' ), 10, 2 );
+				} else {
+					add_action( 'woocommerce_order_status_processing', array( $this, 'capture_payment_aim' ), 10, 3 );
+					add_action( 'woocommerce_order_status_completed', array( $this, 'capture_payment_aim' ), 10, 3 );
+				}
 				add_action( 'woocommerce_order_status_cancelled', array( $this, 'cancel_payment_aim' ) );
 				add_action( 'woocommerce_order_status_refunded', array( $this, 'cancel_payment_aim' ) );
 			} else {
-				add_action( 'woocommerce_order_status_processing', array( $this, 'capture_payment' ), 10, 3 );
-				add_action( 'woocommerce_order_status_completed', array( $this, 'capture_payment' ), 10, 3 );
+				if( version_compare( WC_VERSION, '8.4.0', '<' ) ) {
+					add_action( 'woocommerce_order_status_processing', array( $this, 'capture_payment' ), 10, 2 );
+					add_action( 'woocommerce_order_status_completed', array( $this, 'capture_payment' ), 10, 2 );
+				} else {
+					add_action( 'woocommerce_order_status_processing', array( $this, 'capture_payment' ), 10, 3 );
+					add_action( 'woocommerce_order_status_completed', array( $this, 'capture_payment' ), 10, 3 );
+				}
 				add_action( 'woocommerce_order_status_cancelled', array( $this, 'cancel_payment' ) );
 				add_action( 'woocommerce_order_status_refunded', array( $this, 'cancel_payment' ) );
 			}
@@ -439,9 +449,7 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 		 * @param $order
 		 * @param $status_transition
 		 */
-		public function capture_payment( $order_id, $order, $status_transition ) {
-
-			$order = wc_get_order( $order_id );
+		public function capture_payment( $order_id, $order, $status_transition = array() ) {
 
 			if ( $order->get_payment_method() == 'authnet' ) {
 				$charge   = $order->get_meta( '_authnet_charge_id' );
@@ -562,9 +570,7 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 		 * @param $order
 		 * @param $status_transition
 		 */
-		public function capture_payment_aim( $order_id, $order, $status_transition ) {
-
-			$order = wc_get_order( $order_id );
+		public function capture_payment_aim( $order_id, $order, $status_transition = array() ) {
 
 			if ( $order->get_payment_method() == 'authnet' ) {
 				$charge   = $order->get_meta( '_authnet_charge_id' );

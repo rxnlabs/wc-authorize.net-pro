@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce Authorize.Net Gateway\n"
-"POT-Creation-Date: 2025-05-08 19:28+0530\n"
-"PO-Revision-Date: 2025-05-08 19:27+0530\n"
+"POT-Creation-Date: 2025-05-30 15:12+0530\n"
+"PO-Revision-Date: 2025-05-30 15:12+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -129,36 +129,36 @@ msgstr ""
 msgid "About"
 msgstr ""
 
-#: gateway.php:292
+#: gateway.php:302
 #, php-format
 msgid ""
 "Authorize.Net is almost ready. To get started, <a href=\"%s\">set your "
 "Authorize.Net account keys</a>."
 msgstr ""
 
-#: gateway.php:338
+#: gateway.php:348
 #, php-format
 msgid ""
 "WooCommerce Authorize.Net - The minimum PHP version required for this plugin "
 "is %1$s. You are running %2$s."
 msgstr ""
 
-#: gateway.php:344
+#: gateway.php:354
 msgid "WooCommerce Authorize.Net requires WooCommerce to be activated to work."
 msgstr ""
 
-#: gateway.php:348
+#: gateway.php:358
 #, php-format
 msgid ""
 "WooCommerce Authorize.Net - The minimum WooCommerce version required for "
 "this plugin is %1$s. You are running %2$s."
 msgstr ""
 
-#: gateway.php:354
+#: gateway.php:364
 msgid "WooCommerce Authorize.Net - cURL is not installed."
 msgstr ""
 
-#: gateway.php:377
+#: gateway.php:387
 msgid ""
 "To process subscription payments using Authorize.Net you will need the <a "
 "target=\"_blank\" href=\"https://woocommerce.com/products/woocommerce-"
@@ -167,11 +167,11 @@ msgid ""
 "subscriptions or will install WooCommerce Subscriptions later."
 msgstr ""
 
-#: gateway.php:383
+#: gateway.php:393
 msgid "<h3>WooCommerce Subscriptions Not Detected!</h3>"
 msgstr ""
 
-#: gateway.php:477 gateway.php:596
+#: gateway.php:485 gateway.php:602
 #, php-format
 msgid ""
 "<strong>Unable to capture charge!</strong> Please <strong>DO NOT FULFIL THE "
@@ -183,7 +183,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: gateway.php:479 gateway.php:598
+#: gateway.php:487 gateway.php:604
 #, php-format
 msgid ""
 "<strong>Unable to capture charge!</strong> The order status is set to "
@@ -197,16 +197,16 @@ msgid ""
 "\n"
 msgstr ""
 
-#: gateway.php:495 gateway.php:610
+#: gateway.php:503 gateway.php:616
 #, php-format
 msgid "Authorize.Net charge captured for %s (Charge ID: %s)."
 msgstr ""
 
-#: gateway.php:540 gateway.php:655
+#: gateway.php:548 gateway.php:661
 msgid "Unable to refund charge!"
 msgstr ""
 
-#: gateway.php:544 gateway.php:657
+#: gateway.php:552 gateway.php:663
 #, php-format
 msgid "Authorize.Net charge refunded (Charge ID: %s)."
 msgstr ""
