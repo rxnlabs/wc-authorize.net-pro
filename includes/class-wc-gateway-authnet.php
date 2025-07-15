@@ -446,7 +446,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				$line_item['unitPrice']   = ( isset( $item['recurring_line_total'] ) ? $item['recurring_line_total'] : $order->get_item_total( $item ) );
 				$line_item['taxable']     = $product->is_taxable();
 				$line_items_values['lineItem'][] = $line_item;
-				if ( count( $line_items_values ) >= 30 ) {
+				if ( count( $line_items_values['lineItem'] ) >= 30 ) {
 					break;
 				}
 			}
