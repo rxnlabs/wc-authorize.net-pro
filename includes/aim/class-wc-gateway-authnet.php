@@ -386,7 +386,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
 					$line_items_values[] = $line_item;
 
-					if ( count( $line_items_values['lineItem'] ) >= 30 ) {
+					if ( count( $line_items_values ) >= 30 ) {
 						break;
 					}
 				}
