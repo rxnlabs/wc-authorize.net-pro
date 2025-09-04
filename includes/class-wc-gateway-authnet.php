@@ -38,7 +38,12 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		$this->has_fields         = true;
 
 		$this->method_description .= '<h3>' . __( 'Upgrade to Enterprise', 'wc-authnet' ) . '</h3>' . sprintf( __( 'Enterprise version is a full blown plugin that provides support for <strong>processing subscriptions, pre-orders, one click upsells and payment via saved cards or bank accounts</strong>. Some of these functionalities require <strong>other premium plugins</strong> that are mentioned on the page linked below. No card details or other sensitive data is stored on your site.<br/><br/><a href="%s" target="_blank">Click here</a> to upgrade to Enterprise version or to know more about it.', 'wc-authnet' ), wc_authnet_fs()->get_upgrade_url() );
-		$this->supports           = array( 'products', 'refunds' );
+		$this->supports           = array(
+			'products',
+			'refunds',
+			'wcapgp_apple_pay',
+			'wcapgp_google_pay',
+		);
 
 		// Load the form fields
 		$this->init_form_fields();
@@ -539,6 +544,18 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 			}
 
 			$new_source = $authnet_source_args['source_type'] = 'card';
+		} elseif( isset( $_POST['wcapgp_google_pay_payment_data'] ) ) {
+			$authnet_source_args = array(
+				'nonce' 	 => wc_clean( $_POST['wcapgp_google_pay_payment_data'] ),
+				'descriptor' => 'COMMON.GOOGLE.INAPP.PAYMENT',
+			);
+			$new_source = $authnet_source_args['source_type'] = 'nonce';
+		} elseif( isset( $_POST['wcapgp_apple_pay_payment_data'] ) ) {
+			$authnet_source_args = array(
+				'nonce' 	 => wc_clean( $_POST['wcapgp_apple_pay_payment_data'] ),
+				'descriptor' => 'COMMON.APPLE.INAPP.PAYMENT',
+			);
+			$new_source = $authnet_source_args['source_type'] = 'nonce';
 		}
 
 		if ( isset( $new_source ) ) {
@@ -1006,6 +1023,12 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 			unset( $name_array[6] );
 		}
 		return admin_url( 'admin.php?page=wc-status&tab=logs&view=single_file&file_id=' . implode( '-', $name_array ) );
+	}
+
+	public function get_params_google_pay() {
+		return apply_filters( 'wc_authnet_params_google_pay', array(
+			'gateway' => 'authorizenet'
+		) );
 	}
 
 }
