@@ -3,13 +3,13 @@
 Plugin Name: WooCommerce Authorize.Net Gateway
 Plugin URI: https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
 Description: A payment gateway for Authorize.Net. An Authorize.Net account and a server with cURL, SSL support, and a valid SSL certificate is required (for security reasons) for this gateway to function. Requires WC 3.3+
-Version: 6.1.20
+Version: 6.1.21
 Author: Pledged Plugins
 Author URI: https://pledgedplugins.com
 Text Domain: wc-authnet
 Domain Path: /languages
 WC requires at least: 3.3
-WC tested up to: 10.1
+WC tested up to: 10.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires Plugins: woocommerce
@@ -64,7 +64,7 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 		do_action( 'wc_authnet_fs_loaded' );
 	}
 
-	define( 'WC_AUTHNET_VERSION', '6.1.20' );
+	define( 'WC_AUTHNET_VERSION', '6.1.21' );
 	define( 'WC_AUTHNET_MIN_PHP_VER', '5.6.0' );
 	define( 'WC_AUTHNET_MIN_WC_VER', '3.3' );
 	define( 'WC_AUTHNET_PLUGIN_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
@@ -525,10 +525,10 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 			$order = wc_get_order( $order_id );
 
 			if ( $order->get_payment_method() == 'authnet' ) {
-				$charge          = $order->get_meta( '_authnet_charge_id' );
+				$charge   		 = $order->get_meta( '_authnet_charge_id' ) ? $order->get_meta( '_authnet_charge_id' ) : $order->get_transaction_id();
 				$charge_captured = $order->get_meta( '_authnet_charge_captured' );
 
-				if ( $charge && $charge_captured == 'no' ) {
+				if ( $charge && $charge_captured != 'yes' ) {
 
 					WC_Authnet_API::log( "Info: Beginning cancel payment for order {$order_id} for the amount of {$order->get_total()}" );
 
@@ -638,10 +638,10 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 			$order = wc_get_order( $order_id );
 
 			if ( $order->get_payment_method() == 'authnet' ) {
-				$charge          = $order->get_meta( '_authnet_charge_id' );
+				$charge   		 = $order->get_meta( '_authnet_charge_id' ) ? $order->get_meta( '_authnet_charge_id' ) : $order->get_transaction_id();
 				$charge_captured = $order->get_meta( '_authnet_charge_captured' );
 
-				if ( $charge && $charge_captured == 'no' ) {
+				if ( $charge && $charge_captured != 'yes' ) {
 
 					$gateway = new WC_Gateway_Authnet();
 
