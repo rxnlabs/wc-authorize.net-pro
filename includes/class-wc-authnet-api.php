@@ -189,8 +189,13 @@ class WC_Authnet_API {
 		);
 		$response = wp_remote_post( $request_url, $args );
 
-		$response = preg_replace( '/[\x00-\x1F\x80-\xFF]/', '', wp_remote_retrieve_body( $response ) );
-		$result   = is_wp_error( $response ) ? $response : json_decode( wc_clean( wp_unslash( $response ) ), true );
+		if( ! is_wp_error( $response ) ) {
+			$response = preg_replace( '/[\x00-\x1F\x80-\xFF]/', '', wp_remote_retrieve_body( $response ) );
+			$result   = json_decode( wc_clean( wp_unslash( $response ) ), true );
+		} else {
+			$result = $response;
+		}
+
 		if( empty( $result ) ) {
 			self::log( "Empty Response. Trying without the wp_unslash." );
 			$result   = json_decode( wc_clean( $response ), true );
@@ -210,7 +215,9 @@ class WC_Authnet_API {
 			return new WP_Error( 'cannot_connect', __( 'Unable to process request.', 'wc-authnet' ) );
 		}
 
-		if ( ! empty( $result['transactionResponse']['errors'] ) ) {
+		if ( is_wp_error( $result ) ) {
+			return $result;
+		} elseif ( ! empty( $result['transactionResponse']['errors'] ) ) {
 			$error_messages = $result['transactionResponse']['errors'];
 			return new WP_Error( $error_messages[0]['errorCode'], apply_filters( 'wc_authnet_error_message', $error_messages[0]['errorText'], $error_messages ), $result['transactionResponse'] );
 		} elseif ( $result['messages']['resultCode'] != "Ok" ) {
