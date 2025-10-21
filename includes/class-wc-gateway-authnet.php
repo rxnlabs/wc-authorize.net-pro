@@ -320,7 +320,12 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
 		$js_url = ( $this->testmode ? self::ACCEPT_JS_URL_TEST : self::ACCEPT_JS_URL_LIVE );
 		wp_enqueue_script( 'authnet-accept', $js_url, '', null, true );
-		wp_enqueue_script( 'woocommerce_authnet', plugins_url( 'assets/js/authnet.js', WC_AUTHNET_MAIN_FILE ), array( 'jquery-payment', 'authnet-accept' ), WC_AUTHNET_VERSION, true );
+
+		if( version_compare( WC_VERSION, '10.3', '<' ) ) {
+			wp_enqueue_script( 'woocommerce_authnet', plugins_url( 'assets/js/authnet.js', WC_AUTHNET_MAIN_FILE ), array( 'jquery-payment', 'authnet-accept' ), WC_AUTHNET_VERSION, true );
+		} else {
+			wp_enqueue_script( 'woocommerce_authnet', plugins_url( 'assets/js/authnet.js', WC_AUTHNET_MAIN_FILE ), array( 'wc-jquery-payment', 'authnet-accept' ), WC_AUTHNET_VERSION, true );
+		}
 
 		wp_localize_script( 'woocommerce_authnet', 'wc_authnet_params', apply_filters( 'wc_authnet_params', $this->javascript_params() ) );
 	}
