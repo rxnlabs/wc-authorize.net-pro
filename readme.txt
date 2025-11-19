@@ -1,7 +1,7 @@
-=== Authorize.Net Payment Gateway For WooCommerce ===
+=== Pledged Plugins Secure Gateway for Authorize.net and WooCommerce ===
 Contributors: mohsinoffline, freemius
 Donate link: https://wpgateways.com/support/send-payment/
-Tags: Authorize.Net, payment gateway, woocommerce, pci, subscriptions
+Tags: Authorize.net, payment gateway, woocommerce, pci, subscriptions
 Plugin URI: https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
 Author URI: https://pledgedplugins.com
 Requires at least: 4.4
@@ -11,21 +11,21 @@ Stable tag: 6.1.23
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Authorize.Net payment gateway integration for WooCommerce to accept credit cards directly on WordPress e-commerce websites.
+Authorize.net payment gateway integration for WooCommerce to accept credit cards directly on WordPress e-commerce websites.
 
 == Description ==
 
-[Authorize.Net](https://www.authorize.net/) Payment Gateway for [WooCommerce](https://woocommerce.com/) allows you to accept credit cards payments into your Authorize.Net merchant account from all over the world on your websites.
+[Authorize.net](https://www.authorize.net/) Payment Gateway for [WooCommerce](https://woocommerce.com/) allows you to accept credit cards payments into your Authorize.net merchant account from all over the world on your websites.
 
 WooCommerce is one of the oldest and most powerful e-commerce solutions for WordPress. This platform is very widely supported in the WordPress community which makes it easy for even an entry level e-commerce entrepreneur to learn to use and modify.
 
 #### FREE Pro Version Features
 * **Easy Install**: Like all Pledged Plugins add-ons, this plugin installs with one click. After installing, you will have only a few fields to fill out before you are ready to accept credit cards on your store.
-* **Secure Credit Card Processing**: Uses [Accept.js](https://developer.authorize.net/api/reference/features/acceptjs.html) library to send secure payment data directly to Authorize.Net to reduce the PCI scope.
-* **Refund via Dashboard**: Process full or partial refunds, directly from your WordPress dashboard! No need to search order in your Authorize.Net account.
+* **Secure Credit Card Processing**: Uses [Accept.js](https://developer.authorize.net/api/reference/features/acceptjs.html) library to send secure payment data directly to Authorize.net to reduce the PCI scope.
+* **Refund via Dashboard**: Process full or partial refunds, directly from your WordPress dashboard! No need to search order in your Authorize.net account.
 * **Authorize Now, Capture Later**: Optionally choose only to authorize transactions, and capture at a later date.
 * **Restrict Card Types**: Optionally choose to restrict certain card types and the plugin will hide its icon and provide a proper error message on checkout.
-* **Gateway Receipts**: Optionally choose to send receipts from your Authorize.Net merchant account.
+* **Gateway Receipts**: Optionally choose to send receipts from your Authorize.net merchant account.
 * **Logging**: Enable logging so you can debug issues that arise if any.
 
 > #### Enterprise Version Features
@@ -38,7 +38,7 @@ WooCommerce is one of the oldest and most powerful e-commerce solutions for Word
 > [Click here](https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/) for Pricing details.
 
 #### Requirements
-* Active  [Authorize.Net](https://www.authorize.net/)  account – Sign up for a sandbox account  [here](https://developer.authorize.net/hello_world/sandbox.html)  if you need to test.
+* Active  [Authorize.net](https://www.authorize.net/)  account – Sign up for a sandbox account  [here](https://developer.authorize.net/hello_world/sandbox.html)  if you need to test.
 * [**WooCommerce**](https://woocommerce.com/)  version 3.3 or later.
 * A valid SSL certificate is required to ensure your customer credit card details are safe and make your site PCI DSS compliant. This plugin does not store the customer credit card numbers or sensitive information on your website.
 #### Extend, Contribute, Integrate
@@ -47,31 +47,31 @@ Visit the [plugin page](https://pledgedplugins.com/products/authorize-net-paymen
 For custom payment gateway integration with your WordPress website, please [contact us here](https://wpgateways.com/support/custom-payment-gateway-integration/).
 
 #### Disclaimer
-This plugin is not affiliated with or supported by Authorize.Net, WooCommerce.com or Automattic. All logos and trademarks are the property of their respective owners.
+This plugin is not affiliated with or supported by Authorize.net, WooCommerce.com or Automattic. All logos and trademarks are the property of their respective owners.
 
 == Installation ==
 
 1. Upload `woo-authorize-net-gateway-aim` folder/directory to the `/wp-content/plugins/` directory.
 2. Activate the plugin (WordPress -> Plugins).
 3. Go to the WooCommerce settings page (WordPress -> WooCommerce -> Settings) and select the Payments tab.
-4. Under the Payments tab, you will find all the available payment methods. Find the 'Authorize.Net' link in the list and click it.
+4. Under the Payments tab, you will find all the available payment methods. Find the 'Authorize.net' link in the list and click it.
 5. On this page you will find all the configuration options for this payment gateway.
 6. Enable the method by using the checkbox.
-7. Enter the Authorize.Net account details (API Login ID, Transaction Key and Public Client Key).
+7. Enter the Authorize.net account details (API Login ID, Transaction Key and Public Client Key).
 
-**IMPORTANT:** Live merchant accounts cannot be used in a sandbox environment, so to test the plugin, please make sure you are using a separate sandbox account. If you do not have a sandbox account, you can sign up for one from <https://developer.authorize.net/hello_world/sandbox.html>. Check the Authorize.Net testing guide from <https://developer.authorize.net/hello_world/testing_guide/> to generate various test scenarios before going live.
+**IMPORTANT:** Live merchant accounts cannot be used in a sandbox environment, so to test the plugin, please make sure you are using a separate sandbox account. If you do not have a sandbox account, you can sign up for one from <https://developer.authorize.net/hello_world/sandbox.html>. Check the Authorize.net testing guide from <https://developer.authorize.net/hello_world/testing_guide/> to generate various test scenarios before going live.
 
-That's it! You are ready to accept credit cards with your Authorize.Net merchant account now connected to WooCommerce.
+That's it! You are ready to accept credit cards with your Authorize.net merchant account now connected to WooCommerce.
 
 == Frequently Asked Questions ==
 
 = Which API method does this plugin use? =
-Since version 6.0.0, the plugin uses the latest Authorize.Net  [Payment Transactions API](https://developer.authorize.net/api/reference/features/payment_transactions.html) along with [Accept.js](https://developer.authorize.net/api/reference/features/acceptjs.html) integration to provide maximum security to your transactions.
+Since version 6.0.0, the plugin uses the latest Authorize.net  [Payment Transactions API](https://developer.authorize.net/api/reference/features/payment_transactions.html) along with [Accept.js](https://developer.authorize.net/api/reference/features/acceptjs.html) integration to provide maximum security to your transactions.
 
-= Does this plugin support Authorize.Net AIM Emulation? =
-Unfortunately, the [Authorize.Net emulation method is deprecated](https://developer.authorize.net/api/upgrade_guide/#aim), and will soon be phased out. If you are using another merchant account provider that supports Authorize.Net AIM emulator, we would advise you to use its native API instead of emulation and chances are that *we already have* a **[WooCommerce integration](https://pledgedplugins.com/product-category/woocommerce/)** available for it.
+= Does this plugin support Authorize.net AIM Emulation? =
+Unfortunately, the [Authorize.net emulation method is deprecated](https://developer.authorize.net/api/upgrade_guide/#aim), and will soon be phased out. If you are using another merchant account provider that supports Authorize.net AIM emulator, we would advise you to use its native API instead of emulation and chances are that *we already have* a **[WooCommerce integration](https://pledgedplugins.com/product-category/woocommerce/)** available for it.
 
-= I **still** need to use Authorize.Net AIM Emulation? =
+= I **still** need to use Authorize.net AIM Emulation? =
 You are in luck! The free version of the plugin has an option to use the AIM integration.
 
 = Is SSL Required to use this plugin? =
@@ -245,7 +245,7 @@ A valid SSL certificate is required to ensure your customer credit card details 
 = 5.2.0 =
 * Updated "WC tested up to" header to 6.5
 * Added AVS and CVV responses to order notes
-* Fixed capture payments that are put on hold by Authorize.Net fraud filters
+* Fixed capture payments that are put on hold by Authorize.net fraud filters
 * Shown error while processing transaction with non ecommerce merchant account
 * Saved "authorization_code" from transaction response to order meta
 * General code clean up
@@ -326,7 +326,7 @@ A valid SSL certificate is required to ensure your customer credit card details 
 * Sanitized user input in POST variable
 
 = 5.1.11 =
-* Added filters for Authorize.Net request parameters and transaction POST URL
+* Added filters for Authorize.net request parameters and transaction POST URL
 
 = 5.1.10 =
 * Updated "WC tested up to" header to 4.0
@@ -364,8 +364,8 @@ A valid SSL certificate is required to ensure your customer credit card details 
 * Sanitized line items to prevent invalid characters
 
 = 5.1.0 - MAJOR UPDATE =
-* Reverted back to Authorize.Net AIM code
-* Removed the use of Authorize.Net SDK since it is not GPL licensed
+* Reverted back to Authorize.net AIM code
+* Removed the use of Authorize.net SDK since it is not GPL licensed
 
 = 5.0.3 =
 * Fixed long item names in line items throwing an error
@@ -379,8 +379,8 @@ A valid SSL certificate is required to ensure your customer credit card details 
 * Replaced deprecated function "reduce_order_stock" with "wc_reduce_stock_levels"
 
 = 5.0.0 - MAJOR UPDATE =
-* Updated transaction methods to Payment Transactions API and implemented Authorize.Net SDK
-* Removed Authorize.Net AIM code
+* Updated transaction methods to Payment Transactions API and implemented Authorize.net SDK
+* Removed Authorize.net AIM code
 * Added Freemius integration for analytics, upgrade and support
 
 = 4.0.4 =

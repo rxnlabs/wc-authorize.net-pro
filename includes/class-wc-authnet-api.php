@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * WC_Authnet_API class.
  *
- * Communicates with Authorize.Net API.
+ * Communicates with Authorize.net API.
  */
 class WC_Authnet_API {
 

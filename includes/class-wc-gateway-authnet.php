@@ -33,7 +33,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 	 */
 	public function __construct() {
 		$this->id                 = 'authnet';
-		$this->method_title       = __( 'Authorize.Net', 'wc-authnet' );
+		$this->method_title       = __( 'Authorize.net', 'wc-authnet' );
 		$this->method_description = sprintf( esc_html__( 'Live merchant accounts cannot be used in a sandbox environment, so to test the plugin, please make sure you are using a separate sandbox account. If you do not have a sandbox account, you can sign up for one from %shere%s.', 'wc-authnet' ), '<a href="https://developer.authorize.net/hello_world/sandbox.html" target="_blank">', '</a>' );
 		$this->has_fields         = true;
 
@@ -71,7 +71,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
 		if ( $this->testmode ) {
 			$this->description .= "\n\n<strong>" . __( 'TEST MODE ENABLED', 'wc-authnet' ) . "</strong>\n";
-			$this->description .= sprintf( __( 'In test mode, you can use the card number 4111111111111111 with any CVC and a valid expiration date or check the %sAuthorize.Net Testing Guide%s for more card numbers and generate various test scenarios before going live.', 'wc-authnet' ), '<a href="https://developer.authorize.net/hello_world/testing_guide/" target="_blank">', '</a>' );
+			$this->description .= sprintf( __( 'In test mode, you can use the card number 4111111111111111 with any CVC and a valid expiration date or check the %sAuthorize.net Testing Guide%s for more card numbers and generate various test scenarios before going live.', 'wc-authnet' ), '<a href="https://developer.authorize.net/hello_world/testing_guide/" target="_blank">', '</a>' );
 		}
 
 		if ( $this->client_key ) {
@@ -144,7 +144,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
 		// Show message if enabled and FORCE SSL is disabled and WordpressHTTPS plugin is not detected
 		if ( ! wc_checkout_is_https() ) {
-			echo '<div class="notice notice-warning"><p>' . sprintf( __( 'Authorize.Net is enabled, but an SSL certificate is not detected. Your checkout may not be secure! Please ensure your server has a valid <a href="%1$s" target="_blank">SSL certificate</a>', 'wc-authnet' ), 'https://en.wikipedia.org/wiki/Transport_Layer_Security' ) . '</p></div>';
+			echo '<div class="notice notice-warning"><p>' . sprintf( __( 'Authorize.net is enabled, but an SSL certificate is not detected. Your checkout may not be secure! Please ensure your server has a valid <a href="%1$s" target="_blank">SSL certificate</a>', 'wc-authnet' ), 'https://en.wikipedia.org/wiki/Transport_Layer_Security' ) . '</p></div>';
 		}
 	}
 
@@ -173,7 +173,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 		$this->form_fields = apply_filters( 'wc_authnet_settings', array(
 			'enabled'              		=> array(
 				'title'       => __( 'Enable/Disable', 'wc-authnet' ),
-				'label'       => __( 'Enable Authorize.Net', 'wc-authnet' ),
+				'label'       => __( 'Enable Authorize.net', 'wc-authnet' ),
 				'type'        => 'checkbox',
 				'description' => '',
 				'default'     => 'no',
@@ -182,7 +182,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				'title'       => __( 'Title', 'wc-authnet' ),
 				'type'        => 'text',
 				'description' => __( 'This controls the title which the user sees during checkout.', 'wc-authnet' ),
-				'default'     => __( 'Credit card (Authorize.Net)', 'wc-authnet' ),
+				'default'     => __( 'Credit card (Authorize.net)', 'wc-authnet' ),
 			),
 			'description'          		=> array(
 				'title'       => __( 'Description', 'wc-authnet' ),
@@ -194,25 +194,25 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				'title'       => __( 'Sandbox mode', 'wc-authnet' ),
 				'label'       => __( 'Enable Sandbox Mode', 'wc-authnet' ),
 				'type'        => 'checkbox',
-				'description' => sprintf( esc_html__( 'Check the Authorize.Net testing guide %shere%s. This will display "sandbox mode" warning on checkout.', 'wc-authnet' ), '<a href="https://developer.authorize.net/hello_world/testing_guide/" target="_blank">', '</a>' ),
+				'description' => sprintf( esc_html__( 'Check the Authorize.net testing guide %shere%s. This will display "sandbox mode" warning on checkout.', 'wc-authnet' ), '<a href="https://developer.authorize.net/hello_world/testing_guide/" target="_blank">', '</a>' ),
 				'default'     => 'yes',
 			),
 			'login_id'             		=> array(
 				'title'       => __( 'API Login ID', 'wc-authnet' ),
 				'type'        => 'text',
-				'description' => esc_html__( 'Get it from Account → Security Settings → API Credentials & Keys page in your Authorize.Net account.', 'wc-authnet' ),
+				'description' => esc_html__( 'Get it from Account → Security Settings → API Credentials & Keys page in your Authorize.net account.', 'wc-authnet' ),
 				'default'     => '',
 			),
 			'transaction_key'      		=> array(
 				'title'       => __( 'Transaction Key', 'wc-authnet' ),
 				'type'        => 'password',
-				'description' => esc_html__( 'Get it from Account → Security Settings → API Credentials & Keys page in your Authorize.Net account. For security reasons, you cannot view your Transaction Key, but you will be able to generate a new one.', 'wc-authnet' ),
+				'description' => esc_html__( 'Get it from Account → Security Settings → API Credentials & Keys page in your Authorize.net account. For security reasons, you cannot view your Transaction Key, but you will be able to generate a new one.', 'wc-authnet' ),
 				'default'     => '',
 			),
 			'client_key'           		=> array(
 				'title'       => __( 'Public Client Key', 'wc-authnet' ),
 				'type'        => 'text',
-				'description' => esc_html__( 'Get it from Account → Security Settings → Manage Public Client Key page in your Authorize.Net account.', 'wc-authnet' ),
+				'description' => esc_html__( 'Get it from Account → Security Settings → Manage Public Client Key page in your Authorize.net account.', 'wc-authnet' ),
 				'default'     => '',
 			),
 			'statement_descriptor' 		=> array(
@@ -276,15 +276,15 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				'title'       => __( 'Receipt', 'wc-authnet' ),
 				'label'       => __( 'Send Gateway Receipt', 'wc-authnet' ),
 				'type'        => 'checkbox',
-				'description' => __( 'If enabled, the customer will be sent an email receipt from Authorize.Net.', 'wc-authnet' ),
+				'description' => __( 'If enabled, the customer will be sent an email receipt from Authorize.net.', 'wc-authnet' ),
 				'default'     => 'no',
 			),
 			'free_api_method'      		=> array(
 				'title'       => __( 'Processing API', 'wc-authnet' ),
 				'type'        => 'select',
-				'description' => __( 'Always use "Authorize.Net API" unless you are using the AIM emulator.', 'wc-authnet' ),
+				'description' => __( 'Always use "Authorize.net API" unless you are using the AIM emulator.', 'wc-authnet' ),
 				'options'     => array(
-					'api' => __( 'Authorize.Net API', 'wc-authnet' ),
+					'api' => __( 'Authorize.net API', 'wc-authnet' ),
 					'aim' => __( 'Legacy AIM', 'wc-authnet' ),
 				),
 				'default'     => 'api',
@@ -633,9 +633,9 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 			WC_Authnet_API::log( sprintf( __( 'Error: %s', 'wc-authnet' ), $e->getMessage() ) );
 
 			if ( is_wp_error( $response ) ) {
-				$message = sprintf( __( 'Authorize.Net failure reason: %s', 'wc-authnet' ), $response->get_error_code() . ' - ' . $response->get_error_message() );
+				$message = sprintf( __( 'Authorize.net failure reason: %s', 'wc-authnet' ), $response->get_error_code() . ' - ' . $response->get_error_message() );
 				if ( $trx_response = $response->get_error_data() ) {
-					$message = sprintf( __( "Authorize.Net failure reason: %s \n\nAVS Response: %s \n\nCVV2 Response: %s", 'wc-authnet' ), $response->get_error_code() . ' - ' . $response->get_error_message(), self::get_avs_message( $trx_response['avsResultCode'] ), self::get_cvv_message( $trx_response['cvvResultCode'] ) );
+					$message = sprintf( __( "Authorize.net failure reason: %s \n\nAVS Response: %s \n\nCVV2 Response: %s", 'wc-authnet' ), $response->get_error_code() . ' - ' . $response->get_error_message(), self::get_avs_message( $trx_response['avsResultCode'] ), self::get_cvv_message( $trx_response['cvvResultCode'] ) );
 				}
 				$order->add_order_note( $message );
 			}
@@ -659,7 +659,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 	}
 
 	/**
-	 * Store extra meta data for an order from an Authorize.Net Response.
+	 * Store extra meta data for an order from an Authorize.net Response.
 	 */
 	public function process_response( $response, $order, $request_args ) {
 		$order_id = $order->get_id();
@@ -674,10 +674,10 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 
 		if ( $this->capture && $response['responseCode'] != 4 ) {
 			$order->update_meta_data( '_authnet_charge_captured', 'yes' );
-			$order->update_meta_data( 'Authorize.Net Payment ID', $response['transId'] );
+			$order->update_meta_data( 'Authorize.net Payment ID', $response['transId'] );
 			$order->payment_complete( $response['transId'] );
 
-			$complete_message = trim( sprintf( __( "Authorize.Net charge completed for %s (Charge ID: %s). \n\nAVS Response: %s \n\nCVV2 Response: %s", 'wc-authnet' ), wc_price( $request_args['amount'], array( 'currency' => $request_args['currencyCode'] ) ), $response['transId'], self::get_avs_message( $response['avsResultCode'] ), self::get_cvv_message( $response['cvvResultCode'] ) ) );
+			$complete_message = trim( sprintf( __( "Authorize.net charge completed for %s (Charge ID: %s). \n\nAVS Response: %s \n\nCVV2 Response: %s", 'wc-authnet' ), wc_price( $request_args['amount'], array( 'currency' => $request_args['currencyCode'] ) ), $response['transId'], self::get_avs_message( $response['avsResultCode'] ), self::get_cvv_message( $response['cvvResultCode'] ) ) );
 			$order->add_order_note( $complete_message );
 			WC_Authnet_API::log( 'Success: ' . wp_strip_all_tags( $complete_message ) );
 
@@ -692,7 +692,7 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				wc_reduce_stock_levels( $order_id );
 			}
 
-			$authorized_message = trim( sprintf( __( "Authorize.Net charge authorized for %s (Charge ID: %s). Process order to take payment, or cancel to remove the pre-authorization.\n\nAVS Response: %s \n\nCVV2 Response: %s \n\n", 'wc-authnet' ), wc_price( $request_args['amount'], array( 'currency' => $request_args['currencyCode'] ) ), $response['transId'], self::get_avs_message( $response['avsResultCode'] ), self::get_cvv_message( $response['cvvResultCode'] ) ) );
+			$authorized_message = trim( sprintf( __( "Authorize.net charge authorized for %s (Charge ID: %s). Process order to take payment, or cancel to remove the pre-authorization.\n\nAVS Response: %s \n\nCVV2 Response: %s \n\n", 'wc-authnet' ), wc_price( $request_args['amount'], array( 'currency' => $request_args['currencyCode'] ) ), $response['transId'], self::get_avs_message( $response['avsResultCode'] ), self::get_cvv_message( $response['cvvResultCode'] ) ) );
 			$order->update_status( 'on-hold', $authorized_message . "\n" );
 			WC_Authnet_API::log( 'Success: ' . wp_strip_all_tags( $authorized_message ) );
 		}

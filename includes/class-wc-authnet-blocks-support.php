@@ -225,7 +225,7 @@ final class WC_Authnet_Blocks_Support extends AbstractPaymentMethodType {
 	}
 
 	/**
-	 * Add Authorize.Net error response to block checkout
+	 * Add Authorize.net error response to block checkout
 	 *
 	 * @param PaymentContext $context Holds context for the payment.
 	 * @param PaymentResult  $result  Result object for the payment.

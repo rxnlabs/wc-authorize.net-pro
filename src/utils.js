@@ -4,7 +4,7 @@ export const getBlocksConfiguration = () => {
 	const authnetServerData = getSetting( 'authnet_data', null );
 
 	if ( ! authnetServerData ) {
-		throw new Error( 'Authorize.Net initialization data is not available' );
+		throw new Error( 'Authorize.net initialization data is not available' );
 	}
 
 	return authnetServerData;
@@ -14,7 +14,7 @@ export const getLoginID = () => {
 	const loginID = getBlocksConfiguration()?.login_id;
 	if ( ! loginID ) {
 		throw new Error(
-			'There is no Login ID available for Authorize.Net. Make sure it is available on the wc.authnet_data.login_id property.'
+			'There is no Login ID available for Authorize.net. Make sure it is available on the wc.authnet_data.login_id property.'
 		);
 	}
 	return loginID;
