@@ -1,8 +1,8 @@
 <?php
 /*
-Plugin Name: WooCommerce Authorize.Net Gateway
+Plugin Name: Pledged Plugins Secure Gateway for Authorize.net and WooCommerce
 Plugin URI: https://pledgedplugins.com/products/authorize-net-payment-gateway-woocommerce/
-Description: A payment gateway for Authorize.Net. An Authorize.Net account and a server with cURL, SSL support, and a valid SSL certificate is required (for security reasons) for this gateway to function. Requires WC 3.3+
+Description: A payment gateway for Authorize.net. An Authorize.net account and a server with cURL, SSL support, and a valid SSL certificate is required (for security reasons) for this gateway to function. Requires WC 3.3+
 Version: 6.1.23
 Author: Pledged Plugins
 Author URI: https://pledgedplugins.com
@@ -72,7 +72,7 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 	define( 'WC_AUTHNET_MAIN_FILE', __FILE__ );
 
 	/**
-	 * Main Authorize.Net class which sets the gateway up for us
+	 * Main Authorize.net class which sets the gateway up for us
 	 */
 	class WC_Authnet {
 
@@ -142,17 +142,17 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 		}
 
 		public function submenu_setup() {
-			add_submenu_page( 'woocommerce', 'WooCommerce Authorize.Net Gateway', 'Authorize.Net', 'manage_options', 'authnet', array( $this, 'submenu_page' ) );
+			add_submenu_page( 'woocommerce', 'Secure Authorize.net Gateway for WooCommerce', 'Authorize.net', 'manage_options', 'authnet', array( $this, 'submenu_page' ) );
 		}
 
 		public function submenu_page() {
 			?>
 			<div class="wrap">
-				<h1>WooCommerce Authorize.Net Gateway</h1>
-				<h3><?php _e( 'About Authorize.Net', 'wc-authnet' ); ?></h3>
-				<p><?php printf( __( 'As a leading payment gateway, %sAuthorize.Net%s is trusted by more than 430,000 merchants, handling more than 1 billion transactions and $149 billion in payments every year. Authorize.Net has been working with merchants and small businesses since 1996 and will offer you a credit card payment solution that works for your business and lets you focus on what you love best.', 'wc-authnet' ), '<a href="https://reseller.authorize.net/application/?resellerId=100678" target="_blank">', '</a>' ); ?></p>
+				<h1>Secure Authorize.net Gateway for WooCommerce</h1>
+				<h3><?php _e( 'About Authorize.net', 'wc-authnet' ); ?></h3>
+				<p><?php printf( __( 'As a leading payment gateway, %sAuthorize.net%s is trusted by more than 430,000 merchants, handling more than 1 billion transactions and $149 billion in payments every year. Authorize.net has been working with merchants and small businesses since 1996 and will offer you a credit card payment solution that works for your business and lets you focus on what you love best.', 'wc-authnet' ), '<a href="https://reseller.authorize.net/application/?resellerId=100678" target="_blank">', '</a>' ); ?></p>
 				<h3><?php _e( 'About this WooCommerce Extension', 'wc-authnet' ); ?></h3>
-				<p><?php _e( 'This extension enables you to use the Authorize.Net payment gateway to accept payments via credit cards directly on checkout on your WooCommerce powered WordPress e-commerce website without redirecting customers away to the gateway website.', 'wc-authnet' ); ?></p>
+				<p><?php _e( 'This extension enables you to use the Authorize.net payment gateway to accept payments via credit cards directly on checkout on your WooCommerce powered WordPress e-commerce website without redirecting customers away to the gateway website.', 'wc-authnet' ); ?></p>
 				<p>
 					<a class="button" href="<?php echo esc_url( $this->settings_url() ); ?>">
 						<?php _e( 'Settings', 'wc-authnet' ); ?>
@@ -299,7 +299,7 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 			$secret = WC_Authnet_API::get_transaction_key();
 			if ( empty( $secret ) && ! ( isset( $_GET['page'], $_GET['section'] ) && 'wc-settings' === $_GET['page'] && 'authnet' === $_GET['section'] ) ) {
 				$setting_link = esc_url( $this->settings_url() );
-				$this->add_admin_notice( 'prompt_connect', 'notice notice-warning', sprintf( __( 'Authorize.Net is almost ready. To get started, <a href="%s">set your Authorize.Net account keys</a>.', 'wc-authnet' ), $setting_link ) );
+				$this->add_admin_notice( 'prompt_connect', 'notice notice-warning', sprintf( __( 'Authorize.net is almost ready. To get started, <a href="%s">set your Authorize.net account keys</a>.', 'wc-authnet' ), $setting_link ) );
 			}
 
 			if ( class_exists( 'WC_Subscriptions' ) && function_exists( 'wcs_create_renewal_order' ) ) {
@@ -345,23 +345,23 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 		static function get_environment_warning() {
 
 			if ( version_compare( phpversion(), WC_AUTHNET_MIN_PHP_VER, '<' ) ) {
-				$message = __( 'WooCommerce Authorize.Net - The minimum PHP version required for this plugin is %1$s. You are running %2$s.', 'wc-authnet' );
+				$message = __( 'Secure Authorize.net - The minimum PHP version required for this plugin is %1$s. You are running %2$s.', 'wc-authnet' );
 
 				return sprintf( $message, WC_AUTHNET_MIN_PHP_VER, phpversion() );
 			}
 
 			if ( ! defined( 'WC_VERSION' ) ) {
-				return __( 'WooCommerce Authorize.Net requires WooCommerce to be activated to work.', 'wc-authnet' );
+				return __( 'Secure Authorize.net requires WooCommerce to be activated to work.', 'wc-authnet' );
 			}
 
 			if ( version_compare( WC_VERSION, WC_AUTHNET_MIN_WC_VER, '<' ) ) {
-				$message = __( 'WooCommerce Authorize.Net - The minimum WooCommerce version required for this plugin is %1$s. You are running %2$s.', 'wc-authnet' );
+				$message = __( 'Secure Authorize.net - The minimum WooCommerce version required for this plugin is %1$s. You are running %2$s.', 'wc-authnet' );
 
 				return sprintf( $message, WC_AUTHNET_MIN_WC_VER, WC_VERSION );
 			}
 
 			if ( ! function_exists( 'curl_init' ) ) {
-				return __( 'WooCommerce Authorize.Net - cURL is not installed.', 'wc-authnet' );
+				return __( 'Secure Authorize.net - cURL is not installed.', 'wc-authnet' );
 			}
 
 			return false;
@@ -384,7 +384,7 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 			$notice_html = '';
 
 			if ( ! $this->subscription_support_enabled ) {
-				$notices[] = __( 'To process subscription payments using Authorize.Net you will need the <a target="_blank" href="https://woocommerce.com/products/woocommerce-subscriptions/">WooCommerce Subscriptions</a> extension installed and running. Please continue with your purchase if you are not setting up subscriptions or will install WooCommerce Subscriptions later.', 'wc-authnet' );
+				$notices[] = __( 'To process subscription payments using Authorize.net you will need the <a target="_blank" href="https://woocommerce.com/products/woocommerce-subscriptions/">WooCommerce Subscriptions</a> extension installed and running. Please continue with your purchase if you are not setting up subscriptions or will install WooCommerce Subscriptions later.', 'wc-authnet' );
 			}
 
 			if ( ! empty( $notices ) ) {
@@ -482,9 +482,9 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 
 					if ( is_wp_error( $response ) ) {
 						if( $order->get_meta( '_authnet_capture_failed' ) == 'yes' ) {
-							$order->add_order_note( sprintf( __( "<strong>Unable to capture charge!</strong> Please <strong>DO NOT FULFIL THE ORDER</strong> if the amount cannot be captured in the gateway account manually or by changing the status. In that case, set status to Failed manually and do not fulfil. \n\nAuthorize.Net failure reason: %s \n\n", 'wc-authnet' ), $response->get_error_code()  . ' - ' . $response->get_error_message() ) );
+							$order->add_order_note( sprintf( __( "<strong>Unable to capture charge!</strong> Please <strong>DO NOT FULFIL THE ORDER</strong> if the amount cannot be captured in the gateway account manually or by changing the status. In that case, set status to Failed manually and do not fulfil. \n\nAuthorize.net failure reason: %s \n\n", 'wc-authnet' ), $response->get_error_code()  . ' - ' . $response->get_error_message() ) );
 						} else {
-							$order->update_status( 'failed', sprintf( __( "<strong>Unable to capture charge!</strong> The order status is set to <strong>Failed</strong> the first time to draw your attention. If the next attempt fails, your intended order status will still take place. \n\nPlease double-check that the amount is captured in the gateway account before fulfilling the order. \n\nAuthorize.Net failure reason: %s \n\n", 'wc-authnet' ), $response->get_error_code()  . ' - ' . $response->get_error_message() ) );
+							$order->update_status( 'failed', sprintf( __( "<strong>Unable to capture charge!</strong> The order status is set to <strong>Failed</strong> the first time to draw your attention. If the next attempt fails, your intended order status will still take place. \n\nPlease double-check that the amount is captured in the gateway account before fulfilling the order. \n\nAuthorize.net failure reason: %s \n\n", 'wc-authnet' ), $response->get_error_code()  . ' - ' . $response->get_error_message() ) );
 							$order->update_meta_data( '_authnet_capture_failed', 'yes' );
 							$order->save();
 						}
@@ -500,12 +500,12 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 						}
 
 						// Process valid response.
-						$complete_message = sprintf( __( 'Authorize.Net charge captured for %s (Charge ID: %s).', 'wc-authnet' ), wc_price( $args['transactionRequest']['amount'], array( 'currency' => $args['transactionRequest']['currencyCode'] ) ), $trx_response['transId'] );
+						$complete_message = sprintf( __( 'Authorize.net charge captured for %s (Charge ID: %s).', 'wc-authnet' ), wc_price( $args['transactionRequest']['amount'], array( 'currency' => $args['transactionRequest']['currencyCode'] ) ), $trx_response['transId'] );
 						$order->add_order_note( $complete_message );
 						WC_Authnet_API::log( 'Success: ' . wp_strip_all_tags( $complete_message ) );
 
 						$order->update_meta_data( '_authnet_charge_captured', 'yes' );
-						$order->update_meta_data( 'Authorize.Net Payment ID', $trx_response['transId'] );
+						$order->update_meta_data( 'Authorize.net Payment ID', $trx_response['transId'] );
 
 						$order->set_transaction_id( $trx_response['transId'] );
 						$order->save();
@@ -549,7 +549,7 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 					} else {
 						$trx_response   = $response['transactionResponse'];
 
-						$cancel_message = sprintf( __( 'Authorize.Net charge refunded (Charge ID: %s).', 'wc-authnet' ), $trx_response['transId'] );
+						$cancel_message = sprintf( __( 'Authorize.net charge refunded (Charge ID: %s).', 'wc-authnet' ), $trx_response['transId'] );
 						$order->add_order_note( $cancel_message );
 						WC_Authnet_API::log( 'Success: ' . $cancel_message );
 
@@ -599,9 +599,9 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 
 					if ( is_wp_error( $response ) ) {
 						if( $order->get_meta( '_authnet_capture_failed' ) == 'yes' ) {
-							$order->add_order_note( sprintf( __( "<strong>Unable to capture charge!</strong> Please <strong>DO NOT FULFIL THE ORDER</strong> if the amount cannot be captured in the gateway account manually or by changing the status. In that case, set status to Failed manually and do not fulfil. \n\nAuthorize.Net failure reason: %s \n\n", 'wc-authnet' ), $response->get_error_code()  . ' - ' . $response->get_error_message() ) );
+							$order->add_order_note( sprintf( __( "<strong>Unable to capture charge!</strong> Please <strong>DO NOT FULFIL THE ORDER</strong> if the amount cannot be captured in the gateway account manually or by changing the status. In that case, set status to Failed manually and do not fulfil. \n\nAuthorize.net failure reason: %s \n\n", 'wc-authnet' ), $response->get_error_code()  . ' - ' . $response->get_error_message() ) );
 						} else {
-							$order->update_status( 'failed', sprintf( __( "<strong>Unable to capture charge!</strong> The order status is set to <strong>Failed</strong> the first time to draw your attention. If the next attempt fails, your intended order status will still take place. \n\nPlease double-check that the amount is captured in the gateway account before fulfilling the order. \n\nAuthorize.Net failure reason: %s \n\n", 'wc-authnet' ), $response->get_error_code()  . ' - ' . $response->get_error_message() ) );
+							$order->update_status( 'failed', sprintf( __( "<strong>Unable to capture charge!</strong> The order status is set to <strong>Failed</strong> the first time to draw your attention. If the next attempt fails, your intended order status will still take place. \n\nPlease double-check that the amount is captured in the gateway account before fulfilling the order. \n\nAuthorize.net failure reason: %s \n\n", 'wc-authnet' ), $response->get_error_code()  . ' - ' . $response->get_error_message() ) );
 							$order->update_meta_data( '_authnet_capture_failed', 'yes' );
 							$order->save();
 						}
@@ -613,12 +613,12 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 							return;
 						}
 
-						$complete_message = sprintf( __( 'Authorize.Net charge captured for %s (Charge ID: %s).', 'wc-authnet' ), wc_price( $args['x_amount'], array( 'currency' => $args['x_currency_code'] ) ), $response['transaction_id'] );
+						$complete_message = sprintf( __( 'Authorize.net charge captured for %s (Charge ID: %s).', 'wc-authnet' ), wc_price( $args['x_amount'], array( 'currency' => $args['x_currency_code'] ) ), $response['transaction_id'] );
 						$order->add_order_note( $complete_message );
 						$gateway->log( 'Success: ' . wp_strip_all_tags( $complete_message ) );
 
 						$order->update_meta_data( '_authnet_charge_captured', 'yes' );
-						$order->update_meta_data( 'Authorize.Net Payment ID', $response['transaction_id'] );
+						$order->update_meta_data( 'Authorize.net Payment ID', $response['transaction_id'] );
 
 						$order->set_transaction_id( $response['transaction_id'] );
 						$order->save();
@@ -660,7 +660,7 @@ if ( function_exists( 'wc_authnet_fs' ) ) {
 						$order->update_meta_data( '_authnet_void', 'failed' );
 						$order->add_order_note( __( 'Unable to refund charge!', 'wc-authnet' ) . ' ' . $response->get_error_message() );
 					} else {
-						$cancel_message = sprintf( __( "Authorize.Net charge refunded (Charge ID: %s).", 'wc-authnet' ), $response['transaction_id'] );
+						$cancel_message = sprintf( __( "Authorize.net charge refunded (Charge ID: %s).", 'wc-authnet' ), $response['transaction_id'] );
 						$order->add_order_note( $cancel_message );
 						$gateway->log( "Success: $cancel_message" );
 

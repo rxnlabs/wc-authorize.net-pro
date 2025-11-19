@@ -23,8 +23,8 @@ class WC_Authnet_Privacy extends WC_Abstract_Privacy {
 	public function register_erasers_exporters() {
 		$this->name = __( 'Authorize.Net', 'wc-authnet' );
 
-		$this->add_exporter( 'wc-authnet-order-data', __( 'WooCommerce Authorize.Net Order Data', 'wc-authnet' ), array( $this, 'order_data_exporter' ) );
-		$this->add_eraser( 'wc-authnet-order-data', __( 'WooCommerce Authorize.Net Data', 'wc-authnet' ), array( $this, 'order_data_eraser' ) );
+		$this->add_exporter( 'wc-authnet-order-data', __( 'Secure Authorize.Net Order Data', 'wc-authnet' ), array( $this, 'order_data_exporter' ) );
+		$this->add_eraser( 'wc-authnet-order-data', __( 'Secure Authorize.Net Data', 'wc-authnet' ), array( $this, 'order_data_eraser' ) );
 	}
 
     /**

@@ -81,6 +81,7 @@ A valid SSL certificate is required to ensure your customer credit card details 
 
 = 6.1.23 =
 * Removed jquery-payment script handle
+* Updated Freemius SDK to 2.13.0
 
 = 6.1.22 =
 * Update jquery-payment handle for WC >= 10.3
