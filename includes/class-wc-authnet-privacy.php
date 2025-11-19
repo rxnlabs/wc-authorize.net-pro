@@ -21,10 +21,10 @@ class WC_Authnet_Privacy extends WC_Abstract_Privacy {
 	 * Initial registration of privacy erasers and exporters.
 	 */
 	public function register_erasers_exporters() {
-		$this->name = __( 'Authorize.Net', 'wc-authnet' );
+		$this->name = __( 'Authorize.net', 'wc-authnet' );
 
-		$this->add_exporter( 'wc-authnet-order-data', __( 'WooCommerce Authorize.Net Order Data', 'wc-authnet' ), array( $this, 'order_data_exporter' ) );
-		$this->add_eraser( 'wc-authnet-order-data', __( 'WooCommerce Authorize.Net Data', 'wc-authnet' ), array( $this, 'order_data_eraser' ) );
+		$this->add_exporter( 'wc-authnet-order-data', __( 'Secure Authorize.net Order Data', 'wc-authnet' ), array( $this, 'order_data_exporter' ) );
+		$this->add_eraser( 'wc-authnet-order-data', __( 'Secure Authorize.net Data', 'wc-authnet' ), array( $this, 'order_data_eraser' ) );
 	}
 
     /**
@@ -35,8 +35,8 @@ class WC_Authnet_Privacy extends WC_Abstract_Privacy {
      */
     public function account_settings( $settings ) {
         $insert_setting = array( array(
-            'title'       => __( 'Retain Authorize.Net Data', 'wc-authnet' ),
-            'desc_tip'    => __( 'Retains any Authorize.Net data such as Authorize.Net customer ID, charge ID.', 'wc-authnet' ),
+            'title'       => __( 'Retain Authorize.net Data', 'wc-authnet' ),
+            'desc_tip'    => __( 'Retains any Authorize.net data such as Authorize.net customer ID, charge ID.', 'wc-authnet' ),
             'id'          => 'woocommerce_gateway_authnet_retention',
             'type'        => 'relative_date_selector',
             'placeholder' => __( 'N/A', 'wc-authnet' ),
@@ -108,7 +108,7 @@ class WC_Authnet_Privacy extends WC_Abstract_Privacy {
                     'group_label' => __( 'Orders', 'wc-authnet' ),
                     'item_id'     => 'order-' . $order->get_id(),
                     'data'        => array( array(
-                    'name'  => __( 'Authorize.Net payment id', 'wc-authnet' ),
+                    'name'  => __( 'Authorize.net payment id', 'wc-authnet' ),
                     'value' => $order->get_meta( '_authnet_charge_id' ),
                 ) ),
                 );
@@ -168,7 +168,7 @@ class WC_Authnet_Privacy extends WC_Abstract_Privacy {
         $authnet_charge_id 	= $order->get_meta( '_authnet_charge_id' );
 
         if ( ! $this->is_retention_expired( $order->get_date_created()->getTimestamp() ) ) {
-            return array( false, true, array( sprintf( __( 'Order ID %d is less than set retention days. Personal data retained. (Authorize.Net)', 'wc-authnet' ), $order->get_id() ) ) );
+            return array( false, true, array( sprintf( __( 'Order ID %d is less than set retention days. Personal data retained. (Authorize.net)', 'wc-authnet' ), $order->get_id() ) ) );
         }
 
         if ( empty( $authnet_charge_id ) ) {
@@ -178,7 +178,7 @@ class WC_Authnet_Privacy extends WC_Abstract_Privacy {
         $order->delete_meta_data( '_authnet_charge_id' );
         $order->save();
 
-        return array( true, false, array( __( 'Authorize.Net personal data erased.', 'wc-authnet' ) ) );
+        return array( true, false, array( __( 'Authorize.net personal data erased.', 'wc-authnet' ) ) );
     }
 
     /**

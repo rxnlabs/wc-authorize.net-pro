@@ -1,41 +1,39 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Authorize.Net Gateway\n"
-"POT-Creation-Date: 2025-10-15 19:58+0530\n"
-"PO-Revision-Date: 2025-10-15 19:57+0530\n"
+"Project-Id-Version: WooCommerce Authorize.net Gateway\n"
+"POT-Creation-Date: 2025-11-18 20:57-0800\n"
+"PO-Revision-Date: 2025-10-30 20:49+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 3.8\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: gateway.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
-"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-KeywordsList: "
+"__;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
-"X-Poedit-SearchPathExcluded-1: node_modules\n"
 
 #: freemius/assets/js/pricing/freemius-pricing.js:2
 msgid "display"
 msgstr ""
 
 #: gateway.php:152
-msgid "About Authorize.Net"
+msgid "About Authorize.net"
 msgstr ""
 
 #: gateway.php:153
 #, php-format
 msgid ""
-"As a leading payment gateway, %sAuthorize.Net%s is trusted by more than "
+"As a leading payment gateway, %sAuthorize.net%s is trusted by more than "
 "430,000 merchants, handling more than 1 billion transactions and $149 "
-"billion in payments every year. Authorize.Net has been working with "
+"billion in payments every year. Authorize.net has been working with "
 "merchants and small businesses since 1996 and will offer you a credit card "
 "payment solution that works for your business and lets you focus on what you "
 "love best."
@@ -47,7 +45,7 @@ msgstr ""
 
 #: gateway.php:155
 msgid ""
-"This extension enables you to use the Authorize.Net payment gateway to "
+"This extension enables you to use the Authorize.net payment gateway to "
 "accept payments via credit cards directly on checkout on your WooCommerce "
 "powered WordPress e-commerce website without redirecting customers away to "
 "the gateway website."
@@ -136,35 +134,35 @@ msgstr ""
 #: gateway.php:302
 #, php-format
 msgid ""
-"Authorize.Net is almost ready. To get started, <a href=\"%s\">set your "
-"Authorize.Net account keys</a>."
+"Authorize.net is almost ready. To get started, <a href=\"%s\">set your "
+"Authorize.net account keys</a>."
 msgstr ""
 
 #: gateway.php:348
 #, php-format
 msgid ""
-"WooCommerce Authorize.Net - The minimum PHP version required for this plugin "
-"is %1$s. You are running %2$s."
+"Secure Authorize.net - The minimum PHP version required for this plugin is "
+"%1$s. You are running %2$s."
 msgstr ""
 
 #: gateway.php:354
-msgid "WooCommerce Authorize.Net requires WooCommerce to be activated to work."
+msgid "Secure Authorize.net requires WooCommerce to be activated to work."
 msgstr ""
 
 #: gateway.php:358
 #, php-format
 msgid ""
-"WooCommerce Authorize.Net - The minimum WooCommerce version required for "
-"this plugin is %1$s. You are running %2$s."
+"Secure Authorize.net - The minimum WooCommerce version required for this "
+"plugin is %1$s. You are running %2$s."
 msgstr ""
 
 #: gateway.php:364
-msgid "WooCommerce Authorize.Net - cURL is not installed."
+msgid "Secure Authorize.net - cURL is not installed."
 msgstr ""
 
 #: gateway.php:387
 msgid ""
-"To process subscription payments using Authorize.Net you will need the <a "
+"To process subscription payments using Authorize.net you will need the <a "
 "target=\"_blank\" href=\"https://woocommerce.com/products/woocommerce-"
 "subscriptions/\">WooCommerce Subscriptions</a> extension installed and "
 "running. Please continue with your purchase if you are not setting up "
@@ -183,7 +181,7 @@ msgid ""
 "manually or by changing the status. In that case, set status to Failed "
 "manually and do not fulfil. \n"
 "\n"
-"Authorize.Net failure reason: %s \n"
+"Authorize.net failure reason: %s \n"
 "\n"
 msgstr ""
 
@@ -197,13 +195,13 @@ msgid ""
 "Please double-check that the amount is captured in the gateway account "
 "before fulfilling the order. \n"
 "\n"
-"Authorize.Net failure reason: %s \n"
+"Authorize.net failure reason: %s \n"
 "\n"
 msgstr ""
 
 #: gateway.php:503 gateway.php:616
 #, php-format
-msgid "Authorize.Net charge captured for %s (Charge ID: %s)."
+msgid "Authorize.net charge captured for %s (Charge ID: %s)."
 msgstr ""
 
 #: gateway.php:548 gateway.php:661
@@ -212,13 +210,13 @@ msgstr ""
 
 #: gateway.php:552 gateway.php:663
 #, php-format
-msgid "Authorize.Net charge refunded (Charge ID: %s)."
+msgid "Authorize.net charge refunded (Charge ID: %s)."
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:36
 #: includes/class-wc-authnet-privacy.php:24
 #: includes/class-wc-gateway-authnet.php:36
-msgid "Authorize.Net"
+msgid "Authorize.net"
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:37
@@ -260,20 +258,20 @@ msgstr ""
 #: includes/aim/class-wc-gateway-authnet.php:117
 #, php-format
 msgid ""
-"Authorize.Net error: Please enter your API Login ID <a href=\"%s\">here</a>"
+"Authorize.net error: Please enter your API Login ID <a href=\"%s\">here</a>"
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:120
 #, php-format
 msgid ""
-"Authorize.Net error: Please enter your Transaction Key <a href=\"%s\">here</"
+"Authorize.net error: Please enter your Transaction Key <a href=\"%s\">here</"
 "a>"
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:126
 #, php-format
 msgid ""
-"Authorize.Net is enabled, but a SSL certificate is not detected. Your "
+"Authorize.net is enabled, but a SSL certificate is not detected. Your "
 "checkout may not be secure! Please ensure your server has a valid <a "
 "href=\"%1$s\" target=\"_blank\">SSL certificate</a>"
 msgstr ""
@@ -285,7 +283,7 @@ msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:152
 #: includes/class-wc-gateway-authnet.php:176
-msgid "Enable Authorize.Net"
+msgid "Enable Authorize.net"
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:158
@@ -332,7 +330,7 @@ msgstr ""
 #: includes/class-wc-gateway-authnet.php:197
 #, php-format
 msgid ""
-"Check the Authorize.Net testing guide %shere%s. This will display \"sandbox "
+"Check the Authorize.net testing guide %shere%s. This will display \"sandbox "
 "mode\" warning on checkout."
 msgstr ""
 
@@ -345,7 +343,7 @@ msgstr ""
 #: includes/class-wc-gateway-authnet.php:203
 msgid ""
 "Get it from Account → Security Settings → API Credentials & Keys page in "
-"your Authorize.Net account."
+"your Authorize.net account."
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:183
@@ -357,7 +355,7 @@ msgstr ""
 #: includes/class-wc-gateway-authnet.php:209
 msgid ""
 "Get it from Account → Security Settings → API Credentials & Keys page in "
-"your Authorize.Net account. For security reasons, you cannot view your "
+"your Authorize.net account. For security reasons, you cannot view your "
 "Transaction Key, but you will be able to generate a new one."
 msgstr ""
 
@@ -370,7 +368,7 @@ msgstr ""
 #: includes/class-wc-gateway-authnet.php:215
 msgid ""
 "Get it from Account → Security Settings → Manage Public Client Key page in "
-"your Authorize.Net account."
+"your Authorize.net account."
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:194
@@ -533,7 +531,7 @@ msgstr ""
 #: includes/aim/class-wc-gateway-authnet.php:254
 #: includes/class-wc-gateway-authnet.php:279
 msgid ""
-"If enabled, the customer will be sent an email receipt from Authorize.Net."
+"If enabled, the customer will be sent an email receipt from Authorize.net."
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:258
@@ -543,12 +541,12 @@ msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:260
 #: includes/class-wc-gateway-authnet.php:285
-msgid "Always use \"Authorize.Net API\" unless you are using the AIM emulator."
+msgid "Always use \"Authorize.net API\" unless you are using the AIM emulator."
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:262
 #: includes/class-wc-gateway-authnet.php:287
-msgid "Authorize.Net API"
+msgid "Authorize.net API"
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:263
@@ -557,59 +555,59 @@ msgid "Legacy AIM"
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:286
-#: includes/class-wc-gateway-authnet.php:333
+#: includes/class-wc-gateway-authnet.php:334
 msgid "Please accept the terms and conditions first"
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:287
-#: includes/class-wc-gateway-authnet.php:334
+#: includes/class-wc-gateway-authnet.php:335
 msgid "Please fill in required checkout fields first"
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:288
-#: includes/class-wc-gateway-authnet.php:335
+#: includes/class-wc-gateway-authnet.php:336
 msgid "Enter a card number."
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:289
-#: includes/class-wc-gateway-authnet.php:336
+#: includes/class-wc-gateway-authnet.php:337
 msgid "Enter an expiry date."
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:290
-#: includes/class-wc-gateway-authnet.php:337
-#: includes/class-wc-gateway-authnet.php:543
+#: includes/class-wc-gateway-authnet.php:338
+#: includes/class-wc-gateway-authnet.php:544
 msgid "CVC code is required."
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:291
-#: includes/class-wc-gateway-authnet.php:338
+#: includes/class-wc-gateway-authnet.php:339
 msgid "Invalid card number."
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:292
-#: includes/class-wc-gateway-authnet.php:339
+#: includes/class-wc-gateway-authnet.php:340
 msgid "Invalid card expiry date."
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:293
-#: includes/class-wc-gateway-authnet.php:340
+#: includes/class-wc-gateway-authnet.php:341
 msgid "Invalid card CVC."
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:294
-#: includes/class-wc-gateway-authnet.php:341
+#: includes/class-wc-gateway-authnet.php:342
 msgid "CVC"
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:295
-#: includes/class-wc-gateway-authnet.php:342
+#: includes/class-wc-gateway-authnet.php:343
 msgid "MM / YY"
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:296
-#: includes/class-wc-gateway-authnet.php:343
-#: includes/class-wc-gateway-authnet.php:539
+#: includes/class-wc-gateway-authnet.php:344
+#: includes/class-wc-gateway-authnet.php:540
 msgid "Card Type Not Accepted."
 msgstr ""
 
@@ -618,7 +616,7 @@ msgid "Credit card details cannot be left incomplete."
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:330
-#: includes/class-wc-gateway-authnet.php:537
+#: includes/class-wc-gateway-authnet.php:538
 #, php-format
 msgid ""
 "Card type being used is not one of supported types in plugin settings: %s"
@@ -634,10 +632,10 @@ msgid "%s - Order %s"
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:422
-#: includes/class-wc-gateway-authnet.php:679
+#: includes/class-wc-gateway-authnet.php:680
 #, php-format
 msgid ""
-"Authorize.Net charge completed for %s (Charge ID: %s). \n"
+"Authorize.net charge completed for %s (Charge ID: %s). \n"
 "\n"
 "AVS Response: %s \n"
 "\n"
@@ -645,10 +643,10 @@ msgid ""
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:440
-#: includes/class-wc-gateway-authnet.php:694
+#: includes/class-wc-gateway-authnet.php:695
 #, php-format
 msgid ""
-"Authorize.Net charge authorized for %s (Charge ID: %s). Process order to "
+"Authorize.net charge authorized for %s (Charge ID: %s). Process order to "
 "take payment, or cancel to remove the pre-authorization.\n"
 "\n"
 "AVS Response: %s \n"
@@ -664,10 +662,10 @@ msgid "Gateway Error: %s"
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:464
-#: includes/class-wc-gateway-authnet.php:637
+#: includes/class-wc-gateway-authnet.php:638
 #, php-format
 msgid ""
-"Authorize.Net failure reason: %s \n"
+"Authorize.net failure reason: %s \n"
 "\n"
 "AVS Response: %s \n"
 "\n"
@@ -675,7 +673,7 @@ msgid ""
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:531
-#: includes/class-wc-gateway-authnet.php:788
+#: includes/class-wc-gateway-authnet.php:789
 #, php-format
 msgid "Refunded %s - Refund ID: %s - Reason: %s"
 msgstr ""
@@ -714,94 +712,94 @@ msgid ""
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:828
-#: includes/class-wc-gateway-authnet.php:949
+#: includes/class-wc-gateway-authnet.php:950
 msgid "Street Address: Match -- First 5 Digits of ZIP: No Match"
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:829
-#: includes/class-wc-gateway-authnet.php:950
+#: includes/class-wc-gateway-authnet.php:951
 msgid ""
 "Address not provided for AVS check or street address match, postal code "
 "could not be verified"
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:830
-#: includes/class-wc-gateway-authnet.php:951
+#: includes/class-wc-gateway-authnet.php:952
 msgid "AVS Error"
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:831
-#: includes/class-wc-gateway-authnet.php:952
+#: includes/class-wc-gateway-authnet.php:953
 msgid "Non U.S. Card Issuing Bank"
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:832
-#: includes/class-wc-gateway-authnet.php:953
+#: includes/class-wc-gateway-authnet.php:954
 msgid "Street Address: No Match -- First 5 Digits of ZIP: No Match"
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:833
-#: includes/class-wc-gateway-authnet.php:954
+#: includes/class-wc-gateway-authnet.php:955
 msgid "AVS not applicable for this transaction"
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:834
-#: includes/class-wc-gateway-authnet.php:955
+#: includes/class-wc-gateway-authnet.php:956
 msgid "Retry, System Is Unavailable"
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:835
-#: includes/class-wc-gateway-authnet.php:956
+#: includes/class-wc-gateway-authnet.php:957
 msgid "AVS Not Supported by Card Issuing Bank"
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:836
-#: includes/class-wc-gateway-authnet.php:957
+#: includes/class-wc-gateway-authnet.php:958
 msgid "Address Information For This Cardholder Is Unavailable"
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:837
-#: includes/class-wc-gateway-authnet.php:958
+#: includes/class-wc-gateway-authnet.php:959
 msgid "Street Address: No Match -- All 9 Digits of ZIP: Match"
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:838
-#: includes/class-wc-gateway-authnet.php:959
+#: includes/class-wc-gateway-authnet.php:960
 msgid "Street Address: Match -- All 9 Digits of ZIP: Match"
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:839
-#: includes/class-wc-gateway-authnet.php:960
+#: includes/class-wc-gateway-authnet.php:961
 msgid "Street Address: Match - First 5 Digits of ZIP: Match"
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:840
-#: includes/class-wc-gateway-authnet.php:961
+#: includes/class-wc-gateway-authnet.php:962
 msgid "Street Address: No Match - First 5 Digits of ZIP: Match"
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:859
-#: includes/class-wc-gateway-authnet.php:982
+#: includes/class-wc-gateway-authnet.php:983
 msgid "CVV2/CVC2 Match"
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:860
-#: includes/class-wc-gateway-authnet.php:983
+#: includes/class-wc-gateway-authnet.php:984
 msgid "CVV2 / CVC2 No Match"
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:861
-#: includes/class-wc-gateway-authnet.php:984
+#: includes/class-wc-gateway-authnet.php:985
 msgid "Not Processed"
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:862
-#: includes/class-wc-gateway-authnet.php:985
+#: includes/class-wc-gateway-authnet.php:986
 msgid "Merchant Has Indicated that CVV2 / CVC2 is not present on card"
 msgstr ""
 
 #: includes/aim/class-wc-gateway-authnet.php:863
-#: includes/class-wc-gateway-authnet.php:986
+#: includes/class-wc-gateway-authnet.php:987
 msgid "Issuer is not certified and/or has not provided visa encryption keys"
 msgstr ""
 
@@ -827,20 +825,20 @@ msgid "Diners"
 msgstr ""
 
 #: includes/class-wc-authnet-privacy.php:26
-msgid "WooCommerce Authorize.Net Order Data"
+msgid "Secure Authorize.net Order Data"
 msgstr ""
 
 #: includes/class-wc-authnet-privacy.php:27
-msgid "WooCommerce Authorize.Net Data"
+msgid "Secure Authorize.net Data"
 msgstr ""
 
 #: includes/class-wc-authnet-privacy.php:38
-msgid "Retain Authorize.Net Data"
+msgid "Retain Authorize.net Data"
 msgstr ""
 
 #: includes/class-wc-authnet-privacy.php:39
 msgid ""
-"Retains any Authorize.Net data such as Authorize.Net customer ID, charge ID."
+"Retains any Authorize.net data such as Authorize.net customer ID, charge ID."
 msgstr ""
 
 #: includes/class-wc-authnet-privacy.php:42
@@ -861,18 +859,18 @@ msgid "Orders"
 msgstr ""
 
 #: includes/class-wc-authnet-privacy.php:111
-msgid "Authorize.Net payment id"
+msgid "Authorize.net payment id"
 msgstr ""
 
 #: includes/class-wc-authnet-privacy.php:171
 #, php-format
 msgid ""
 "Order ID %d is less than set retention days. Personal data retained. "
-"(Authorize.Net)"
+"(Authorize.net)"
 msgstr ""
 
 #: includes/class-wc-authnet-privacy.php:181
-msgid "Authorize.Net personal data erased."
+msgid "Authorize.net personal data erased."
 msgstr ""
 
 #: includes/class-wc-gateway-authnet.php:73
@@ -883,7 +881,7 @@ msgstr ""
 #, php-format
 msgid ""
 "In test mode, you can use the card number 4111111111111111 with any CVC and "
-"a valid expiration date or check the %sAuthorize.Net Testing Guide%s for "
+"a valid expiration date or check the %sAuthorize.net Testing Guide%s for "
 "more card numbers and generate various test scenarios before going live."
 msgstr ""
 
@@ -901,41 +899,41 @@ msgstr ""
 #: includes/class-wc-gateway-authnet.php:147
 #, php-format
 msgid ""
-"Authorize.Net is enabled, but an SSL certificate is not detected. Your "
+"Authorize.net is enabled, but an SSL certificate is not detected. Your "
 "checkout may not be secure! Please ensure your server has a valid <a "
 "href=\"%1$s\" target=\"_blank\">SSL certificate</a>"
 msgstr ""
 
 #: includes/class-wc-gateway-authnet.php:185
-msgid "Credit card (Authorize.Net)"
+msgid "Credit card (Authorize.net)"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:461
+#: includes/class-wc-gateway-authnet.php:462
 #, php-format
 msgid "%1$s - Order %2$s %3$s"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:597
+#: includes/class-wc-gateway-authnet.php:598
 msgid "Please enter your card details to make a payment."
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:632
+#: includes/class-wc-gateway-authnet.php:633
 #, php-format
 msgid "Error: %s"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:635
+#: includes/class-wc-gateway-authnet.php:636
 #, php-format
-msgid "Authorize.Net failure reason: %s"
+msgid "Authorize.net failure reason: %s"
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:649
+#: includes/class-wc-gateway-authnet.php:650
 #, php-format
 msgid ""
 "Payment method changed back to \"%1$s\" since the new card was not accepted."
 msgstr ""
 
-#: includes/class-wc-gateway-authnet.php:782
+#: includes/class-wc-gateway-authnet.php:783
 msgid "Gateway Error: "
 msgstr ""
 
@@ -944,7 +942,7 @@ msgid "Authnet payment method"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
-msgid "WooCommerce Authorize.Net Gateway"
+msgid "Pledged Plugins Secure Gateway for Authorize.net and WooCommerce"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
@@ -955,7 +953,7 @@ msgstr ""
 
 #. Description of the plugin/theme
 msgid ""
-"A payment gateway for Authorize.Net. An Authorize.Net account and a server "
+"A payment gateway for Authorize.net. An Authorize.net account and a server "
 "with cURL, SSL support, and a valid SSL certificate is required (for "
 "security reasons) for this gateway to function. Requires WC 3.3+"
 msgstr ""
