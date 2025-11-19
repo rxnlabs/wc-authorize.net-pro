@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce Authorize.net Gateway\n"
-"POT-Creation-Date: 2025-10-30 20:49+0530\n"
+"POT-Creation-Date: 2025-11-18 20:57-0800\n"
 "PO-Revision-Date: 2025-10-30 20:49+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -10,14 +10,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 3.8\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: gateway.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
-"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-KeywordsList: "
+"__;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 
@@ -142,23 +141,23 @@ msgstr ""
 #: gateway.php:348
 #, php-format
 msgid ""
-"WooCommerce Authorize.net - The minimum PHP version required for this plugin "
-"is %1$s. You are running %2$s."
+"Secure Authorize.net - The minimum PHP version required for this plugin is "
+"%1$s. You are running %2$s."
 msgstr ""
 
 #: gateway.php:354
-msgid "WooCommerce Authorize.net requires WooCommerce to be activated to work."
+msgid "Secure Authorize.net requires WooCommerce to be activated to work."
 msgstr ""
 
 #: gateway.php:358
 #, php-format
 msgid ""
-"WooCommerce Authorize.net - The minimum WooCommerce version required for "
-"this plugin is %1$s. You are running %2$s."
+"Secure Authorize.net - The minimum WooCommerce version required for this "
+"plugin is %1$s. You are running %2$s."
 msgstr ""
 
 #: gateway.php:364
-msgid "WooCommerce Authorize.net - cURL is not installed."
+msgid "Secure Authorize.net - cURL is not installed."
 msgstr ""
 
 #: gateway.php:387
@@ -826,11 +825,11 @@ msgid "Diners"
 msgstr ""
 
 #: includes/class-wc-authnet-privacy.php:26
-msgid "WooCommerce Authorize.net Order Data"
+msgid "Secure Authorize.net Order Data"
 msgstr ""
 
 #: includes/class-wc-authnet-privacy.php:27
-msgid "WooCommerce Authorize.net Data"
+msgid "Secure Authorize.net Data"
 msgstr ""
 
 #: includes/class-wc-authnet-privacy.php:38
@@ -943,7 +942,7 @@ msgid "Authnet payment method"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
-msgid "WooCommerce Authorize.net Gateway"
+msgid "Pledged Plugins Secure Gateway for Authorize.net and WooCommerce"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
