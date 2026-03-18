@@ -1,6 +1,6 @@
 {
 	"name": "woo-authorize-net-gateway-aim",
-	"version": "6.1.24",
+	"version": "6.1.25",
 	"author": "Pledged Plugins",
 	"license": "GPL-3.0+",
 	"main": "build/index.js",
