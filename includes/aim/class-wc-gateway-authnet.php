@@ -254,6 +254,13 @@ class WC_Gateway_Authnet extends WC_Payment_Gateway_CC {
 				'description' => __( 'If enabled, the customer will be sent an email receipt from Authorize.net.', 'wc-authnet' ),
 				'default'     => 'no',
 			),
+			'better_error_messages' 	=> array(
+				'title'       => __( 'Better Error Messages', 'wc-authnet' ),
+				'label'       => __( 'Enable Better Error Messages', 'wc-authnet' ),
+				'type'        => 'checkbox',
+				'description' => __( 'If enabled, the customer will be shown user-friendly error messages instead of the default Authorize.net error messages. Authorize.net error messages which can sometimes be overly technical and does not give the user a good idea of what went wrong. Our error messages are geared towards helping users figure out what went wrong with their transaction.', 'wc-authnet' ),
+				'default'     => 'no',
+			),
 			'free_api_method' 			=> array(
 				'title'       => __( 'Processing API', 'wc-authnet' ),
 				'type'		  => 'select',
